@@ -1,0 +1,157 @@
+<!-- File: /dashboard/public-pages/index.html -->
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Public Pages - Sazi Ecosystem Dashboard</title>
+    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
+    <!-- Other head elements... -->
+</head>
+<body class="flex h-screen bg-main text-primary">
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
+        <!-- Sidebar content... -->
+        <nav class="flex-grow space-y-2">
+            <a href="../index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="../life-cv.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-id-card"></i><span>LifeCV</span></a>
+            <a href="../assets/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-briefcase"></i><span>Assets & Companies</span></a>
+            <a href="../training/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-chalkboard-teacher"></i><span>Training Hub</span></a>
+            <a href="index.html" class="sidebar-link active flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-bullhorn"></i><span>Public Pages</span></a>
+        </nav>
+        <!-- ... -->
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
+        <div id="header-placeholder"></div>
+        
+        <div class="flex-grow">
+            <div class="flex justify-end mb-4">
+                <a href="editor.html?type=new" class="btn-primary"><i class="fas fa-plus mr-2"></i>Create New Public Page</a>
+            </div>
+            <div class="card p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-bold mb-4">My Public Pages</h2>
+                <!-- List of public pages -->
+                <div class="space-y-3">
+                    <!-- Example Item -->
+                    <div class="bg-slate-700/50 p-4 rounded-lg flex justify-between items-center">
+                        <div>
+                            <p class="font-bold">Salatiso's Car Sale</p>
+                            <a href="[https://hub.sazi.life/public/sali-cars](https://hub.sazi.life/public/sali-cars)" target="_blank" class="text-xs text-accent-color hover:underline">hub.sazi.life/public/sali-cars</a>
+                        </div>
+                        <div class="flex items-center space-x-4">
+                             <span class="text-sm font-semibold text-green-400">Published</span>
+                             <a href="editor.html?id=page123" class="text-secondary hover:text-primary"><i class="fas fa-pencil-alt"></i></a>
+                        </div>
+                    </div>
+                    <!-- End Example -->
+                </div>
+            </div>
+        </div>
+
+        <div id="footer-placeholder"></div>
+    </main>
+    
+    <script type="module" src="../../assets/js/dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('page-title').textContent = 'Public Pages';
+                document.getElementById('page-subtitle').textContent = 'Manage your public-facing classifieds and profiles.';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
+```html
+<!-- File: /dashboard/public-pages/editor.html -->
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <title>Manage Public Page - Sazi Ecosystem</title>
+    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
+    <!-- Other head elements... -->
+</head>
+<body class="flex h-screen bg-main text-primary">
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
+        <!-- ... -->
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
+        <div id="header-placeholder"></div>
+        
+        <div class="flex-grow">
+            <div class="card p-6 rounded-xl shadow-lg max-w-4xl mx-auto">
+                <form id="public-page-form" class="space-y-8">
+                    <!-- Page Settings -->
+                    <div>
+                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">1. Page Settings</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="page-title-input" class="block text-sm font-medium text-secondary">Page Title</label>
+                                <input type="text" id="page-title-input" class="input-field w-full mt-1" placeholder="e.g., My Car Sale">
+                            </div>
+                            <div>
+                                <label for="page-url" class="block text-sm font-medium text-secondary">Custom URL</label>
+                                <div class="flex items-center mt-1">
+                                    <span class="text-sm text-secondary pr-2">hub.sazi.life/public/</span>
+                                    <input type="text" id="page-url" class="input-field w-full" placeholder="my-car-sale">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Template Selection -->
+                    <div>
+                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">2. Choose a Template</h3>
+                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
+                            <!-- Example Template -->
+                            <label class="cursor-pointer">
+                                <input type="radio" name="template" value="modern-grid" class="sr-only" checked>
+                                <div class="p-2 border-2 border-accent-color rounded-lg text-center">
+                                    <i class="fas fa-th-large text-3xl mb-2"></i>
+                                    <span class="block text-xs font-semibold">Modern Grid</span>
+                                </div>
+                            </label>
+                            <!-- Other templates would go here -->
+                        </div>
+                    </div>
+                    <!-- Link Assets -->
+                    <div>
+                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">3. Link Your Assets</h3>
+                        <div class="space-y-2">
+                            <label class="flex items-center p-3 bg-slate-700/50 rounded-lg">
+                                <input type="checkbox" class="h-5 w-5 rounded text-accent-color focus:ring-accent-color">
+                                <span class="ml-3 font-semibold">My Toyota Hilux (Vehicle)</span>
+                            </label>
+                            <label class="flex items-center p-3 bg-slate-700/50 rounded-lg">
+                                <input type="checkbox" class="h-5 w-5 rounded text-accent-color focus:ring-accent-color">
+                                <span class="ml-3 font-semibold">My Main Home (Property)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="flex justify-end pt-4">
+                        <button type="button" class="btn-secondary mr-2">Save as Draft</button>
+                        <button type="submit" class="btn-primary">Publish Page</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+
+        <div id="footer-placeholder"></div>
+    </main>
+    
+    <script type="module" src="../../assets/js/dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('page-title').textContent = 'Manage Public Page';
+                document.getElementById('page-subtitle').textContent = 'Create and configure your public-facing classifieds page.';
+            }, 100);
+        });
+    </script>
+</body>
+</html>

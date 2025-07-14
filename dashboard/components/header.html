@@ -1,0 +1,77 @@
+<!-- File: /dashboard/components/header.html -->
+<header class="flex justify-between items-center mb-8">
+    <div>
+        <h1 id="page-title" class="text-3xl font-bold font-poppins">Dashboard</h1>
+        <p id="page-subtitle" class="text-secondary">Here's your holistic view of the Sazi Ecosystem.</p>
+    </div>
+    <div class="flex items-center space-x-4">
+        <!-- Ecosystem Dropdown -->
+        <div class="relative" id="ecosystem-dropdown-container">
+            <button id="ecosystem-btn" class="btn-secondary flex items-center">
+                <i class="fas fa-grip-horizontal mr-2"></i>
+                <span>Ecosystem</span>
+                <i class="fas fa-chevron-down ml-2 text-xs"></i>
+            </button>
+            <div id="ecosystem-menu" class="hidden absolute right-0 mt-2 w-56 rounded-md shadow-lg bg-card ring-1 ring-black ring-opacity-5 z-50">
+                <div class="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
+                    <a href="https://sazi.life" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" role="menuitem">sazi.life</a>
+                    <a href="https://safetyhelp.it" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" role="menuitem">SafetyHelp</a>
+                    <a href="https://salatiso.com/legalhelp/" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" role="menuitem">LegalHelp</a>
+                    <a href="https://salatiso.com/hrhelp/" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" role="menuitem">HRHelp</a>
+                    <a href="https://salatiso.com/docuhelp/" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" role="menuitem">DocuHelp</a>
+                    <a href="https://salatiso.com/ekhaya/" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" role="menuitem">eKhaya</a>
+                    <a href="https://flamea.org" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" role="menuitem">Flamea</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Language Switcher Placeholder -->
+        <div id="language-switcher-placeholder"></div>
+        
+        <!-- Theme Switcher Placeholder -->
+        <div id="theme-switcher-placeholder"></div>
+    </div>
+</header>
+```html
+<!-- File: /dashboard/components/footer.html -->
+<footer class="text-center py-4 mt-8 text-xs text-secondary border-t border-input-border">
+    <p>&copy; <span id="footer-year"></span> Sazi Ecosystem. All Rights Reserved. A Salatiso Initiative.</p>
+    <div class="mt-2">
+        <a href="/about.html" class="hover:text-primary hover:underline">About</a>
+        <span class="mx-2">|</span>
+        <a href="/privacy.html" class="hover:text-primary hover:underline">Privacy Policy</a>
+        <span class="mx-2">|</span>
+        <a href="/terms.html" class="hover:text-primary hover:underline">Terms of Service</a>
+        <span class="mx-2">|</span>
+        <a href="/contact.html" class="hover:text-primary hover:underline">Contact</a>
+    </div>
+</footer>
+<script>
+    // Simple script to ensure the year is always current.
+    const footerYear = document.getElementById('footer-year');
+    if(footerYear) footerYear.textContent = new Date().getFullYear();
+</script>
+```html
+<!-- File: /dashboard/components/language-switcher.html -->
+<div class="relative" id="language-dropdown-container">
+    <button id="language-btn" class="btn-secondary flex items-center justify-center w-10 h-10">
+        <i class="fas fa-globe"></i>
+    </button>
+    <div id="language-menu" class="hidden absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-card ring-1 ring-black ring-opacity-5 z-50">
+        <div class="py-1">
+            <a href="#" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" data-lang="en">English</a>
+            <a href="#" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" data-lang="xh">isiXhosa</a>
+            <a href="#" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" data-lang="zu">isiZulu</a>
+            <a href="#" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" data-lang="af">Afrikaans</a>
+            <a href="#" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" data-lang="fr">Français</a>
+            <a href="#" class="block px-4 py-2 text-sm text-secondary hover:bg-accent-color/10 hover:text-primary" data-lang="pt">Português</a>
+        </div>
+    </div>
+</div>
+```html
+<!-- File: /dashboard/components/theme-switcher.html -->
+<div class="flex items-center space-x-1 p-1 rounded-full" style="background-color: var(--main-bg);">
+    <button id="theme-toggle-dark" title="Dark Mode" class="p-2 rounded-full w-8 h-8 flex items-center justify-center text-sm"><i class="fas fa-moon"></i></button>
+    <button id="theme-toggle-light" title="Light Mode" class="p-2 rounded-full w-8 h-8 flex items-center justify-center text-sm"><i class="fas fa-sun"></i></button>
+    <button id="theme-toggle-child" title="Child Theme" class="p-2 rounded-full w-8 h-8 flex items-center justify-center text-sm"><i class="fas fa-child"></i></button>
+</div>

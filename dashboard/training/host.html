@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Host a Session - Sazi Ecosystem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
+</head>
+<body class="flex h-screen bg-main text-primary">
+
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4 transition-colors duration-300">
+        <div class="flex items-center space-x-3 mb-8">
+            <svg class="sazi-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/></svg>
+            <span class="font-poppins font-bold text-xl">sazi.life</span>
+        </div>
+        <nav class="flex-grow space-y-2">
+            <a href="../index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="../life-cv.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-id-card"></i><span>LifeCV</span></a>
+            <a href="../assets/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-briefcase"></i><span>Assets & Companies</span></a>
+            <a href="index.html" class="sidebar-link active flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-chalkboard-teacher"></i><span>Training Hub</span></a>
+            <a href="../public-pages/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-bullhorn"></i><span>Public Pages</span></a>
+        </nav>
+        <div class="mt-auto">
+            <a href="../settings.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-cog"></i><span>Settings</span></a>
+            <button id="logout-btn" class="sidebar-link w-full text-left flex items-center space-x-3 py-2 px-3 rounded-lg mt-2"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-8">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold font-poppins">Host a Live Session</h1>
+                <p class="text-secondary">Create a live training event for your community or organization.</p>
+            </div>
+        </header>
+
+        <div class="card p-6 rounded-xl shadow-lg max-w-2xl mx-auto">
+            <form id="host-session-form" class="space-y-6">
+                 <div>
+                    <label for="session-title" class="block text-sm font-medium text-secondary">Session Title</label>
+                    <input type="text" id="session-title" class="input-field w-full mt-1" placeholder="e.g., Live Q&A: OHS Risk Assessments">
+                </div>
+                <div>
+                    <label for="session-description" class="block text-sm font-medium text-secondary">Description</label>
+                    <textarea id="session-description" rows="3" class="input-field w-full mt-1" placeholder="What will this session cover?"></textarea>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
+                        <label for="session-date" class="block text-sm font-medium text-secondary">Date</label>
+                        <input type="date" id="session-date" class="input-field w-full mt-1">
+                    </div>
+                     <div>
+                        <label for="session-time" class="block text-sm font-medium text-secondary">Time</label>
+                        <input type="time" id="session-time" class="input-field w-full mt-1">
+                    </div>
+                </div>
+                 <div>
+                    <label for="session-link" class="block text-sm font-medium text-secondary">Meeting Link (e.g., Zoom, Google Meet)</label>
+                    <input type="url" id="session-link" class="input-field w-full mt-1" placeholder="https://...">
+                </div>
+                <button type="submit" class="btn-primary w-full !mt-8">Create Session</button>
+            </form>
+        </div>
+    </main>
+
+    <script type="module" src="../../assets/js/dashboard.js"></script>
+</body>
+</html>

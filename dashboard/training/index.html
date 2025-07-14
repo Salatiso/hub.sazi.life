@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Training Hub - Sazi Ecosystem Dashboard</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
+</head>
+<body class="flex h-screen bg-main text-primary">
+
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4 transition-colors duration-300">
+        <div class="flex items-center space-x-3 mb-8">
+            <svg class="sazi-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/></svg>
+            <span class="font-poppins font-bold text-xl">sazi.life</span>
+        </div>
+        <nav class="flex-grow space-y-2">
+            <a href="../index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="../life-cv.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-id-card"></i><span>LifeCV</span></a>
+            <a href="../assets/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-briefcase"></i><span>Assets & Companies</span></a>
+            <a href="index.html" class="sidebar-link active flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-chalkboard-teacher"></i><span>Training Hub</span></a>
+            <a href="../public-pages/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-bullhorn"></i><span>Public Pages</span></a>
+        </nav>
+        <div class="mt-auto">
+            <a href="../settings.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-cog"></i><span>Settings</span></a>
+            <button id="logout-btn" class="sidebar-link w-full text-left flex items-center space-x-3 py-2 px-3 rounded-lg mt-2"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
+        </div>
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 overflow-y-auto p-8">
+        <header class="flex justify-between items-center mb-8">
+            <div>
+                <h1 class="text-3xl font-bold font-poppins">Training Hub</h1>
+                <p class="text-secondary">Assign courses, host live sessions, and manage learning.</p>
+            </div>
+             <div class="flex items-center space-x-2">
+                <a href="assign.html" class="btn-secondary"><i class="fas fa-user-plus mr-2"></i>Assign a Course</a>
+                <a href="host.html" class="btn-primary"><i class="fas fa-video mr-2"></i>Host a Live Session</a>
+            </div>
+        </header>
+
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <!-- My Assigned Learning -->
+            <div class="card p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-bold mb-4">My Assigned Learning</h2>
+                <div class="space-y-4">
+                    <!-- Example Item -->
+                    <div class="bg-slate-700/50 p-4 rounded-lg">
+                        <p class="font-bold">Introduction to OHS</p>
+                        <p class="text-sm text-secondary">Assigned by: Salatiso Mdeni</p>
+                        <div class="w-full bg-slate-600 rounded-full h-2.5 mt-2">
+                            <div class="bg-green-500 h-2.5 rounded-full" style="width: 75%"></div>
+                        </div>
+                        <p class="text-xs text-right text-secondary mt-1">75% Complete</p>
+                    </div>
+                    <!-- End Example Item -->
+                </div>
+            </div>
+
+            <!-- Training I'm Hosting -->
+            <div class="card p-6 rounded-xl shadow-lg">
+                <h2 class="text-xl font-bold mb-4">Training I'm Hosting</h2>
+                <div class="space-y-4">
+                    <!-- Example Item -->
+                    <div class="bg-slate-700/50 p-4 rounded-lg">
+                        <p class="font-bold">Live Q&A: OHS Risk Assessments</p>
+                        <p class="text-sm text-secondary">Next Session: July 20, 2025 @ 18:00</p>
+                        <div class="mt-2">
+                            <span class="text-sm font-semibold">32 Attendees Registered</span>
+                        </div>
+                    </div>
+                     <!-- End Example Item -->
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script type="module" src="../../assets/js/dashboard.js"></script>
+</body>
+</html>

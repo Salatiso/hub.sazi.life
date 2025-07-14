@@ -1,0 +1,142 @@
+<!-- File: /dashboard/life-cv.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeCV - Sazi Ecosystem Dashboard</title>
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css)">
+    <link href="[https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap](https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap)" rel="stylesheet">
+    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
+</head>
+<body class="flex h-screen">
+
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
+        <!-- Sidebar content... -->
+        <nav class="flex-grow space-y-2">
+            <a href="index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-home"></i><span>Dashboard</span></a>
+            <a href="life-cv.html" class="sidebar-link active flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-id-card"></i><span>LifeCV</span></a>
+            <!-- ... other links -->
+        </nav>
+        <!-- ... -->
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
+        <div id="header-placeholder"></div>
+        
+        <div class="flex-grow">
+            <!-- Page-specific content from previous version goes here -->
+            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                <div class="lg:col-span-2 space-y-6">
+                    <div class="card p-6 rounded-xl shadow-lg">
+                        <h2 class="text-xl font-bold mb-4">LifeCV Entries</h2>
+                        <!-- ... entry list ... -->
+                    </div>
+                </div>
+                <div class="space-y-6">
+                    <div class="card p-6 rounded-xl shadow-lg">
+                        <h2 class="text-xl font-bold mb-4">Add Manual Entry</h2>
+                        <!-- ... add entry form ... -->
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div id="footer-placeholder"></div>
+    </main>
+    
+    <script type="module" src="../assets/js/dashboard.js"></script>
+    <script>
+        // Set page-specific titles after header loads
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => { // Use timeout to ensure header is loaded
+                document.getElementById('page-title').textContent = 'My LifeCV';
+                document.getElementById('page-subtitle').textContent = 'Your dynamic, holistic portfolio of skills and experiences.';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
+```html
+<!-- File: /dashboard/profile.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>My Profile - Sazi Ecosystem</title>
+    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
+    <!-- Other head elements... -->
+</head>
+<body class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
+        <!-- ... -->
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
+        <div id="header-placeholder"></div>
+        
+        <div class="flex-grow">
+            <div class="card p-6 rounded-xl shadow-lg max-w-2xl mx-auto">
+                <form id="profile-form" class="space-y-4">
+                    <!-- Profile form content from previous version -->
+                </form>
+            </div>
+        </div>
+
+        <div id="footer-placeholder"></div>
+    </main>
+    
+    <script type="module" src="../assets/js/dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('page-title').textContent = 'My Profile';
+                document.getElementById('page-subtitle').textContent = 'Manage your personal information for the Sazi Ecosystem.';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
+```html
+<!-- File: /dashboard/settings.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>Settings - Sazi Ecosystem</title>
+    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
+    <!-- Other head elements... -->
+</head>
+<body class="flex h-screen">
+    <!-- Sidebar -->
+    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
+        <!-- ... -->
+    </aside>
+
+    <!-- Main Content -->
+    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
+        <div id="header-placeholder"></div>
+        
+        <div class="flex-grow">
+             <div class="card p-6 rounded-xl shadow-lg max-w-2xl mx-auto">
+                <!-- Settings content from previous version -->
+             </div>
+        </div>
+
+        <div id="footer-placeholder"></div>
+    </main>
+    
+    <script type="module" src="../assets/js/dashboard.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            setTimeout(() => {
+                document.getElementById('page-title').textContent = 'Settings';
+                document.getElementById('page-subtitle').textContent = 'Manage your account and notification preferences.';
+            }, 100);
+        });
+    </script>
+</body>
+</html>
