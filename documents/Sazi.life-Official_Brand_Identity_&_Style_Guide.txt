@@ -1,0 +1,60 @@
+﻿Sazi.life: Official Brand Identity & Style Guide
+Document ID: SAZI-BRAND-V1.0
+Date: 2025-07-12
+Status: Final
+1. Core Philosophy
+sazi.life is not an online school; it is a philosophically-grounded ecosystem for lifelong learning. Our core belief is in empowering individuals with practical, life-enhancing skills to foster self-sufficiency and community resilience. We provide an authentic, reliable alternative to institutionalized education by valuing practical knowledge, lived experience, and the power of community.
+2. Vision & Mission
+2.1. Vision
+To be the essential toolkit for a life of continuous learning and meaningful contribution, empowering a new generation across Africa and beyond to build their own futures, on their own terms.
+2.2. Mission
+To provide an authentic, reliable, and philosophically-grounded alternative to institutionalized education by delivering practical knowledge, fostering a true community of builders ("Makhi"), and championing self-reliance through an integrated digital ecosystem.
+3. Slogan & Value Proposition
+3.1. Primary Slogan / Unique Value Proposition (UVP)
+"While other platforms sell you a qualification, sazi.life gives you the tools to build a life."
+This is our core message. It immediately differentiates us from all competitors by focusing on empowerment and capability over mere credentialism.
+3.2. Secondary Slogans
+* "The tools for a life well-lived."
+* "Knowledge for Self-Reliance."
+* "Learn by Doing. Grow by Sharing."
+4. Brand Attributes & Keywords
+Our brand voice and visual identity should always reflect these core attributes:
+* Empowering
+* Authentic
+* Practical
+* Community-Centric
+* Liberating
+* Reliable
+* Resilient
+* Self-reliant
+5. Official Logo
+The official logo is the "Integrated 'S'" logotype. It represents the core philosophy of symmetry, duality, and two distinct halves (mother/father, theory/practice) coming together to form a greater whole.
+5.1. Primary Logo
+<svg width="300" height="100" viewBox="0 0 300 100" xmlns="http://www.w3.org/2000/svg">
+   <title>Sazi.life Official Logo</title>
+   <!-- The 'S' Symbol -->
+   <g transform="scale(0.6) translate(10, 10)">
+       <path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/>
+       <path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/>
+   </g>
+   <!-- The Wordmark -->
+   <text x="90" y="65" style="font-family: 'Poppins', sans-serif; font-size: 45px; font-weight: 700;" fill="#1E3A8A">
+       azi<tspan style="font-family: 'Manrope', sans-serif; font-weight: 400;" fill="#D97706">.life</tspan>
+   </text>
+</svg>
+
+5.2. Color Palette
+* Sazi Earth: #D97706 (Orange/Amber)
+* Sazi Sky: #0EA5E9 (Blue)
+* Sazi Text: #1E3A8A (Dark Blue)
+6. Sub-brands: The Three Pillars
+The platform is organized into three primary sub-brands, each representing a core pillar of the learning ecosystem.
+6.1. Sazi Online Learning
+* Focus: Structured courses and practical skills development.
+* Content: Tangible, real-world skills in areas like Occupational Health & Safety (OHS), finance, and digital literacy. This is the hub for "doing."
+6.2. Sazi Homeschooling
+* Focus: A dedicated resource hub and community for homeschooling families.
+* Content: Curriculum resources, legal guides, administrative templates, and community forums designed to empower parents who have chosen to educate their children outside the formal system.
+6.3. Sazi Lifelong Learning
+* Focus: Continuous personal growth, intellectual curiosity, and philosophical exploration.
+* Content: A dynamic, magazine-style collection of articles, essays, book summaries, and practical "how-to" guides for navigating all aspects of life.

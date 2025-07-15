@@ -1,0 +1,128 @@
+﻿The Sazi Ecosystem & LifeCV: Technical & Functional Specification
+Document ID: ECO-LIFECV-SPEC-V1.0
+Date: 2025-07-12
+Status: For Implementation
+1. The Sazi Ecosystem: A Unified Vision
+To create a seamless user experience and unlock the full potential of the interconnected platforms, the entire portfolio will be formally known as the Sazi Ecosystem.
+1.1. Ecosystem Name
+The Sazi Ecosystem
+The name leverages the established sazi.life brand ("sazi" meaning "to know" in isiXhosa) and extends its philosophy of knowledge and empowerment across all platforms.
+1.2. Central Hub
+The central hub for the ecosystem will be located at: hub.sazi.life
+This hub will serve as the primary access point for managing a user's ecosystem-wide profile, settings, and, most importantly, their LifeCV.
+1.3. Unified Authentication (Single Sign-On - SSO)
+A single authentication system will govern the entire Sazi Ecosystem.
+* Functionality: A user can create one account on any platform within the ecosystem (e.g., sazi.life, SafetyHelp, eKhaya) or directly on the hub.sazi.life. These credentials will provide access to all other platforms.
+* Technology: The ecosystem will use a central Firebase Authentication instance to manage all user accounts (Email/Password, Google, Apple, etc.), ensuring security and consistency.
+2. The LifeCV: Functional Specification
+The LifeCV is not a résumé; it is a dynamic, verifiable, and holistic portfolio of a user's competence, contributions, and life experience, aggregated in real-time from across the Sazi Ecosystem.
+2.1. Core Purpose
+The LifeCV's purpose is to provide a richer, more authentic measure of an individual's capabilities than a traditional CV. It validates practical skills, community involvement, and real-world accomplishments, shifting the focus from "what I've studied" to "what I can do."
+2.2. Key Sections & Data Integration
+The LifeCV will be a modular dashboard on hub.sazi.life, pulling data from various platforms:
+Section Title
+	Description
+	Data Source Platforms
+	Example Data Points
+	Acquired Skills & Knowledge
+	Verifiable skills and learning modules completed.
+	sazi.life
+	- Completed: "OHS Risk Assessment" <br>- Skill: "Basic isiXhosa Conversation" <br>- Badge: "First Dovetail Joint"
+	Portfolio of Work
+	A gallery of tangible outputs and projects.
+	DocuHelp, SafetyHelp, eKhaya
+	- Created: "OHS Safety Plan for ABC Construction" <br>- Generated: "Business Proposal for a Startup" <br>- Listed: "Gogo Dlamini's Rural Homestay" on eKhaya
+	Community Contributions
+	Evidence of social capital and engagement.
+	sazi.life, Makhi App / eKhaya, FamilyValue
+	- Role: "Forum Mentor" on sazi.life <br>- Action: "Reported & Tracked 5 Community Incidents" <br>- Contribution: "Logged 40 hours of Childcare"
+	Professional & Life Experience
+	Real-world management and operational experience.
+	eKhaya, FamilyValue
+	- Experience: "Successfully managed 3 rental properties for 2 years" <br>- Rating: "Maintained a 5-star tenant rating" <br>- Role: "Designated Household Manager"
+	Formal Credentials
+	A section for traditional qualifications.
+	User Upload
+	- Certificate: "National Diploma in HR" <br>- Qualification: "Matric Certificate"
+	2.3. User Features
+* Interactive Dashboard: Users can filter their LifeCV by platform, skill type, or date range.
+* Shareable Public Link: Users can generate a unique, public URL to share their LifeCV with potential employers, clients, or collaborators.
+* PDF Export: A "Print to PDF" function that generates a professionally formatted, A4 version of the LifeCV, adhering to the ecosystem's document standards.
+3. The LifeCV: Technical Specification
+3.1. Data Model (Firestore)
+The LifeCV will be stored in a life_cvs collection in Firestore. Each document will have the userId as its ID.
+// Document in collection: /life_cvs/{userId}
+{
+ "userId": "firebase_auth_uid",
+ "lastUpdated": "timestamp",
+ "publicProfileUrl": "hub.sazi.life/cv/unique_hash",
+ "entries": [
+   {
+     "entryId": "unique_id",
+     "entryType": "skill" | "portfolio" | "contribution" | "experience" | "credential",
+     "title": "OHS Risk Assessment",
+     "description": "Completed the advanced module on identifying and mitigating workplace hazards.",
+     "date": "timestamp",
+     "sourcePlatform": "sazi.life",
+     "sourceUrl": "https://sazi.life/courses/ohs-risk-assessment",
+     "tags": ["OHS", "Compliance", "Safety"],
+     "metadata": {
+       "badgeUrl": "/assets/badges/ohs-practitioner.svg"
+     }
+   },
+   {
+     "entryId": "unique_id_2",
+     "entryType": "portfolio",
+     "title": "Generated Safety Plan for ABC Construction",
+     "description": "Used the SafetyHelp wizard to create a fully compliant OHS plan.",
+     "date": "timestamp",
+     "sourcePlatform": "SafetyHelp",
+     "sourceUrl": "https://safetyhelp.it/docs/user_doc_id",
+     "tags": ["OHS", "Documentation", "Construction"]
+   }
+   // ... more entries
+ ]
+}
+
+3.2. API Design
+A secure, centralized API will be exposed at api.hub.sazi.life/v1/lifecv.
+* Endpoint: POST /entries
+* Authentication: The calling platform (e.g., SafetyHelp) must authenticate using a secure, platform-specific API key.
+* Request Body:
+{
+ "userId": "firebase_auth_uid",
+ "entry": {
+   "entryType": "portfolio",
+   "title": "Generated Safety Plan...",
+   "description": "...",
+   "sourcePlatform": "SafetyHelp",
+   "sourceUrl": "...",
+   "tags": ["OHS", "Documentation"]
+ }
+}
+
+* Function: The API will receive the data, validate it, generate a unique entryId, and add it to the entries array in the corresponding user's LifeCV document in Firestore.
+4. Minimum Dashboard Requirements for Ecosystem Compatibility
+To ensure all current and future platforms can seamlessly integrate with the Sazi Ecosystem and the LifeCV, they must adhere to the following minimum dashboard structure and functionality.
+4.1. Standardized Page Structure
+Every platform must include the following pages within its user dashboard, accessible after login:
+   * index.html (or dashboard root)
+   * profile.html
+   * settings.html
+   * activity.html
+   * notifications.html
+   * help.html
+   * support.html
+   * 404.html
+4.2. Mandatory Integration Points
+   * profile.html: This page must contain a prominent and clearly labeled section or button that links the user to their full LifeCV.
+   * Example HTML:
+<div class="lifecv-promo">
+   <h3>Your Sazi Ecosystem LifeCV</h3>
+   <p>Your activities on this platform contribute to your universal LifeCV. View your complete profile to see your aggregated skills and accomplishments.</p>
+   <a href="https://hub.sazi.life/cv/{userId}" target="_blank">View My Full LifeCV</a>
+</div>
+
+      * settings.html: This page must include a section for managing ecosystem connections.
+      * Functionality: Allow users to see the connection status to the Sazi Hub and provide an option to manage data sharing permissions (e.g., "Allow [Platform Name] to add entries to my LifeCV").
+This standardized structure ensures a consistent user experience and guarantees that the necessary hooks for LifeCV integration are present across the entire Sazi Ecosystem.

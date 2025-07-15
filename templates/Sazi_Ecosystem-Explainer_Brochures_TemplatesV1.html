@@ -1,0 +1,328 @@
+<!-- File: /templates/brochures/a3-poster.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sazi Ecosystem - A3 Poster</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700;900&family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #e5e7eb; font-family: 'Manrope', sans-serif; }
+        .page { background-color: white; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+        .slogan { font-family: 'Poppins', sans-serif; font-weight: 700; }
+        .brand-name { font-family: 'Roboto Slab', serif; font-weight: 700; }
+        .help-accent { font-weight: 900; color: #fb923c; }
+        .qr-code { width: 100px; height: 100px; border: 4px solid #e5e7eb; }
+        .print-instructions { background-color: #fffbe6; border: 1px solid #fde68a; color: #ca8a04; }
+        .a3-poster { width: 420mm; height: 297mm; }
+        @media print {
+            body { background-color: white; }
+            .no-print { display: none; }
+            .page { box-shadow: none; margin: 0; }
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="no-print mb-8">
+        <h2 class="text-2xl font-bold">A3 Ecosystem Poster</h2>
+        <div class="print-instructions p-4 rounded-lg mt-2 text-sm">
+            <p><strong>Printing Instructions:</strong> Print on A3 paper in Landscape orientation.</p>
+        </div>
+    </div>
+    <div class="page a3-poster p-8 mx-auto flex flex-col">
+        <div class="text-center mb-6">
+            <h1 class="slogan text-6xl text-blue-600">Live. Learn. Lead.</h1>
+            <p class="text-xl text-slate-600 mt-2">The Sazi Ecosystem: A Lifetime of Tools for a Life Well-Lived.</p>
+        </div>
+        <div class="grid grid-cols-3 gap-8 flex-grow">
+            <!-- Column 1: Live -->
+            <div class="bg-slate-50 p-6 rounded-lg flex flex-col">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4"><i class="fas fa-home mr-3 text-orange-500"></i>Live</h2>
+                <p class="text-slate-600 mb-4 flex-grow">Manage your real-world assets and communities with powerful, practical tools. From finding a home to organizing your family's values and synchronizing your life's data, these platforms are your foundation.</p>
+                <ul class="space-y-3">
+                    <li><a href="https://salatiso.com/ekhaya/" target="_blank" class="brand-name text-orange-600 text-2xl">eKhaya</a><p class="text-xs text-slate-500">Community-focused property listings.</p></li>
+                    <li><a href="https://salatiso.com/familyvalue/" target="_blank" class="brand-name text-purple-600 text-2xl">FamilyValue</a><p class="text-xs text-slate-500">Recognize and track household contributions.</p></li>
+                    <li><a href="https://salatiso.com/lifesync/" target="_blank" class="brand-name text-emerald-600 text-2xl">LifeSync</a><p class="text-xs text-slate-500">Organize and sync your personal data.</p></li>
+                </ul>
+            </div>
+            <!-- Column 2: Learn -->
+            <div class="bg-slate-50 p-6 rounded-lg flex flex-col">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4"><i class="fas fa-graduation-cap mr-3 text-sky-500"></i>Learn</h2>
+                <p class="text-slate-600 mb-4 flex-grow">Acquire practical skills and knowledge through our central learning hub. Master compliance with the Helping Hand suite or embark on a lifelong learning journey with sazi.life.</p>
+                <ul class="space-y-3">
+                    <li><a href="https://sazi.life" target="_blank" class="brand-name text-sky-600 text-2xl">sazi.life</a><p class="text-xs text-slate-500">The core learning and training platform.</p></li>
+                    <li class="brand-name text-slate-700 text-2xl">Safety<span class="help-accent">Help</span><p class="text-xs text-slate-500">safetyfirst.help</p></li>
+                    <li class="brand-name text-slate-700 text-2xl">Legal<span class="help-accent">Help</span><p class="text-xs text-slate-500">salatiso.com/legalhelp</p></li>
+                    <li class="brand-name text-slate-700 text-2xl">HR<span class="help-accent">Help</span><p class="text-xs text-slate-500">salatiso.com/hrhelp</p></li>
+                    <li class="brand-name text-slate-700 text-2xl">Docu<span class="help-accent">Help</span><p class="text-xs text-slate-500">salatiso.com/docuhelp</p></li>
+                </ul>
+            </div>
+            <!-- Column 3: Lead -->
+            <div class="bg-slate-50 p-6 rounded-lg flex flex-col">
+                <h2 class="text-3xl font-bold text-slate-800 mb-4"><i class="fas fa-flag mr-3 text-green-500"></i>Lead</h2>
+                <p class="text-slate-600 mb-4 flex-grow">Advocate for change and lead by example with our philanthropic and community-focused platforms. Make your voice heard and contribute to a better future.</p>
+                <ul class="space-y-3">
+                    <li><a href="https://flamea.org" target="_blank" class="brand-name text-green-600 text-2xl">Flamea</a><p class="text-xs text-slate-500">Advocacy for fathers and family harmony.</p></li>
+                </ul>
+                <div class="mt-8 text-center">
+                    <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hub.sazi.life" alt="QR Code" class="qr-code inline-block">
+                    <p class="text-xs mt-2 text-slate-500">Scan to explore the Ecosystem</p>
+                </div>
+            </div>
+        </div>
+        <footer class="text-center mt-6 pt-4 border-t border-slate-200">
+            <svg viewBox="0 0 100 100" class="h-10 mx-auto text-slate-400"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/><path d="M50 10 L 50 90 M10 50 L 90 50" stroke="#e5e7eb" stroke-width="2"/><path d="M50 10 L 40 25 L 60 25 Z" fill="currentColor"/></svg>
+            <p class="text-xs font-semibold tracking-widest text-slate-500 mt-2">Live. Learn. Lead.</p>
+        </footer>
+    </div>
+</body>
+</html>
+
+<!-- File: /templates/brochures/a4-pamphlet.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sazi Ecosystem - A4 Pamphlet</title>
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css)">
+    <link href="[https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700;900&family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap](https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700;900&family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap)" rel="stylesheet">
+    <style>
+        body { background-color: #e5e7eb; font-family: 'Manrope', sans-serif; }
+        .page { background-color: white; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+        .slogan { font-family: 'Poppins', sans-serif; font-weight: 700; }
+        .brand-name { font-family: 'Roboto Slab', serif; font-weight: 700; }
+        .help-accent { font-weight: 900; color: #fb923c; }
+        .qr-code { width: 100px; height: 100px; border: 4px solid #e5e7eb; }
+        .print-instructions { background-color: #fffbe6; border: 1px solid #fde68a; color: #ca8a04; }
+        .a4-page { width: 210mm; min-height: 297mm; }
+        .editable { background-color: #fefce8; padding: 2px 4px; border-radius: 3px; outline-color: #3b82f6; }
+        .remove-btn { cursor: pointer; opacity: 0; transition: opacity 0.2s; }
+        .custom-field:hover .remove-btn { opacity: 1; }
+        @media print {
+            body { background-color: white; }
+            .no-print { display: none; }
+            .page { box-shadow: none; margin: 0; }
+            .editable { background-color: transparent !important; }
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="no-print mb-8">
+        <h2 class="text-2xl font-bold">A4 Pamphlet</h2>
+        <div class="print-instructions p-4 rounded-lg mt-2 text-sm">
+             <p><strong>Printing Instructions:</strong> Print on A4 paper in Portrait orientation. For double-sided, flip on the long edge.</p>
+        </div>
+    </div>
+    <div class="page a4-page p-8 mx-auto flex flex-col">
+        <div class="text-center mb-8">
+            <h1 class="slogan text-5xl text-blue-600">Live. Learn. Lead.</h1>
+            <p class="text-lg text-slate-600 mt-2">Welcome to the Sazi Ecosystem</p>
+        </div>
+        <p class="text-slate-700 text-center max-w-2xl mx-auto">One account gives you access to a lifetime of tools designed to empower you at every stage of your journey. From managing your home and family to building your career and advocating for change, our integrated platforms work together to help you build a life of purpose and fulfillment.</p>
+        
+        <div class="mt-8 space-y-6 flex-grow">
+            <div>
+                <h3 class="text-2xl font-bold text-orange-500 mb-2"><i class="fas fa-home mr-2"></i>Live: Your Home & Family Hub</h3>
+                <p class="text-slate-600 ml-8">Manage your properties with <strong class="text-orange-600">eKhaya</strong>, track household contributions with <strong class="text-purple-600">FamilyValue</strong>, and organize your personal data with <strong class="text-emerald-600">LifeSync</strong>. These tools help you build a stable, organized, and harmonious home life, giving you a solid foundation from which to grow.</p>
+            </div>
+             <div>
+                <h3 class="text-2xl font-bold text-sky-500 mb-2"><i class="fas fa-graduation-cap mr-2"></i>Learn: Your Knowledge Toolkit</h3>
+                <p class="text-slate-600 ml-8">Gain practical skills on <strong class="text-sky-600">sazi.life</strong> and master compliance with the <strong class="text-slate-700">Helping Hand</strong> suite: <strong class="help-accent">SafetyHelp</strong>, <strong class="help-accent">LegalHelp</strong>, <strong class="help-accent">HRHelp</strong>, and <strong class="help-accent">DocuHelp</strong>. From occupational safety to legal templates, we provide the knowledge you need to navigate complex professional landscapes with confidence.</p>
+            </div>
+             <div>
+                <h3 class="text-2xl font-bold text-green-500 mb-2"><i class="fas fa-flag mr-2"></i>Lead: Your Platform for Change</h3>
+                <p class="text-slate-600 ml-8">Champion causes and advocate for a better future with <strong class="text-green-600">Flamea</strong>, our philanthropic and advocacy arm. Use the knowledge you've gained to lead by example, contribute to your community, and drive meaningful change.</p>
+            </div>
+        </div>
+        
+        <div class="mt-auto pt-8">
+            <div class="border-t border-slate-200 pt-4 custom-field">
+                <p class="text-sm text-slate-500">Prepared for: <span class="font-bold text-slate-700 editable" contenteditable="true">[Enter Name Here]</span> <button class="text-red-500 text-xs ml-2 remove-btn" onclick="this.parentElement.style.display='none'">&times;</button></p>
+            </div>
+            <div class="flex items-center justify-between">
+                <div>
+                    <img src="[https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hub.sazi.life](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hub.sazi.life)" alt="QR Code" class="qr-code">
+                    <p class="text-xs mt-2 text-slate-500">Scan to get started</p>
+                </div>
+                <div class="text-right">
+                    <svg viewBox="0 0 100 100" class="h-12 ml-auto text-slate-400"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/><path d="M50 10 L 50 90 M10 50 L 90 50" stroke="#e5e7eb" stroke-width="2"/><path d="M50 10 L 40 25 L 60 25 Z" fill="currentColor"/></svg>
+                    <p class="text-sm font-semibold tracking-widest text-slate-500 mt-2">Live. Learn. Lead.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+```html
+<!-- File: /templates/brochures/trifold-brochure.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sazi Ecosystem - Tri-Fold Brochure</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700;900&family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body { background-color: #e5e7eb; font-family: 'Manrope', sans-serif; }
+        .page { background-color: white; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+        .slogan { font-family: 'Poppins', sans-serif; font-weight: 700; }
+        .brand-name { font-family: 'Roboto Slab', serif; font-weight: 700; }
+        .help-accent { font-weight: 900; color: #fb923c; }
+        .qr-code { width: 80px; height: 80px; }
+        .print-instructions { background-color: #fffbe6; border: 1px solid #fde68a; color: #ca8a04; }
+        .trifold-brochure { width: 297mm; height: 210mm; display: grid; grid-template-columns: 1fr 1fr 1fr; }
+        .trifold-panel { border-left: 1px dashed #d1d5db; padding: 1.5rem; display: flex; flex-direction: column; justify-content: center; }
+        .trifold-panel:first-child { border-left: none; }
+        .editable { background-color: #fefce8; padding: 2px 4px; border-radius: 3px; outline-color: #3b82f6; }
+        .remove-btn { cursor: pointer; opacity: 0; transition: opacity 0.2s; }
+        .custom-field:hover .remove-btn { opacity: 1; }
+        @media print {
+            body { background-color: white; }
+            .no-print { display: none; }
+            .page { box-shadow: none; margin: 0; }
+            .editable { background-color: transparent !important; }
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="no-print mb-8">
+        <h2 class="text-2xl font-bold">Tri-Fold Brochure (A4 Landscape)</h2>
+        <div class="print-instructions p-4 rounded-lg mt-2 text-sm">
+            <p><strong>Printing Instructions:</strong> Print both sides of this A4 landscape document. Flip on the short edge. Fold along the dashed lines to create a tri-fold brochure.</p>
+        </div>
+    </div>
+    <!-- Outside of brochure -->
+    <div class="page trifold-brochure mx-auto mb-4">
+        <div class="trifold-panel">
+            <h2 class="text-xl font-bold text-slate-800">Your Journey Starts Here</h2>
+            <p class="text-sm text-slate-600 mt-2">The Sazi Ecosystem is designed to be your lifelong companion, providing the right tool at the right time. Whether you're learning a new skill, managing a property, or advocating for change, your journey is unified through a single, secure account that grows with you.</p>
+            <p class="text-sm text-slate-600 mt-2">Our "Live. Learn. Lead." philosophy ensures that you are not just consuming information, but actively building a more capable and fulfilling life for yourself and your community.</p>
+            <div class="mt-auto text-center pt-4">
+                 <img src="https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hub.sazi.life" alt="QR Code" class="qr-code inline-block">
+                 <p class="text-xs mt-1 text-slate-500">Scan to Sign Up Free</p>
+            </div>
+        </div>
+        <div class="trifold-panel text-center">
+             <h3 class="text-lg font-bold">Contact & Information</h3>
+             <p class="text-sm text-slate-600 mt-4">For partnerships, media inquiries, or support, please visit our central hub. All platforms are accessible through a single sign-on.</p>
+             <p class="font-bold text-blue-600 mt-4">hub.sazi.life</p>
+             <div class="mt-auto">
+                <svg viewBox="0 0 100 100" class="h-12 mx-auto text-slate-400"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/><path d="M50 10 L 50 90 M10 50 L 90 50" stroke="#e5e7eb" stroke-width="2"/><path d="M50 10 L 40 25 L 60 25 Z" fill="currentColor"/></svg>
+                <p class="text-xs font-semibold tracking-widest text-slate-500 mt-2">Live. Learn. Lead.</p>
+            </div>
+        </div>
+        <div class="trifold-panel text-center bg-slate-800 text-white">
+            <svg viewBox="0 0 250 100" class="h-16 mx-auto" xmlns="http://www.w3.org/2000/svg"><g transform="scale(0.55) translate(0, 10)"><path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/></g><text x="75" y="68" style="font-family: 'Poppins', sans-serif; font-size: 45px; font-weight: 700;" fill="white">azi<tspan style="font-family: 'Manrope', sans-serif; font-weight: 400;" fill="#D97706">.life</tspan></text></svg>
+            <h1 class="text-3xl font-bold mt-4">The Sazi Ecosystem</h1>
+            <p class="mt-2">A Lifetime of Tools</p>
+            <div class="mt-auto text-xs custom-field">
+                <p>Prepared for: <span class="editable" contenteditable="true">[Enter Name]</span> <button class="text-red-500 ml-1 remove-btn" onclick="this.parentElement.style.display='none'">&times;</button></p>
+            </div>
+        </div>
+    </div>
+    <!-- Inside of brochure -->
+    <div class="page trifold-brochure mx-auto">
+        <div class="trifold-panel"><h2 class="text-xl font-bold text-orange-500">Live</h2><p class="text-sm text-slate-600 mt-2">Build a stable foundation. Our tools help you manage your home, family, and personal data with ease and security.</p><ul class="mt-2 space-y-2 text-sm"><li><strong>eKhaya:</strong> Find or list property with a focus on community and trust. (salatiso.com/ekhaya)</li><li><strong>FamilyValue:</strong> Quantify and recognize the vital contributions of every family member. (salatiso.com/familyvalue)</li><li><strong>LifeSync:</strong> Your personal data hub to keep your life organized. (salatiso.com/lifesync)</li></ul></div>
+        <div class="trifold-panel"><h2 class="text-xl font-bold text-sky-500">Learn</h2><p class="text-sm text-slate-600 mt-2">Gain practical, real-world skills. Our learning platforms provide knowledge that empowers you professionally and personally.</p><ul class="mt-2 space-y-2 text-sm"><li><strong>sazi.life:</strong> The core learning hub for courses, training, and lifelong growth. (sazi.life)</li><li><strong>Helping Hand Suite:</strong> Master compliance in Safety, Legal, HR, and Documentation. (safetyfirst.help, etc.)</li></ul></div>
+        <div class="trifold-panel"><h2 class="text-xl font-bold text-green-500">Lead</h2><p class="text-sm text-slate-600 mt-2">Make an impact. Use your experience and our platforms to advocate for change and build stronger communities.</p><ul class="mt-2 space-y-2 text-sm"><li><strong>Flamea:</strong> Our philanthropic arm for advocacy in family law and fathers' rights. (flamea.org)</li><li><strong>Unified Dashboard:</strong> Your central control center to manage your journey across the entire ecosystem. (hub.sazi.life)</li></ul></div>
+    </div>
+</body>
+</html>
+```html
+<!-- File: /templates/brochures/pocket-brochure.html -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sazi Ecosystem - Pocket Brochure</title>
+    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
+    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css)">
+    <link href="[https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700;900&family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap](https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700;900&family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap)" rel="stylesheet">
+    <style>
+        body { background-color: #e5e7eb; font-family: 'Manrope', sans-serif; }
+        .page { background-color: white; box-shadow: 0 10px 15px -3px rgb(0 0 0 / 0.1); }
+        .slogan { font-family: 'Poppins', sans-serif; font-weight: 700; }
+        .brand-name { font-family: 'Roboto Slab', serif; font-weight: 700; }
+        .help-accent { font-weight: 900; color: #fb923c; }
+        .qr-code { width: 60px; height: 60px; }
+        .print-instructions { background-color: #fffbe6; border: 1px solid #fde68a; color: #ca8a04; }
+        .pocket-brochure { width: 210mm; height: 297mm; display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr 1fr 1fr; }
+        .pocket-panel { border: 1px dashed #d1d5db; padding: 1rem; display: flex; flex-direction: column; justify-content: center; align-items: center; text-align: center; }
+        @media print {
+            body { background-color: white; }
+            .no-print { display: none; }
+            .page { box-shadow: none; margin: 0; }
+        }
+    </style>
+</head>
+<body class="p-8">
+    <div class="no-print mb-8">
+        <h2 class="text-2xl font-bold">Pocket-Sized Brochure (A4 Portrait)</h2>
+        <div class="print-instructions p-4 rounded-lg mt-2 text-sm">
+            <p><strong>Printing Instructions:</strong> Print both sides of this A4 portrait document. Flip on the long edge. First, fold vertically down the middle. Then, fold horizontally three times along the dashed lines to create a pocket-sized card.</p>
+        </div>
+    </div>
+    <!-- Front Side of A4 Sheet -->
+    <div class="page pocket-brochure mx-auto mb-4">
+        <div class="pocket-panel">
+            <h3 class="font-bold text-lg text-orange-500">Live</h3>
+            <p class="text-xs text-slate-600 mt-1">Manage home, family, and personal data.</p>
+            <ul class="text-xs mt-2 font-semibold"><li>eKhaya</li><li>FamilyValue</li><li>LifeSync</li></ul>
+        </div>
+        <div class="pocket-panel bg-slate-800 text-white">
+            <h3 class="font-bold text-lg text-white">The Sazi Ecosystem</h3>
+            <p class="text-xs mt-1">One account. A lifetime of tools.</p>
+        </div>
+        <div class="pocket-panel">
+            <h3 class="font-bold text-lg text-sky-500">Learn</h3>
+            <p class="text-xs text-slate-600 mt-1">Acquire practical skills and knowledge.</p>
+            <ul class="text-xs mt-2 font-semibold"><li>sazi.life</li><li>Helping Hand Suite</li></ul>
+        </div>
+        <div class="pocket-panel">
+             <h3 class="font-bold text-lg text-green-500">Lead</h3>
+            <p class="text-xs text-slate-600 mt-1">Advocate for change and build communities.</p>
+            <ul class="text-xs mt-2 font-semibold"><li>Flamea</li><li>Unified Dashboard</li></ul>
+        </div>
+        <div class="pocket-panel">
+            <p class="text-xs text-slate-500">The journey from experience to empowerment.</p>
+        </div>
+        <div class="pocket-panel">
+            <p class="text-xs text-slate-500">Your central hub for a life well-lived.</p>
+        </div>
+        <div class="pocket-panel">
+            <p class="text-xs text-slate-500">Tools for self-reliance and community building.</p>
+        </div>
+        <div class="pocket-panel">
+            <p class="text-xs text-slate-500">Built on a philosophy of practical knowledge.</p>
+        </div>
+    </div>
+    <!-- Back Side of A4 Sheet -->
+    <div class="page pocket-brochure mx-auto">
+        <div class="pocket-panel">
+            <svg viewBox="0 0 100 100" class="h-10 text-slate-400"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/><path d="M50 10 L 50 90 M10 50 L 90 50" stroke="#e5e7eb" stroke-width="2"/><path d="M50 10 L 40 25 L 60 25 Z" fill="currentColor"/></svg>
+            <p class="text-xs font-semibold tracking-widest text-slate-500 mt-2">Live. Learn. Lead.</p>
+        </div>
+        <div class="pocket-panel">
+            <p class="text-xs text-slate-500 font-bold">hub.sazi.life</p>
+        </div>
+        <div class="pocket-panel">
+            <p class="text-xs text-slate-500">A Salatiso Initiative</p>
+        </div>
+        <div class="pocket-panel">
+            <img src="[https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hub.sazi.life](https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=https://hub.sazi.life)" alt="QR Code" class="qr-code">
+        </div>
+        <div class="pocket-panel flex justify-center items-center col-span-2 row-span-2 bg-slate-800 text-white">
+            <svg viewBox="0 0 250 100" class="h-20" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"><g transform="scale(0.55) translate(0, 10)"><path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/></g><text x="75" y="68" style="font-family: 'Poppins', sans-serif; font-size: 45px; font-weight: 700;" fill="white">azi<tspan style="font-family: 'Manrope', sans-serif; font-weight: 400;" fill="#D97706">.life</tspan></text></svg>
+        </div>
+        <div class="pocket-panel">...</div>
+        <div class="pocket-panel">...</div>
+    </div>
+</body>
+</html>

@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eKhaya: Platform Overhaul & Integration Specification</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    <style>
+        body { font-family: 'Manrope', sans-serif; background-color: #f8fafc; }
+        h1, h2, h3, h4 { font-family: 'Poppins', sans-serif; }
+        .spec-section { border-left: 4px solid #3b82f6; padding-left: 1.5rem; margin-top: 2rem; }
+        .code-block { background-color: #1e293b; color: #e2e8f0; padding: 1rem; border-radius: 0.5rem; overflow-x: auto; font-family: monospace; font-size: 0.875rem; }
+    </style>
+</head>
+<body class="text-slate-800 p-4 md:p-8">
+
+    <div class="max-w-4xl mx-auto bg-white p-8 rounded-xl shadow-lg">
+        <h1 class="text-4xl font-bold text-slate-900">eKhaya: Platform Overhaul & Integration Specification</h1>
+        <p class="text-slate-500 mt-2">Document ID: EKHAYA-SPEC-V2.0 | Date: 2025-07-12</p>
+
+        <!-- Section 1: Platform Profile -->
+        <section class="spec-section">
+            <h2 class="text-3xl font-bold mb-4">1. Platform Profile & Vision</h2>
+            <p class="mb-4">This document outlines the complete overhaul of <strong>eKhaya</strong>, integrating the functionalities of 'Tenant Resource SA' and 'Makhi App' into a single, comprehensive platform for the South African housing ecosystem.</p>
+            
+            <h3 class="text-2xl font-semibold mt-6 mb-2">1.1. Vision & Mission</h3>
+            <p><strong>Vision:</strong> To be South Africa's most trusted and empowering housing platform, connecting hearts and homes by fostering community, simplifying processes, and championing the spirit of "Ubuntu" in the rental and property market.</p>
+            <p class="mt-2"><strong>Mission:</strong> To empower informal and rural property owners, tenants, and guests with accessible resources, transparent tools, and a community-driven safety net, unlocking economic value and fostering positive social cohesion.</p>
+
+            <h3 class="text-2xl font-semibold mt-6 mb-2">1.2. Core Integrated Pillars</h3>
+            <ul class="list-disc list-inside space-y-2">
+                <li><strong>eKhaya Listings:</strong> The core marketplace for long-term rentals, short-term stays, and authentic rural/township experiences.</li>
+                <li><strong>eKhaya Resources (formerly Tenant Resource SA):</strong> A comprehensive, free knowledge hub with legal guides, financial calculators, and best-practice advice for both landlords and tenants.</li>
+                <li><strong>eKhaya Community Hub (formerly Makhi App):</strong> A localized, peer-verified communication and safety tool for residents of a specific complex or neighborhood, featuring incident reporting and utility updates.</li>
+            </ul>
+        </section>
+
+        <!-- Section 2: Technical Specifications -->
+        <section class="spec-section">
+            <h2 class="text-3xl font-bold mb-4">2. Technical Specifications</h2>
+            
+            <h3 class="text-2xl font-semibold mt-6 mb-2">2.1. Technology Stack</h3>
+            <ul class="list-disc list-inside space-y-2">
+                <li><strong>Frontend:</strong> React (Next.js for optimal performance and SEO).</li>
+                <li><strong>Styling:</strong> Tailwind CSS.</li>
+                <li><strong>Backend & Database:</strong> Firebase (Firestore, Authentication, Storage, Functions).</li>
+            </ul>
+
+            <h3 class="text-2xl font-semibold mt-6 mb-2">2.2. Firebase Configuration</h3>
+            <p>The platform will use the following Firebase project:</p>
+            <div class="code-block mt-2">
+                <pre><code>// Firebase Config for eKhaya
+const firebaseConfig = {
+  apiKey: "AIzaSyC_lv9ljxwjWTYZ0E94FTaoIljPKpRssto",
+  authDomain: "ekhaya-b6fdd.firebaseapp.com",
+  projectId: "ekhaya-b6fdd",
+  storageBucket: "ekhaya-b6fdd.firebasestorage.app",
+  messagingSenderId: "242813323857",
+  appId: "1:242813323857:web:3cb499210790b034610670",
+  measurementId: "G-4JK8WEQCY7"
+};</code></pre>
+            </div>
+
+            <h3 class="text-2xl font-semibold mt-6 mb-2">2.3. Firestore Database Schema (High-Level)</h3>
+            <div class="code-block mt-2">
+                <pre><code>// /users/{userId} - Sazi Ecosystem compatible user profile
+// /properties/{propertyId} - Listing details, images, owner info
+// /bookings/{bookingId} - Booking info, tenant/guest ID, dates
+// /reviews/{reviewId} - Reviews linked to properties and users
+// /communityHubs/{hubId} - Info for a specific complex/street
+// /communityHubs/{hubId}/members/{userId} - Verified members of a hub
+// /communityHubs/{hubId}/incidents/{incidentId} - Reports for a hub
+// /resourceArticles/{articleId} - Content for the Resource Center</code></pre>
+            </div>
+
+            <h3 class="text-2xl font-semibold mt-6 mb-2">2.4. LifeCV Integration Points</h3>
+             <ul class="list-disc list-inside space-y-2">
+                <li>When a landlord successfully lists a property, an entry is added to their LifeCV under "Portfolio of Work".</li>
+                <li>After a successful tenancy (e.g., 12 months with no disputes), an entry is added to the landlord's LifeCV under "Experience" ("Successfully managed 1 property").</li>
+                <li>A tenant who consistently receives positive reviews can have an entry added to their LifeCV ("5-star rated tenant for 2 years").</li>
+                <li>Active participation in a Community Hub (e.g., reporting incidents) adds entries under "Community Contributions".</li>
+            </ul>
+        </section>
+
+        <!-- Section 3: File Structure -->
+        <section class="spec-section">
+            <h2 class="text-3xl font-bold mb-4">3. Application File Structure</h2>
+            <p>The file structure will be organized for a Next.js application and includes the mandatory dashboard pages for ecosystem compatibility.</p>
+            <div class="code-block mt-2">
+                <pre><code>ekhaya/
+├── /pages/
+│   ├── index.js                # Homepage
+│   ├── /listings/
+│   │   ├── [propertyId].js     # Individual property page
+│   │   └── index.js            # Search/Browse page
+│   ├── /resources/
+│   │   ├── [articleSlug].js    # Resource article page
+│   │   └── index.js            # Resource Center homepage
+│   ├── /community/
+│   │   └── [hubId].js          # Community Hub dashboard
+│   ├── /auth/
+│   │   ├── login.js
+│   │   └── signup.js
+│   └── /dashboard/             # User Dashboard (Ecosystem Compliant)
+│       ├── index.js
+│       ├── profile.js
+│       ├── settings.js
+│       ├── activity.js
+│       ├── notifications.js
+│       ├── help.js
+│       ├── support.js
+│       └── my-properties.js    # eKhaya specific dashboard page
+├── /components/                # Reusable React components
+├── /public/                    # Static assets (images, fonts)
+├── /lib/                       # Helper functions, Firebase config
+└── /styles/                    # Global styles
+</code></pre>
+        </section>
+        
+        <!-- Section 4: AI Generation Prompt -->
+        <section class="spec-section">
+            <h2 class="text-3xl font-bold mb-4">4. Prompt for Homepage Generation</h2>
+            <p>This prompt can be used with an AI model to generate the initial HTML for the eKhaya homepage.</p>
+            <div class="code-block mt-2">
+                <p><strong>Prompt:</strong></p>
+                <p>Generate a complete, single-file HTML landing page for a South African property platform called "eKhaya". The design must be warm, modern, and mobile-first, reflecting a spirit of "Ubuntu" and community.</p>
+                <p><strong>Core Requirements:</strong></p>
+                <ol class="list-decimal list-inside space-y-1 my-2">
+                    <li><strong>Technology:</strong> Use HTML and Tailwind CSS. Load Google Fonts 'Poppins' for headings and 'Manrope' for body text.</li>
+                    <li><strong>Hero Section:</strong> A welcoming, full-screen section with an authentic image of a South African home (e.g., a modern township home or a neat rural homestead). Headline: "eKhaya: Connecting Hearts & Homes". Subtitle: "The trusted platform for renting, letting, and finding your place in South Africa, built on the spirit of Ubuntu." Include a prominent search bar and "List Your Property" button.</li>
+                    <li><strong>Three Pillars Section:</strong> A section introducing the three core platform features with icons: "Find Your Home" (listings), "Empower Yourself" (resources), and "Build Your Community" (community hub).</li>
+                    <li><strong>Featured Listings Section:</strong> A card-based grid showcasing 4-6 sample listings. Include a mix of urban apartments, township back rooms, and rural homestays to show the platform's diversity. Each card needs a photo, title, location, price, and a "View Details" button.</li>
+                    <li><strong>Testimonials Section:</strong> Showcase quotes from the target audience personas (e.g., Gogo Dlamini, Themba the landlord).</li>
+                    <li><strong>Firebase Integration:</strong> Include the following Firebase configuration script in the head for future integration:
+                        <br><code>&lt;script type="module"&gt;
+                        <br>import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+                        <br>const firebaseConfig = { apiKey: "AIzaSyC_lv9ljxwjWTYZ0E94FTaoIljPKpRssto", authDomain: "ekhaya-b6fdd.firebaseapp.com", projectId: "ekhaya-b6fdd", storageBucket: "ekhaya-b6fdd.firebasestorage.app", messagingSenderId: "242813323857", appId: "1:242813323857:web:3cb499210790b034610670" };
+                        <br>const app = initializeApp(firebaseConfig);
+                        <br>&lt;/script&gt;</code>
+                    </li>
+                    <li><strong>Footer:</strong> A comprehensive footer with links to About Us, Resources, Listings, and social media.</li>
+                </ol>
+            </div>
+        </section>
+
+    </div>
+
+</body>
+</html>
