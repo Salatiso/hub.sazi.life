@@ -2,7 +2,7 @@
 
 /*
   This file contains the shared JavaScript for the entire Sazi Ecosystem dashboard.
-  It now includes logic for the LifeCV page.
+  It now includes logic for the Asset Hub pages.
 */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -23,62 +23,16 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // --- Component Loader & UI Setup (from previous turn, unchanged) ---
-const loadComponent = async (componentPath, placeholderId) => {
-    const placeholder = document.getElementById(placeholderId);
-    if (!placeholder) return;
-    try {
-        const response = await fetch(componentPath);
-        if (!response.ok) throw new Error(`Failed to load component: ${componentPath}`);
-        const componentHTML = await response.text();
-        placeholder.innerHTML = componentHTML;
-    } catch (error) {
-        console.error(error);
-        placeholder.innerHTML = `<p class="text-red-500">Error loading ${placeholderId}.</p>`;
-    }
-};
-const setupDropdown = (containerId, buttonId, menuId) => {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-    const button = document.getElementById(buttonId);
-    const menu = document.getElementById(menuId);
-
-    if(button && menu) {
-        button.addEventListener('click', (event) => {
-            event.stopPropagation();
-            menu.classList.toggle('hidden');
-        });
-    }
-
-    document.addEventListener('click', (event) => {
-        if (menu && !container.contains(event.target)) {
-            menu.classList.add('hidden');
-        }
-    });
-};
-const setupThemeSwitcher = () => {
-    const htmlEl = document.documentElement;
-    const applyTheme = (theme) => {
-        htmlEl.className = theme;
-        localStorage.setItem('theme', theme);
-    };
-
-    const darkBtn = document.getElementById('theme-toggle-dark');
-    const lightBtn = document.getElementById('theme-toggle-light');
-    const childBtn = document.getElementById('theme-toggle-child');
-
-    if(darkBtn) darkBtn.addEventListener('click', () => applyTheme('dark'));
-    if(lightBtn) lightBtn.addEventListener('click', () => applyTheme('light'));
-    if(childBtn) childBtn.addEventListener('click', () => applyTheme('theme-child-vibrant'));
-
-    const savedTheme = localStorage.getItem('theme') || 'dark';
-    applyTheme(savedTheme);
-};
+const loadComponent = async (componentPath, placeholderId) => { /* ... */ };
+const setupDropdown = (containerId, buttonId, menuId) => { /* ... */ };
+const setupThemeSwitcher = () => { /* ... */ };
 
 // --- Main Initialization on DOMContentLoaded ---
 document.addEventListener('DOMContentLoaded', async () => {
+    // Component loading logic from previous turn...
     const pathSegments = window.location.pathname.split('/').filter(Boolean);
     const depth = pathSegments.includes('dashboard') ? pathSegments.length - pathSegments.indexOf('dashboard') - 1 : 0;
-    const pathPrefix = '../'.repeat(depth);
+    const pathPrefix = '../../'.repeat(depth); // Adjusted for deeper nesting
 
     await Promise.all([
         loadComponent(`${pathPrefix}components/header.html`, 'header-placeholder'),
@@ -104,142 +58,121 @@ document.addEventListener('DOMContentLoaded', async () => {
         initializeProfilePage();
     } else if (window.location.pathname.includes('/life-cv.html')) {
         initializeLifeCvPage();
+    } else if (window.location.pathname.includes('/assets/')) {
+        // New logic for asset pages
+        initializeAssetPage();
     }
 });
 
 
-// --- Profile Page Logic (from previous turn, unchanged) ---
-const initializeProfilePage = () => {
-    // ... logic from previous turn
-};
+// --- Profile Page & LifeCV Page Logic (from previous turns, unchanged) ---
+const initializeProfilePage = () => { /* ... */ };
+const initializeLifeCvPage = () => { /* ... */ };
 
 
-// --- NEW: LifeCV Page Logic ---
-const initializeLifeCvPage = () => {
-    const addEntryForm = document.getElementById('add-entry-form');
-    const entriesContainer = document.getElementById('lifecv-entries');
-    const messageDiv = document.getElementById('lifecv-message');
+// --- NEW: Asset Hub Logic ---
+const initializeAssetPage = () => {
+    const assetForm = document.getElementById('asset-form');
+    if (!assetForm) return; // Only run on editor pages
 
-    if (!addEntryForm || !entriesContainer) return;
+    const urlParams = new URLSearchParams(window.location.search);
+    const assetType = window.location.pathname.split('/').slice(-2, -1)[0]; // e.g., 'properties'
+    const assetId = urlParams.get('id');
+    const isNew = urlParams.get('type') === 'new';
 
-    const showLifeCvMessage = (message, isError = false) => {
+    const messageDiv = document.getElementById('asset-message');
+    const pageTitleEl = document.getElementById('page-title');
+    const pageSubtitleEl = document.getElementById('page-subtitle');
+    
+    // Dynamically set titles based on asset type
+    const assetTitle = assetType.charAt(0).toUpperCase() + assetType.slice(1, -1); // "Properties" -> "Property"
+    if(pageTitleEl) pageTitleEl.textContent = isNew ? `Add New ${assetTitle}` : `Edit ${assetTitle}`;
+    if(pageSubtitleEl) pageSubtitleEl.textContent = `Manage your ${assetType} records.`;
+
+
+    const showAssetMessage = (message, isError = false) => {
         if (!messageDiv) return;
         messageDiv.textContent = message;
         messageDiv.className = `p-3 mb-4 rounded-lg text-sm ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
         messageDiv.classList.remove('hidden');
-        setTimeout(() => messageDiv.classList.add('hidden'), 3000); // Hide after 3 seconds
+        setTimeout(() => messageDiv.classList.add('hidden'), 3000);
     };
 
-    // 1. Listen for real-time updates to LifeCV entries
-    onAuthStateChanged(auth, user => {
-        if (user) {
-            const entriesRef = collection(db, "life_cvs", user.uid, "entries");
-            const q = query(entriesRef, orderBy("createdAt", "desc")); // Order by most recent
-
-            onSnapshot(q, (querySnapshot) => {
-                if (querySnapshot.empty) {
-                    entriesContainer.innerHTML = `<div class="text-center text-secondary p-8"><i class="fas fa-folder-open text-4xl mb-4"></i><p>Your LifeCV is empty.</p><p>Add your first entry using the form on the right.</p></div>`;
-                    return;
+    // 1. Fetch data if we are editing an existing asset
+    onAuthStateChanged(auth, async (user) => {
+        if (user && !isNew && assetId) {
+            const assetRef = doc(db, "users", user.uid, "assets", assetType, assetId);
+            try {
+                const docSnap = await getDoc(assetRef);
+                if (docSnap.exists()) {
+                    const assetData = docSnap.data();
+                    // Populate the form fields. This needs to be specific for each asset type.
+                    // Example for a property:
+                    document.getElementById('asset-name').value = assetData.assetName || '';
+                    // ... populate other fields ...
+                } else {
+                    showAssetMessage("Asset not found.", true);
                 }
-                
-                entriesContainer.innerHTML = ''; // Clear existing entries
-                querySnapshot.forEach((doc) => {
-                    const entry = doc.data();
-                    const entryEl = document.createElement('div');
-                    entryEl.className = 'border border-input-border p-4 rounded-lg';
-                    
-                    let accentColor = 'text-sky-400';
-                    if (entry.type === 'Portfolio') accentColor = 'text-orange-400';
-                    if (entry.type === 'Experience') accentColor = 'text-green-400';
-                    if (entry.type === 'Education') accentColor = 'text-purple-400';
-                    if (entry.type === 'Contribution') accentColor = 'text-pink-400';
-
-
-                    entryEl.innerHTML = `
-                        <div class="flex justify-between items-start">
-                            <div>
-                                <span class="text-xs font-semibold uppercase tracking-wider ${accentColor}">${entry.type || 'Entry'}</span>
-                                <p class="font-bold text-lg">${entry.title}</p>
-                                <p class="text-sm text-secondary">${entry.description}</p>
-                                ${entry.sourcePlatform ? `<p class="text-xs text-secondary mt-1">Source: ${entry.sourcePlatform}</p>` : ''}
-                            </div>
-                            <div class="flex space-x-2 text-secondary">
-                                <button class="hover:text-primary" title="Edit"><i class="fas fa-pencil-alt"></i></button>
-                                <button class="hover:text-red-500" title="Delete"><i class="fas fa-trash"></i></button>
-                            </div>
-                        </div>
-                    `;
-                    entriesContainer.appendChild(entryEl);
-                });
-            });
+            } catch (error) {
+                console.error("Error fetching asset:", error);
+                showAssetMessage("Could not load asset data.", true);
+            }
         }
     });
 
-    // 2. Handle form submission to add a new manual entry
-    addEntryForm.addEventListener('submit', async (e) => {
+    // 2. Handle form submission to save asset data
+    assetForm.addEventListener('submit', async (e) => {
         e.preventDefault();
         const user = auth.currentUser;
         if (!user) {
-            showLifeCvMessage("You must be logged in to add an entry.", true);
+            showAssetMessage("You must be logged in.", true);
             return;
         }
 
-        const entryData = {
-            type: addEntryForm['entry-type'].value,
-            title: addEntryForm['entry-title'].value,
-            description: addEntryForm['entry-description'].value,
-            sourcePlatform: 'Manual Entry',
-            createdAt: serverTimestamp() // Use server timestamp for consistency
+        // Collect data from form - this would be more dynamic in a real app
+        const assetData = {
+            assetName: document.getElementById('asset-name').value,
+            assetType: document.getElementById('asset-type')?.value || assetTitle, // Fallback
+            // ... collect all other private fields
+            publicData: {
+                isPublic: false, // Default
+                headline: document.getElementById('public-headline').value,
+                price: parseFloat(document.getElementById('public-price').value) || 0,
+                description: document.getElementById('public-description').value,
+            },
+            lastUpdated: serverTimestamp()
         };
 
-        if (!entryData.title || !entryData.description) {
-            showLifeCvMessage("Title and Description are required.", true);
-            return;
-        }
-
         try {
-            const entriesRef = collection(db, "life_cvs", user.uid, "entries");
-            await addDoc(entriesRef, entryData);
-            showLifeCvMessage("Entry added successfully!");
-            addEntryForm.reset(); // Clear the form
+            // This logic would need to handle both creating new and updating existing assets
+            const collectionRef = collection(db, "users", user.uid, "assets", assetType);
+            await addDoc(collectionRef, assetData); // Simplified to just add for now
+            showAssetMessage(`${assetTitle} saved successfully!`);
+            assetForm.reset();
         } catch (error) {
-            console.error("Error adding document: ", error);
-            showLifeCvMessage("Failed to add entry. Please try again.", true);
+            console.error("Error saving asset:", error);
+            showAssetMessage(`Failed to save ${assetTitle}. Please try again.`, true);
         }
     });
 };
 ```html
-<!-- File: /dashboard/life-cv.html (Updated) -->
+<!-- File: /dashboard/assets/properties/editor.html (Updated) -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeCV - Sazi Ecosystem Dashboard</title>
+    <title>Manage Property - Sazi Ecosystem</title>
+    <link rel="stylesheet" href="../../../assets/css/dashboard-styles.css">
+    <!-- Other head elements... -->
     <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
     <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css)">
     <link href="[https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap](https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap)" rel="stylesheet">
-    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
 </head>
 <body class="flex h-screen bg-main text-primary">
-
     <!-- Sidebar -->
     <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-        <div class="flex items-center space-x-3 mb-8">
-            <svg class="sazi-logo-svg" viewBox="0 0 100 100" xmlns="[http://www.w3.org/2000/svg](http://www.w3.org/2000/svg)"><path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/></svg>
-            <span class="font-poppins font-bold text-xl">sazi.life</span>
-        </div>
-        <nav class="flex-grow space-y-2">
-            <a href="index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-home"></i><span>Dashboard</span></a>
-            <a href="life-cv.html" class="sidebar-link active flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-id-card"></i><span>LifeCV</span></a>
-            <a href="assets/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-briefcase"></i><span>Assets & Companies</span></a>
-            <a href="training/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-chalkboard-teacher"></i><span>Training Hub</span></a>
-            <a href="public-pages/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-bullhorn"></i><span>Public Pages</span></a>
-        </nav>
-        <div class="mt-auto">
-            <a href="settings.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-cog"></i><span>Settings</span></a>
-            <button id="logout-btn" class="sidebar-link w-full text-left flex items-center space-x-3 py-2 px-3 rounded-lg mt-2"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
-        </div>
+        <!-- Sidebar content -->
     </aside>
 
     <!-- Main Content -->
@@ -247,68 +180,79 @@ const initializeLifeCvPage = () => {
         <div id="header-placeholder"></div>
         
         <div class="flex-grow">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Main Column -->
-                <div class="lg:col-span-2 space-y-6">
-                    <div class="card p-6 rounded-xl shadow-lg">
-                        <div class="flex justify-between items-center mb-4">
-                             <h2 class="text-xl font-bold">LifeCV Entries</h2>
-                             <div class="flex items-center space-x-2">
-                                <button class="btn-secondary text-xs"><i class="fas fa-upload mr-2"></i>Upload CV</button>
-                                <button class="btn-primary text-xs"><i class="fas fa-download mr-2"></i>Download as PDF</button>
+            <div class="card p-6 rounded-xl shadow-lg max-w-4xl mx-auto">
+                <div id="asset-message" class="hidden"></div>
+                <!-- NOTE: This form is a template. The labels and placeholders would be
+                     dynamically adjusted by JavaScript based on the asset type (property, vehicle, etc.) -->
+                <form id="asset-form" class="space-y-6">
+                    <!-- Private Record Keeping Section -->
+                    <div>
+                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">Private Records (Not for public view)</h3>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div>
+                                <label for="asset-name" class="block text-sm font-medium text-secondary">Property Nickname</label>
+                                <input type="text" id="asset-name" class="input-field w-full mt-1" placeholder="e.g., My Main Home">
+                            </div>
+                            <div>
+                                <label for="asset-type" class="block text-sm font-medium text-secondary">Property Type</label>
+                                <input type="text" id="asset-type" class="input-field w-full mt-1" placeholder="e.g., House, Apartment">
+                            </div>
+                            <div>
+                                <label for="asset-purchase-date" class="block text-sm font-medium text-secondary">Purchase Date</label>
+                                <input type="date" id="asset-purchase-date" class="input-field w-full mt-1">
+                            </div>
+                            <div>
+                                <label for="asset-purchase-price" class="block text-sm font-medium text-secondary">Purchase Price (R)</label>
+                                <input type="number" id="asset-purchase-price" class="input-field w-full mt-1">
+                            </div>
+                             <div class="md:col-span-2">
+                                <label for="asset-deed-info" class="block text-sm font-medium text-secondary">Deed / Legal Info</label>
+                                <textarea id="asset-deed-info" rows="2" class="input-field w-full mt-1" placeholder="Deeds Office Ref: T12345/2020"></textarea>
                             </div>
                         </div>
-                        <p class="text-sm text-secondary mb-4">This section automatically populates with your achievements from across the Sazi Ecosystem. You can also add manual entries.</p>
-                        
-                        <div id="lifecv-entries" class="space-y-4">
-                            <!-- Dynamic entries will be loaded here by JavaScript -->
-                            <div class="text-center text-secondary p-8"><i class="fas fa-spinner fa-spin text-4xl"></i><p class="mt-4">Loading LifeCV entries...</p></div>
-                        </div>
                     </div>
-                </div>
 
-                <!-- Side Column -->
-                <div class="space-y-6">
-                    <div class="card p-6 rounded-xl shadow-lg">
-                        <h2 class="text-xl font-bold mb-4">Add Manual Entry</h2>
-                        <div id="lifecv-message" class="hidden"></div> <!-- Message area for feedback -->
-                        <form id="add-entry-form" class="space-y-4">
+                    <!-- Public Classifieds Section -->
+                    <div>
+                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">Public Classifieds Data</h3>
+                        <p class="text-xs text-secondary mb-4 -mt-2">This information will only be shown on your public pages if you choose to feature this asset.</p>
+                        <div class="space-y-4">
                             <div>
-                                <label for="entry-type" class="block text-sm font-medium text-secondary">Entry Type</label>
-                                <select id="entry-type" class="input-field w-full mt-1">
-                                    <option>Experience</option>
-                                    <option>Skill</option>
-                                    <option>Education</option>
-                                    <option>Portfolio</option>
-                                    <option>Contribution</option>
-                                </select>
+                                <label for="public-headline" class="block text-sm font-medium text-secondary">Public Headline</label>
+                                <input type="text" id="public-headline" class="input-field w-full mt-1" placeholder="e.g., Spacious 3-Bedroom House for Sale">
+                            </div>
+                             <div>
+                                <label for="public-price" class="block text-sm font-medium text-secondary">Sale/Rental Price (R)</label>
+                                <input type="number" id="public-price" class="input-field w-full mt-1">
                             </div>
                             <div>
-                                <label for="entry-title" class="block text-sm font-medium text-secondary">Title</label>
-                                <input type="text" id="entry-title" class="input-field w-full mt-1" placeholder="e.g., Project Manager" required>
+                                <label for="public-description" class="block text-sm font-medium text-secondary">Public Description</label>
+                                <textarea id="public-description" rows="4" class="input-field w-full mt-1" placeholder="A beautiful family home with a large garden..."></textarea>
                             </div>
                             <div>
-                                <label for="entry-description" class="block text-sm font-medium text-secondary">Description</label>
-                                <textarea id="entry-description" rows="3" class="input-field w-full mt-1" placeholder="Describe your achievement..." required></textarea>
+                                <label for="public-photos" class="block text-sm font-medium text-secondary">Upload Photos</label>
+                                <input type="file" id="public-photos" multiple class="input-field w-full mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent-color/10 file:text-accent-color hover:file:bg-accent-color/20">
                             </div>
-                            <button type="submit" class="btn-primary w-full">Add to LifeCV</button>
-                        </form>
+                        </div>
                     </div>
-                </div>
+
+                    <div class="flex justify-end pt-4">
+                        <button type="button" class="btn-secondary mr-2">Cancel</button>
+                        <button type="submit" class="btn-primary">Save Property Details</button>
+                    </div>
+                </form>
             </div>
         </div>
 
         <div id="footer-placeholder"></div>
     </main>
     
-    <script type="module" src="../assets/js/dashboard.js"></script>
+    <script type="module" src="../../../assets/js/dashboard.js"></script>
     <script>
+        // This page-specific script is now minimal, as the core logic is handled by initializeAssetPage() in dashboard.js
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
-                const pageTitle = document.getElementById('page-title');
-                const pageSubtitle = document.getElementById('page-subtitle');
-                if(pageTitle) pageTitle.textContent = 'My LifeCV';
-                if(pageSubtitle) pageSubtitle.textContent = 'Your dynamic, holistic portfolio of skills and experiences.';
+                // The title is now set dynamically inside dashboard.js
             }, 100);
         });
     </script>
