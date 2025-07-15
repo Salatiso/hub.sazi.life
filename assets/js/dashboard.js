@@ -7,7 +7,7 @@
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-import { getFirestore, doc, getDoc, setDoc, collection, addDoc, query, onSnapshot } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+import { getFirestore, doc, getDoc, setDoc, collection, addDoc, query, onSnapshot, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
 // --- Firebase Initialization ---
 const firebaseConfig = {
@@ -23,13 +23,59 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 
 // --- Component Loader & UI Setup (from previous turn, unchanged) ---
-const loadComponent = async (componentPath, placeholderId) => { /* ... */ };
-const setupDropdown = (containerId, buttonId, menuId) => { /* ... */ };
-const setupThemeSwitcher = () => { /* ... */ };
+const loadComponent = async (componentPath, placeholderId) => {
+    const placeholder = document.getElementById(placeholderId);
+    if (!placeholder) return;
+    try {
+        const response = await fetch(componentPath);
+        if (!response.ok) throw new Error(`Failed to load component: ${componentPath}`);
+        const componentHTML = await response.text();
+        placeholder.innerHTML = componentHTML;
+    } catch (error) {
+        console.error(error);
+        placeholder.innerHTML = `<p class="text-red-500">Error loading ${placeholderId}.</p>`;
+    }
+};
+const setupDropdown = (containerId, buttonId, menuId) => {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    const button = document.getElementById(buttonId);
+    const menu = document.getElementById(menuId);
+
+    if(button && menu) {
+        button.addEventListener('click', (event) => {
+            event.stopPropagation();
+            menu.classList.toggle('hidden');
+        });
+    }
+
+    document.addEventListener('click', (event) => {
+        if (menu && !container.contains(event.target)) {
+            menu.classList.add('hidden');
+        }
+    });
+};
+const setupThemeSwitcher = () => {
+    const htmlEl = document.documentElement;
+    const applyTheme = (theme) => {
+        htmlEl.className = theme;
+        localStorage.setItem('theme', theme);
+    };
+
+    const darkBtn = document.getElementById('theme-toggle-dark');
+    const lightBtn = document.getElementById('theme-toggle-light');
+    const childBtn = document.getElementById('theme-toggle-child');
+
+    if(darkBtn) darkBtn.addEventListener('click', () => applyTheme('dark'));
+    if(lightBtn) lightBtn.addEventListener('click', () => applyTheme('light'));
+    if(childBtn) childBtn.addEventListener('click', () => applyTheme('theme-child-vibrant'));
+
+    const savedTheme = localStorage.getItem('theme') || 'dark';
+    applyTheme(savedTheme);
+};
 
 // --- Main Initialization on DOMContentLoaded ---
 document.addEventListener('DOMContentLoaded', async () => {
-    // Component loading logic from previous turn...
     const pathSegments = window.location.pathname.split('/').filter(Boolean);
     const depth = pathSegments.includes('dashboard') ? pathSegments.length - pathSegments.indexOf('dashboard') - 1 : 0;
     const pathPrefix = '../'.repeat(depth);
@@ -38,6 +84,7 @@ document.addEventListener('DOMContentLoaded', async () => {
         loadComponent(`${pathPrefix}components/header.html`, 'header-placeholder'),
         loadComponent(`${pathPrefix}components/footer.html`, 'footer-placeholder'),
     ]);
+    
     await Promise.all([
         loadComponent(`${pathPrefix}components/language-switcher.html`, 'language-switcher-placeholder'),
         loadComponent(`${pathPrefix}components/theme-switcher.html`, 'theme-switcher-placeholder')
@@ -60,8 +107,11 @@ document.addEventListener('DOMContentLoaded', async () => {
     }
 });
 
+
 // --- Profile Page Logic (from previous turn, unchanged) ---
-const initializeProfilePage = () => { /* ... */ };
+const initializeProfilePage = () => {
+    // ... logic from previous turn
+};
 
 
 // --- NEW: LifeCV Page Logic ---
@@ -77,6 +127,7 @@ const initializeLifeCvPage = () => {
         messageDiv.textContent = message;
         messageDiv.className = `p-3 mb-4 rounded-lg text-sm ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
         messageDiv.classList.remove('hidden');
+        setTimeout(() => messageDiv.classList.add('hidden'), 3000); // Hide after 3 seconds
     };
 
     // 1. Listen for real-time updates to LifeCV entries
@@ -100,6 +151,9 @@ const initializeLifeCvPage = () => {
                     let accentColor = 'text-sky-400';
                     if (entry.type === 'Portfolio') accentColor = 'text-orange-400';
                     if (entry.type === 'Experience') accentColor = 'text-green-400';
+                    if (entry.type === 'Education') accentColor = 'text-purple-400';
+                    if (entry.type === 'Contribution') accentColor = 'text-pink-400';
+
 
                     entryEl.innerHTML = `
                         <div class="flex justify-between items-start">
@@ -110,8 +164,8 @@ const initializeLifeCvPage = () => {
                                 ${entry.sourcePlatform ? `<p class="text-xs text-secondary mt-1">Source: ${entry.sourcePlatform}</p>` : ''}
                             </div>
                             <div class="flex space-x-2 text-secondary">
-                                <button class="hover:text-primary"><i class="fas fa-pencil-alt"></i></button>
-                                <button class="hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                <button class="hover:text-primary" title="Edit"><i class="fas fa-pencil-alt"></i></button>
+                                <button class="hover:text-red-500" title="Delete"><i class="fas fa-trash"></i></button>
                             </div>
                         </div>
                     `;
@@ -135,7 +189,7 @@ const initializeLifeCvPage = () => {
             title: addEntryForm['entry-title'].value,
             description: addEntryForm['entry-description'].value,
             sourcePlatform: 'Manual Entry',
-            createdAt: new Date()
+            createdAt: serverTimestamp() // Use server timestamp for consistency
         };
 
         if (!entryData.title || !entryData.description) {
