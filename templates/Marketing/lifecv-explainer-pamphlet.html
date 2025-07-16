@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeCV - Explainer Pamphlet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700;900&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --brand-color: #d97706; --brand-color-dark: #fb923c; } /* Amber */
+        body { font-family: 'Manrope', sans-serif; background-color: #e5e7eb; color: #1f2937; }
+        .dark body { background-color: #111827; color: #d1d5db; }
+        .a4-landscape { width: 297mm; height: 210mm; margin: 1rem auto; background-color: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: grid; grid-template-columns: 1fr 1fr 1fr; page-break-after: always; }
+        .dark .a4-landscape { background-color: #1f2937; }
+        .panel { padding: 1.5rem; border-left: 1px dashed #d1d5db; display: flex; flex-direction: column; }
+        .dark .panel { border-left-color: #4b5563; }
+        .panel:first-child { border-left: none; }
+        h1, h2, h3 { font-family: 'Roboto Slab', serif; color: var(--brand-color); font-weight: 700; }
+        .dark h1, .dark h2, .dark h3 { color: var(--brand-color-dark); }
+        .feature-list li { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; }
+        .feature-list i { margin-top: 0.25rem; color: var(--brand-color); }
+        .dark .feature-list i { color: var(--brand-color-dark); }
+        .no-print { text-align: center; padding: 1rem; }
+        .back-panel { background-color: #1e293b; color: #d1d5db; }
+        .dark .back-panel { background-color: #111827; }
+        [contenteditable="true"]:hover { outline: 2px dashed var(--brand-color); background-color: rgba(217, 119, 6, 0.1); }
+        @media print { .no-print { display: none; } /* Other print styles */ }
+    </style>
+</head>
+<body>
+    <div class="no-print"><button onclick="window.print()" class="mt-2 bg-amber-600 text-white font-bold py-2 px-6 rounded-lg">Print Pamphlet</button></div>
+    <!-- PAGE 1: OUTSIDE -->
+    <div class="a4-landscape">
+        <div class="panel">
+            <h2 class="text-2xl">Your Life's Work, Recognized</h2>
+            <p class="text-sm mt-2">A traditional CV is a static, one-dimensional list. The LifeCV is a living, breathing portfolio that proves what you can do, not just what you have studied. It's the story of your competence, told through your actions.</p>
+            <h3 class="text-lg mt-4">Why the LifeCV is Different:</h3>
+            <ul class="text-sm space-y-3 mt-2 feature-list">
+                <li><i class="fas fa-check-circle fa-fw"></i><div><strong>Automatic & Verifiable:</strong> Your achievements across the Sazi Ecosystem—from managing a budget in FinanceHelp to completing a course on sazi.life—are automatically added as verifiable entries.</div></li>
+                <li><i class="fas fa-project-diagram fa-fw"></i><div><strong>Holistic & Comprehensive:</strong> It captures everything: formal jobs, freelance projects, community leadership, financial discipline, and even skills learned through hobbies.</div></li>
+                <li><i class="fas fa-share-alt fa-fw"></i><div><strong>You Are in Control:</strong> Share your story your way. Choose from beautiful templates to create a public profile or a professional PDF, and decide exactly which sections to make public.</div></li>
+            </ul>
+        </div>
+        <div class="panel back-panel">
+            <div class="flex-grow">
+                <h2 class="!text-amber-400 text-2xl">The Heart of the Sazi Ecosystem</h2>
+                <p class="text-xs mt-2 text-slate-400">The LifeCV is the central thread that connects all Sazi platforms. It's where your actions become your credentials.</p>
+                <div class="space-y-4 mt-4">
+                    <a href="https://hub.sazi.life" target="_blank" class="flex items-center gap-3 text-white hover:!text-amber-400">
+                        <i class="fas fa-atom fa-fw text-lg"></i>
+                        <div><span class="font-bold">Sazi.life Hub</span><span class="block text-xs text-slate-400">hub.sazi.life</span></div>
+                    </a>
+                    <a href="https://salatiso.com/familyvalue" target="_blank" class="flex items-center gap-3 text-white hover:!text-amber-400">
+                        <i class="fas fa-users fa-fw text-lg"></i>
+                        <div><span class="font-bold">FamilyValue</span><span class="block text-xs text-slate-400">salatiso.com/familyvalue</span></div>
+                    </a>
+                    <a href="https://salatiso.com/legalhelp" target="_blank" class="flex items-center gap-3 text-white hover:!text-amber-400">
+                        <i class="fas fa-gavel fa-fw text-lg"></i>
+                        <div><span class="font-bold">LegalHelp</span><span class="block text-xs text-slate-400">salatiso.com/legalhelp</span></div>
+                    </a>
+                </div>
+            </div>
+            <div class="text-xs text-center text-slate-400">&copy; 2025 A Salatiso Initiative</div>
+        </div>
+        <div class="panel text-center justify-between items-center">
+            <div>
+                <i class="fas fa-id-card text-6xl" style="color: var(--brand-color);"></i>
+                <h1 class="text-4xl mt-4">LifeCV</h1>
+                <p class="mt-2 text-slate-600 dark:text-slate-400">Your Story, Your Skills, Your Value.</p>
+            </div>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://hub.sazi.life" alt="QR Code for Sazi.life Hub" class="w-24 h-24">
+            <div class="text-sm text-slate-500 dark:text-slate-400">
+                <p>A Living Portfolio for:</p>
+                <p class="font-bold text-lg text-slate-700 dark:text-slate-200" contenteditable="true">[Your Name Here]</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

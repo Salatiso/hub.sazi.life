@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Family Hub - Sazi Ecosystem</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
+</head>
+<body class="theme-default">
+    <div id="app-container" class="flex h-screen bg-main text-primary">
+        <div id="sidebar-placeholder"></div>
+        <div class="flex-1 flex flex-col">
+            <div id="header-placeholder"></div>
+            <main id="main-content" class="flex-1 overflow-y-auto p-8">
+                
+                <!-- This container will show one of two states: The "Create Family" prompt or the actual Family Dashboard -->
+                <div id="family-hub-container">
+                    <!-- State 1: Prompt to create a family -->
+                    <div id="create-family-prompt" class="text-center card p-10 rounded-xl">
+                        <i class="fas fa-users text-5xl text-accent-color mb-4"></i>
+                        <h1 class="text-3xl font-bold font-poppins">Create Your Family Hub</h1>
+                        <p class="text-secondary mt-2 max-w-xl mx-auto">Build a private space to manage your family's contributions, assets, and shared public identity.</p>
+                        <a href="create.html" class="btn-primary mt-6 inline-block">Start Building Your Family</a>
+                    </div>
+
+                    <!-- State 2: The Family Dashboard (hidden by default) -->
+                    <div id="family-dashboard" class="hidden">
+                        <header class="flex justify-between items-center mb-6">
+                            <div>
+                                <h1 id="family-name-header" class="text-3xl font-bold font-poppins text-primary">The Mdeni Family Hub</h1>
+                                <p class="text-secondary">An overview of your family's collective value and activity.</p>
+                            </div>
+                            <a href="settings.html" class="btn-secondary text-sm"><i class="fas fa-cog mr-2"></i>Manage Family</a>
+                        </header>
+
+                        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                            <div class="lg:col-span-2 space-y-8">
+                                <div class="card p-6 rounded-xl">
+                                    <h2 class="text-xl font-bold mb-4">Total Value Created This Month</h2>
+                                    <p id="total-value-created" class="text-4xl font-bold text-green-400">R 0.00</p>
+                                    <p class="text-sm text-secondary">This is the combined value of all financial and non-financial contributions.</p>
+                                </div>
+                                <div class="card p-6 rounded-xl">
+                                     <h2 class="text-xl font-bold mb-4">Recent Family Contributions</h2>
+                                     <div id="contribution-feed" class="space-y-3">
+                                         <p class="text-secondary text-center py-4">No contributions logged yet.</p>
+                                     </div>
+                                </div>
+                            </div>
+                            <div class="card p-6 rounded-xl">
+                                <h2 class="text-xl font-bold mb-4">Log a Contribution</h2>
+                                <form id="log-contribution-form" class="space-y-4">
+                                    <div>
+                                        <label for="contribution-description" class="block text-sm font-medium text-secondary">What did you do?</label>
+                                        <input type="text" id="contribution-description" class="input-field w-full mt-1" required>
+                                    </div>
+                                    <div>
+                                        <label for="contribution-type" class="block text-sm font-medium text-secondary">Type</label>
+                                        <select id="contribution-type" class="input-field w-full mt-1">
+                                            <option>Household Chore</option>
+                                            <option>Childcare</option>
+                                            <option>Financial Support</option>
+                                            <option>Property Maintenance</option>
+                                            <option>Emotional Support</option>
+                                        </select>
+                                    </div>
+                                    <button type="submit" class="btn-primary w-full !mt-6">Log My Contribution</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </main>
+            <div id="footer-placeholder"></div>
+        </div>
+    </div>
+    <script type="module" src="../../assets/js/dashboard.js"></script>
+</body>
+</html>

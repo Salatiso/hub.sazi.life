@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Professional Profile</title> <!-- Title will be updated by JS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Newsreader:ital,wght@0,400;0,600;1,400&family=Inter:wght@400;500;700&display=swap');
+        body { font-family: 'Inter', sans-serif; background-color: #F9FAFB; }
+        h1, h2, h3, .font-serif { font-family: 'Newsreader', serif; }
+    </style>
+</head>
+<body class="text-gray-800">
+    <div class="max-w-4xl mx-auto p-4 sm:p-8 md:p-12">
+        <header class="flex flex-col sm:flex-row items-center gap-8 pb-8 border-b border-gray-200">
+            <img id="profile-image" class="w-32 h-32 rounded-full object-cover shadow-lg" src="https://placehold.co/200x200/E2E8F0/4A5568?text=Asset" alt="Profile or Asset Image">
+            <div>
+                <h1 id="page-headline" class="text-4xl font-bold text-gray-900">[Asset Name]</h1>
+                <p id="page-tagline" class="text-xl text-blue-700 font-serif mt-1">[Asset Type]</p>
+                <p id="page-description" class="text-gray-600 mt-4 max-w-lg">[Public description will be populated here.]</p>
+                <div class="mt-6 flex items-center gap-4">
+                    <a href="#" id="contact-btn" class="bg-blue-600 text-white px-5 py-2 rounded-lg font-semibold hover:bg-blue-700">Contact Owner</a>
+                </div>
+            </div>
+        </header>
+        <main class="mt-8">
+            <h2 class="text-2xl font-bold font-serif text-gray-900 mb-6">Details</h2>
+            <div id="details-container" class="grid grid-cols-1 md:grid-cols-2 gap-4 bg-white p-6 rounded-lg border border-gray-200">
+                <!-- Details will be populated here by JS -->
+                <div class="flex"><strong class="w-32 text-gray-500">Value:</strong><span id="detail-value">R [Value]</span></div>
+            </div>
+        </main>
+        <footer class="text-center mt-12 pt-8 border-t border-gray-200">
+            <p class="text-sm text-gray-500">&copy; 2025. Published via <a href="https://hub.sazi.life" target="_blank" class="font-semibold text-blue-700 hover:underline">Sazi.life</a>.</p>
+        </footer>
+    </div>
+</body>
+</html>

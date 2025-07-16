@@ -302,3 +302,69 @@ document.addEventListener('DOMContentLoaded', async () => {
 document.addEventListener('click', () => {
     document.querySelectorAll('.absolute.z-50').forEach(menu => menu.classList.add('hidden'));
 });
+// File: /assets/js/dashboard.js (FamilyHub & Public Pages Integration)
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// ... other firebase imports
+
+// Import the new UI modules
+import * as financeUI from './financehelp/finance-ui.js'; 
+import * as publicPagesUI from './public-pages/publisher.js';
+import * as familyHubUI from './familyhub/family-ui.js';
+
+// ... (all existing code from dashboard_js_fix_07: firebaseConfig, translations, loadComponent, etc.) ...
+
+const setLanguage = (lang) => { /* ... */ };
+const applyTheme = (theme) => { /* ... */ };
+const setActiveSidebarLink = () => { /* ... */ };
+const setupDropdown = (containerId, buttonId, menuId) => { /* ... */ };
+const setupThemeSwitcher = () => { /* ... */ };
+const setupLanguageSwitcher = () => { /* ... */ };
+
+
+// --- MAIN INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', async () => {
+    // ... (existing setup code for basePath, theme, component loading) ...
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            setTimeout(() => {
+                // ... (existing UI setup: dropdowns, theme/lang switchers, logout) ...
+                
+                // --- Page Specific Logic Router ---
+                const path = window.location.pathname;
+                
+                // FinanceHelp Routes
+                if (path.includes('/finhelp/assets.html')) {
+                    financeUI.initAssetPage(user.uid);
+                } else if (path.includes('/finhelp/expenses.html')) {
+                    financeUI.initExpensePage(user.uid);
+                } else if (path.includes('/finhelp/tax-pack.html')) {
+                    financeUI.initTaxPackPage(user.uid);
+                } 
+                
+                // Public Pages Route
+                else if (path.includes('/public-pages/editor.html')) {
+                    publicPagesUI.initPublisherPage(user.uid);
+                }
+
+                // Family Hub Routes
+                else if (path.includes('/familyhub/index.html')) {
+                    familyHubUI.initFamilyHubPage(user.uid);
+                }
+                
+                // Main Dashboard Route
+                else if (path.endsWith('/dashboard/') || path.endsWith('/dashboard/index.html')) {
+                    loadComponent(`${basePath}dashboard/overview.html`, 'main-content');
+                }
+                // ... other existing page routes
+            }, 200);
+        } else {
+            // ... (existing redirect logic) ...
+        }
+    });
+});
+
+// ... (rest of the functions) ...
