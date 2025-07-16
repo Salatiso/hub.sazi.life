@@ -52,7 +52,7 @@ const handleAuthSuccess = async (userCredential) => {
     lastLogin: new Date().toISOString()
   }, { merge: true });
 
-  window.location.href = '/dashboard/index.html';
+  window.location.href = 'dashboard/index.html';
 };
 
 // --- Form Event Bindings ---
