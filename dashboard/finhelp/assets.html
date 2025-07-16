@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Assets - FinanceHelp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
+</head>
+<body class="theme-default">
+    <div id="app-container" class="flex h-screen bg-main text-primary">
+        <div id="sidebar-placeholder"></div>
+        <div class="flex-1 flex flex-col">
+            <div id="header-placeholder"></div>
+            <main id="main-content" class="flex-1 overflow-y-auto p-8">
+                <header class="mb-6">
+                    <h1 class="text-3xl font-bold font-poppins text-primary">Asset Register</h1>
+                    <p class="text-secondary">A complete record of everything you own.</p>
+                </header>
+
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+                    <!-- Add Asset Form -->
+                    <div class="lg:col-span-1">
+                        <div class="card p-6 rounded-xl">
+                            <h2 class="text-xl font-bold mb-4">Add a New Asset</h2>
+                            <form id="add-asset-form" class="space-y-4">
+                                <div>
+                                    <label for="name" class="block text-sm font-medium text-secondary">Asset Name</label>
+                                    <input type="text" name="name" id="name" class="input-field w-full mt-1" placeholder="e.g., Toyota Hilux" required>
+                                </div>
+                                <div>
+                                    <label for="assetType" class="block text-sm font-medium text-secondary">Asset Type</label>
+                                    <select name="assetType" id="assetType" class="input-field w-full mt-1">
+                                        <option>Movable</option>
+                                        <option>Immovable</option>
+                                        <option>Financial</option>
+                                        <option>Business</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="currentValue" class="block text-sm font-medium text-secondary">Current Value (R)</label>
+                                    <input type="number" name="currentValue" id="currentValue" class="input-field w-full mt-1" required>
+                                </div>
+                                <button type="submit" class="btn-primary w-full !mt-6">Save Asset</button>
+                            </form>
+                        </div>
+                    </div>
+                    <!-- Asset List -->
+                    <div class="lg:col-span-2">
+                        <div class="card p-6 rounded-xl">
+                            <h2 class="text-xl font-bold mb-4">My Assets</h2>
+                            <div id="assets-list" class="space-y-3">
+                                <!-- Assets will be loaded here by JS -->
+                                <p class="text-secondary text-center py-4">Loading assets...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <div id="footer-placeholder"></div>
+        </div>
+    </div>
+    <script type="module" src="../../assets/js/dashboard.js"></script>
+</body>
+</html>

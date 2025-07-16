@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Log Expenses - FinanceHelp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
+</head>
+<body class="theme-default">
+    <div id="app-container" class="flex h-screen bg-main text-primary">
+        <div id="sidebar-placeholder"></div>
+        <div class="flex-1 flex flex-col">
+            <div id="header-placeholder"></div>
+            <main id="main-content" class="flex-1 overflow-y-auto p-8">
+                <header class="mb-6">
+                    <h1 class="text-3xl font-bold font-poppins text-primary">Log Your Expenses</h1>
+                    <p class="text-secondary">Keep track of your spending with our powerful tools.</p>
+                </header>
+
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                    <!-- SMS Import Wizard -->
+                    <div class="card p-6 rounded-xl">
+                        <h2 class="text-xl font-bold mb-2">SMS Import Wizard</h2>
+                        <p class="text-sm text-secondary mb-4">Copy notifications from your banking app and paste them here to log expenses instantly.</p>
+                        <textarea id="sms-paste-area" rows="8" class="input-field w-full" placeholder="Paste SMS text here..."></textarea>
+                        <div id="parsed-transactions" class="mt-4 space-y-2"></div>
+                    </div>
+
+                    <!-- Manual Entry -->
+                    <div class="card p-6 rounded-xl">
+                        <h2 class="text-xl font-bold mb-4">Manual Expense Entry</h2>
+                        <form id="add-expense-form" class="space-y-4">
+                            <div>
+                                <label for="description" class="block text-sm font-medium text-secondary">Description</label>
+                                <input type="text" name="description" id="description" class="input-field w-full mt-1" required>
+                            </div>
+                            <div>
+                                <label for="amount" class="block text-sm font-medium text-secondary">Amount (R)</label>
+                                <input type="number" name="amount" id="amount" class="input-field w-full mt-1" required>
+                            </div>
+                             <div>
+                                <label for="category" class="block text-sm font-medium text-secondary">Category</label>
+                                <select name="category" id="category" class="input-field w-full mt-1">
+                                    <option>Groceries</option>
+                                    <option>Transport</option>
+                                    <option>Housing</option>
+                                    <option>Entertainment</option>
+                                    <option>Uncategorized</option>
+                                </select>
+                            </div>
+                            <button type="submit" class="btn-primary w-full !mt-6">Save Expense</button>
+                        </form>
+                    </div>
+                </div>
+            </main>
+            <div id="footer-placeholder"></div>
+        </div>
+    </div>
+    <script type="module" src="../../assets/js/dashboard.js"></script>
+</body>
+</html>

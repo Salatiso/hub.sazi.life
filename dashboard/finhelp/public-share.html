@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Share Financial Report - FinanceHelp</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
+</head>
+<body class="theme-default">
+    <div id="app-container" class="flex h-screen bg-main text-primary">
+        <div id="sidebar-placeholder"></div>
+        <div class="flex-1 flex flex-col">
+            <div id="header-placeholder"></div>
+            <main id="main-content" class="flex-1 overflow-y-auto p-8">
+                <header class="mb-6">
+                    <h1 class="text-3xl font-bold font-poppins text-primary">Create a Sharable Financial Report</h1>
+                    <p class="text-secondary">Generate a secure, customized link for loan applications or financial advisors.</p>
+                </header>
+
+                <div class="card p-6 rounded-xl max-w-3xl mx-auto">
+                    <form id="share-report-form" class="space-y-6">
+                        <div>
+                            <h3 class="text-lg font-semibold">1. Choose Information to Share</h3>
+                            <div class="mt-2 grid grid-cols-2 gap-4">
+                                <label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded" checked> <span class="ml-2">Income Summary</span></label>
+                                <label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded" checked> <span class="ml-2">Asset Register</span></label>
+                                <label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded" checked> <span class="ml-2">Liability Summary</span></label>
+                                <label class="flex items-center"><input type="checkbox" class="h-4 w-4 rounded"> <span class="ml-2">Detailed Expense History</span></label>
+                            </div>
+                        </div>
+                        <div>
+                            <h3 class="text-lg font-semibold">2. Set Access Controls</h3>
+                            <div class="mt-2 space-y-4">
+                                <div>
+                                    <label for="recipient-email" class="block text-sm font-medium text-secondary">Recipient's Email (Optional)</label>
+                                    <input type="email" id="recipient-email" class="input-field w-full mt-1" placeholder="e.g., loans@bank.co.za">
+                                </div>
+                                <div>
+                                    <label for="access-duration" class="block text-sm font-medium text-secondary">Link Expires In:</label>
+                                    <select id="access-duration" class="input-field w-full mt-1">
+                                        <option>7 Days</option>
+                                        <option>30 Days</option>
+                                        <option>90 Days</option>
+                                        <option>Never</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <button type="submit" class="btn-primary w-full !mt-8">Generate Secure Link</button>
+                    </form>
+                    <div id="generated-link-container" class="mt-6 hidden">
+                        <h3 class="font-bold">Your secure link is ready:</h3>
+                        <div class="bg-main p-3 rounded-lg flex items-center justify-between mt-2">
+                            <input id="generated-link" type="text" class="input-field w-full mr-2" readonly>
+                            <button class="btn-secondary text-sm">Copy</button>
+                        </div>
+                    </div>
+                </div>
+            </main>
+            <div id="footer-placeholder"></div>
+        </div>
+    </div>
+    <script type="module" src="../../assets/js/dashboard.js"></script>
+</body>
+</html>
