@@ -59,15 +59,16 @@
 
     <script>
     function loadModule(path) {
-        const base = window.location.origin + window.location.pathname.split('/').slice(0, 2).join('/');
+        const basePath = window.location.pathname.split('/').slice(0, -1).join('/'); // cuts off 'index.html'
         const script = document.createElement('script');
         script.type = 'module';
-        script.src = `${base}/${path}`;
+        script.src = `${window.location.origin}${basePath}/${path}`;
         document.body.appendChild(script);
     }
 
     loadModule('assets/js/dashboard.js');
 </script>
+
 
 
 
