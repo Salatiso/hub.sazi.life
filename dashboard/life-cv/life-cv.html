@@ -11,22 +11,24 @@
     <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 
-    <!-- Custom Dashboard Styles -->
-    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
+    <!-- CORRECTED PATH: Go up two levels to find the assets folder -->
+    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
 </head>
 <body class="theme-default">
 
     <div id="app-container" class="flex h-screen bg-main text-primary">
+        
         <!-- Sidebar Placeholder -->
         <div id="sidebar-placeholder">
-            <!-- Sidebar will be loaded here by JS -->
+            <!-- The sidebar will be loaded here by dashboard.js -->
         </div>
 
         <!-- Main content area -->
         <div class="flex-1 flex flex-col">
+            
             <!-- Header Placeholder -->
             <div id="header-placeholder">
-                <!-- Header will be loaded here by JS -->
+                <!-- The header will be loaded here by dashboard.js -->
             </div>
 
             <!-- Scrollable main content -->
@@ -65,7 +67,7 @@
                                 <div class="border border-input-border p-4 rounded-lg">
                                     <div class="flex justify-between items-start">
                                         <div>
-                                            <span class="text-xs font-semibold uppercase tracking-wider text-orange-400">Portfolio</span>
+                                            <span class="text-xs font-semibold uppercase tracking-wider" style="color: #D97706;">Portfolio</span>
                                             <p class="font-bold text-lg">Generated Safety Plan for ABC Construction</p>
                                             <p class="text-sm text-secondary">Source: SafetyHelp</p>
                                         </div>
@@ -86,7 +88,7 @@
                             <form id="add-entry-form" class="space-y-4">
                                 <div>
                                     <label for="entry-type" class="block text-sm font-medium text-secondary">Entry Type</label>
-                                    <select id="entry-type" class="input-field w-full mt-1">
+                                    <select id="entry-type" class="input-field w-full mt-1 bg-gray-700 border-gray-600 rounded">
                                         <option>Experience</option>
                                         <option>Skill</option>
                                         <option>Education</option>
@@ -96,11 +98,11 @@
                                 </div>
                                 <div>
                                     <label for="entry-title" class="block text-sm font-medium text-secondary">Title</label>
-                                    <input type="text" id="entry-title" class="input-field w-full mt-1" placeholder="e.g., Project Manager">
+                                    <input type="text" id="entry-title" class="input-field w-full mt-1 bg-gray-700 border-gray-600 rounded" placeholder="e.g., Project Manager">
                                 </div>
                                 <div>
                                     <label for="entry-description" class="block text-sm font-medium text-secondary">Description</label>
-                                    <textarea id="entry-description" rows="3" class="input-field w-full mt-1" placeholder="Describe your achievement..."></textarea>
+                                    <textarea id="entry-description" rows="3" class="input-field w-full mt-1 bg-gray-700 border-gray-600 rounded" placeholder="Describe your achievement..."></textarea>
                                 </div>
                                 <button type="submit" class="btn-primary w-full">Add to LifeCV</button>
                             </form>
@@ -112,13 +114,13 @@
 
             <!-- Footer Placeholder -->
             <div id="footer-placeholder">
-                <!-- Footer will be loaded here by JS -->
+                <!-- The footer will be loaded here by dashboard.js -->
             </div>
         </div>
     </div>
 
-    <!-- Main Dashboard Script -->
-    <script type="module" src="../assets/js/dashboard.js"></script>
+    <!-- CORRECTED PATH: Go up two levels to find the assets folder -->
+    <script type="module" src="../../assets/js/dashboard.js"></script>
 
 </body>
 </html>
