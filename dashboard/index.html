@@ -21,45 +21,40 @@
         .dark .text-gray-400 { color: #a0aec0; }
         .dark .text-gray-500 { color: #a0aec0; }
         .dark .text-gray-800 { color: #e2e8f0; }
-        .dark .shadow-sm { box-shadow: 0 1px 2px 0 rgba(255, 255, 255, 0.05); }
+        .dark .shadow-md { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
+        .dark .shadow-md { box-shadow: 0 4px 6px -1px rgba(255,255,255,0.05), 0 2px 4px -1px rgba(255,255,255,0.03); }
         .dark .border, .dark .divide-y > :not([hidden]) ~ :not([hidden]) { border-color: #4a5568; }
         .dark input, .dark textarea { background-color: #4a5568; border-color: #718096; }
-        .sidebar-link.active { background-color: #4299e1; color: white; }
-        .dark .sidebar-link.active { background-color: #2b6cb0; }
     </style>
 </head>
-<body class="bg-gray-50">
+<body class="bg-gray-50 dark:bg-gray-900">
 
     <div id="app-container" class="flex h-screen">
         <!-- Sidebar for navigation -->
-        <div id="sidebar" class="bg-white shadow-md">
-            <!-- Sidebar content will be loaded here by JS -->
+        <div id="sidebar-placeholder" class="bg-white dark:bg-gray-800 shadow-md">
+            <!-- Sidebar will be loaded here by JS -->
         </div>
 
         <!-- Main content area -->
         <div class="flex-1 flex flex-col">
             <!-- Header for user actions -->
-            <div id="header">
-                <!-- Header content will be loaded here by JS -->
+            <div id="header-placeholder">
+                <!-- Header will be loaded here by JS -->
             </div>
 
             <!-- Scrollable main content -->
-            <main id="main-content" class="flex-1 p-6 overflow-y-auto">
+            <main id="main-content" class="flex-1 overflow-y-auto">
                 <div class='py-8 text-center text-gray-400'>Loading Dashboard...</div>
             </main>
 
             <!-- Footer -->
-            <div id="footer">
-                <!-- Footer content will be loaded here by JS -->
+            <div id="footer-placeholder">
+                <!-- Footer will be loaded here by JS -->
             </div>
         </div>
     </div>
 
-    <!-- 
-      CORRECTION: Replaced the complex JavaScript loader with a simple,
-      relative path. From this file's location (in /dashboard/),
-      '../' goes up one level to the project root, then into 'assets/js/'.
-    -->
+    <!-- The single, updated dashboard script -->
     <script type="module" src="../assets/js/dashboard.js"></script>
 
 </body>
