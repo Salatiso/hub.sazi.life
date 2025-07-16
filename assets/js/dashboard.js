@@ -217,3 +217,88 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 });
+// File: /assets/js/dashboard.js (FinanceHelp Integration)
+
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
+import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// ... other firebase imports
+
+// Import the new UI module
+import * as financeUI from './financehelp/finance-ui.js'; 
+
+// ... (all existing code from dashboard_js_fix_05: firebaseConfig, translations, loadComponent, etc.) ...
+
+const setLanguage = (lang) => { /* ... */ };
+const applyTheme = (theme) => { /* ... */ };
+const setActiveSidebarLink = () => { /* ... */ };
+const setupDropdown = (containerId, buttonId, menuId) => { /* ... */ };
+const setupThemeSwitcher = () => { /* ... */ };
+const setupLanguageSwitcher = () => { /* ... */ };
+
+
+// --- MAIN INITIALIZATION ---
+document.addEventListener('DOMContentLoaded', async () => {
+    const repoName = window.location.pathname.split('/')[1] || '';
+    const basePath = repoName ? `/${repoName}/` : '/';
+
+    const savedTheme = localStorage.getItem('theme') || 'theme-default';
+    document.body.className = savedTheme;
+
+    await Promise.all([
+        loadComponent(`${basePath}dashboard/components/header.html`, 'header-placeholder'),
+        loadComponent(`${basePath}dashboard/components/footer.html`, 'footer-placeholder'),
+        loadComponent(`${basePath}dashboard/components/sidebar.html`, 'sidebar-placeholder')
+    ]);
+    
+    await Promise.all([
+        loadComponent(`${basePath}dashboard/components/theme-switcher.html`, 'theme-switcher-placeholder'),
+        loadComponent(`${basePath}dashboard/components/language-switcher.html`, 'language-switcher-placeholder')
+    ]);
+
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            setTimeout(() => {
+                // Setup UI elements
+                setupDropdown('theme-dropdown-container', 'theme-btn', 'theme-menu');
+                setupDropdown('language-dropdown-container', 'language-btn', 'language-menu');
+                setupDropdown('user-dropdown-container', 'user-btn', 'user-menu');
+                setupThemeSwitcher();
+                setupLanguageSwitcher();
+                const savedLang = localStorage.getItem('language') || 'en';
+                setLanguage(savedLang);
+                setActiveSidebarLink();
+                const logoutButton = document.getElementById('logout-btn');
+                if (logoutButton) {
+                    logoutButton.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        signOut(auth);
+                    });
+                }
+                
+                // --- Page Specific Logic Router ---
+                const path = window.location.pathname;
+                if (path.includes('/finhelp/index.html')) {
+                    // initFinanceHelpDashboard(user.uid); // A future function for the main finhelp page
+                } else if (path.includes('/finhelp/assets.html')) {
+                    financeUI.initAssetPage(user.uid);
+                } else if (path.includes('/finhelp/expenses.html')) {
+                    financeUI.initExpensePage(user.uid);
+                } else if (path.includes('/finhelp/tax-pack.html')) { // NEW ROUTE
+                    financeUI.initTaxPackPage(user.uid);
+                } else if (path.endsWith('/dashboard/') || path.endsWith('/dashboard/index.html')) {
+                    loadComponent(`${basePath}dashboard/overview.html`, 'main-content');
+                }
+                // ... other existing page routes
+            }, 200);
+        } else {
+            if (!window.location.pathname.endsWith('index.html') && !window.location.pathname.endsWith('/')) {
+                 window.location.href = `${basePath}index.html`;
+            }
+        }
+    });
+});
+
+document.addEventListener('click', () => {
+    document.querySelectorAll('.absolute.z-50').forEach(menu => menu.classList.add('hidden'));
+});
