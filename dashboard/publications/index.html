@@ -1,126 +1,75 @@
-<!-- File: /dashboard/publications/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>My Publications - Sazi Ecosystem Dashboard</title>
+    
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom Dashboard Styles -->
     <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
 </head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-        <!-- ... (Add active class to a new 'Publications' link) ... -->
-    </aside>
+<body class="theme-default">
 
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
+    <div id="app-container" class="flex h-screen bg-main text-primary">
         
-        <div class="flex-grow">
-            <div class="flex justify-end mb-4">
-                <a href="editor.html?type=new" class="btn-primary"><i class="fas fa-plus mr-2"></i>Create New Publication</a>
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-placeholder">
+            <!-- The sidebar will be loaded here by dashboard.js -->
+        </div>
+
+        <!-- Main content area -->
+        <div class="flex-1 flex flex-col">
+            
+            <!-- Header Placeholder -->
+            <div id="header-placeholder">
+                <!-- The header will be loaded here by dashboard.js -->
             </div>
-            <div class="card p-6 rounded-xl shadow-lg">
-                <h2 class="text-xl font-bold mb-4">My Publications</h2>
-                <div class="space-y-3">
-                    <!-- Example Item -->
-                    <div class="bg-slate-700/50 p-4 rounded-lg flex justify-between items-center">
-                        <div>
-                            <p class="font-bold">The Pothole on Main Street</p>
-                            <a href="#" target="_blank" class="text-xs text-accent-color hover:underline">View Public Page</a>
-                        </div>
-                        <div class="flex items-center space-x-4">
-                             <span class="text-sm font-semibold text-green-400">Published</span>
-                             <a href="editor.html?id=pub123" class="text-secondary hover:text-primary"><i class="fas fa-pencil-alt"></i></a>
-                        </div>
+
+            <!-- Scrollable main content -->
+            <main id="main-content" class="flex-1 overflow-y-auto p-8">
+                
+                <div class="flex justify-between items-center mb-6">
+                    <div>
+                        <h1 class="text-3xl font-bold font-poppins text-primary">My Publications</h1>
+                        <p class="text-secondary">Manage your articles, bulletins, and other publications.</p>
                     </div>
-                    <!-- End Example -->
+                    <a href="editor.html" class="btn-primary"><i class="fas fa-plus mr-2"></i>Create New Publication</a>
                 </div>
-            </div>
-        </div>
 
-        <div id="footer-placeholder"></div>
-    </main>
-    
-    <script type="module" src="../../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'My Publications';
-                document.getElementById('page-subtitle').textContent = 'Manage your articles, bulletins, and other publications.';
-            }, 100);
-        });
-    </script>
-</body>
-</html>
-```html
-<!-- File: /dashboard/publications/editor.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Publication Editor - Sazi Ecosystem</title>
-    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
-</head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-        <!-- ... -->
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        
-        <div class="flex-grow">
-            <div class="card p-6 rounded-xl shadow-lg max-w-4xl mx-auto">
-                <form id="publication-form" class="space-y-8">
-                    <!-- Step 1: Content Input -->
-                    <div>
-                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">1. Your Content</h3>
-                        <div class="space-y-4">
+                <div class="card p-6 rounded-xl shadow-lg">
+                    <div class="space-y-3">
+                        <!-- Example Item -->
+                        <div class="bg-main p-4 rounded-lg flex justify-between items-center">
                             <div>
-                                <label for="pub-title" class="block text-sm font-medium text-secondary">Title</label>
-                                <input type="text" id="pub-title" class="input-field w-full mt-1" placeholder="e.g., A Community Update">
+                                <p class="font-bold text-primary">The Pothole on Main Street</p>
+                                <a href="#" target="_blank" class="text-xs text-accent-color hover:underline">View Public Page</a>
                             </div>
-                            <div>
-                                <label for="pub-content" class="block text-sm font-medium text-secondary">Body Content</label>
-                                <textarea id="pub-content" rows="10" class="input-field w-full mt-1" placeholder="Start writing your article here..."></textarea>
-                                <p class="text-xs text-secondary mt-1">You can use basic HTML tags like &lt;p&gt;, &lt;strong&gt;, and &lt;ul&gt; for formatting.</p>
+                            <div class="flex items-center space-x-4">
+                                 <span class="text-sm font-semibold text-green-400">Published</span>
+                                 <a href="editor.html?id=pub123" class="text-secondary hover:text-primary"><i class="fas fa-pencil-alt"></i></a>
                             </div>
                         </div>
+                        <!-- End Example -->
                     </div>
-                    <!-- Step 2: Template Selection -->
-                    <div>
-                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">2. Choose a Template</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                            <label class="cursor-pointer"><input type="radio" name="template" value="formal-research-paper" class="sr-only" checked><div class="p-2 border-2 border-accent-color rounded-lg text-center"><i class="fas fa-scroll text-3xl mb-2"></i><span class="block text-xs font-semibold">Formal Paper</span></div></label>
-                            <label class="cursor-pointer"><input type="radio" name="template" value="modern-article" class="sr-only"><div class="p-2 border-2 border-transparent hover:border-accent-color rounded-lg text-center"><i class="far fa-newspaper text-3xl mb-2"></i><span class="block text-xs font-semibold">Modern Article</span></div></label>
-                            <label class="cursor-pointer"><input type="radio" name="template" value="community-bulletin" class="sr-only"><div class="p-2 border-2 border-transparent hover:border-accent-color rounded-lg text-center"><i class="fas fa-clipboard-list text-3xl mb-2"></i><span class="block text-xs font-semibold">Bulletin</span></div></label>
-                            <label class="cursor-pointer"><input type="radio" name="template" value="advocacy-letter" class="sr-only"><div class="p-2 border-2 border-transparent hover:border-accent-color rounded-lg text-center"><i class="fas fa-gavel text-3xl mb-2"></i><span class="block text-xs font-semibold">Advocacy Letter</span></div></label>
-                            <label class="cursor-pointer"><input type="radio" name="template" value="photo-story" class="sr-only"><div class="p-2 border-2 border-transparent hover:border-accent-color rounded-lg text-center"><i class="fas fa-camera-retro text-3xl mb-2"></i><span class="block text-xs font-semibold">Photo Story</span></div></label>
-                        </div>
-                    </div>
-                    
-                    <div class="flex justify-end pt-4">
-                        <button type="button" class="btn-secondary mr-2">Preview</button>
-                        <button type="submit" class="btn-primary">Save & Publish</button>
-                    </div>
-                </form>
+                </div>
+
+            </main>
+
+            <!-- Footer Placeholder -->
+            <div id="footer-placeholder">
+                <!-- The footer will be loaded here by dashboard.js -->
             </div>
         </div>
+    </div>
 
-        <div id="footer-placeholder"></div>
-    </main>
-    
+    <!-- Main Dashboard Script -->
     <script type="module" src="../../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'Publication Editor';
-                document.getElementById('page-subtitle').textContent = 'Create and publish your content with ease.';
-            }, 100);
-        });
-    </script>
+
 </body>
 </html>
