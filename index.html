@@ -78,75 +78,7 @@
         </p>
     </div>
 
-    <script type="module">
-        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-        import { getAuth, signInWithEmailAndPassword, GoogleAuthProvider, signInWithPopup, signInAnonymously } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
-        import { getFirestore, doc, setDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+    <script type="module" src="/assets/js/auth.js"></script>
 
-        const firebaseConfig = {
-            apiKey: "AIzaSyD_pRVkeVzciCPowxsj44NRVlbyZvFPueI",
-            authDomain: "lifecv-d2724.firebaseapp.com",
-            projectId: "lifecv-d2724",
-            storageBucket: "lifecv-d2724.firebasestorage.app",
-            messagingSenderId: "1039752653127",
-            appId: "1:1039752653127:web:54afa09b21c98ef231c462",
-            measurementId: "G-BDCNHBQTR2"
-        };
-
-        const app = initializeApp(firebaseConfig);
-        const auth = getAuth(app);
-        const db = getFirestore(app);
-
-        const loginForm = document.getElementById('login-form');
-        const googleBtn = document.getElementById('google-signin-btn');
-        const anonBtn = document.getElementById('anonymous-signin-btn');
-        const messageArea = document.getElementById('message-area');
-
-        const showMessage = (message, isError = false) => {
-            messageArea.textContent = message;
-            messageArea.className = `text-center p-3 mb-4 rounded-lg text-sm ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
-            messageArea.classList.remove('hidden');
-        };
-
-        const handleAuthSuccess = async (userCredential) => {
-            const user = userCredential.user;
-            const userRef = doc(db, "users", user.uid);
-            await setDoc(userRef, {
-                name: user.displayName || 'New User',
-                email: user.email,
-                lastLogin: new Date()
-            }, { merge: true });
-            window.location.href = '/dashboard/index.html'; // Redirect to the central dashboard
-        };
-
-        loginForm.addEventListener('submit', async (e) => {
-            e.preventDefault();
-            try {
-                const userCredential = await signInWithEmailAndPassword(auth, loginForm.email.value, loginForm.password.value);
-                await handleAuthSuccess(userCredential);
-            } catch (error) {
-                showMessage(error.message, true);
-            }
-        });
-
-        googleBtn.addEventListener('click', async () => {
-            const provider = new GoogleAuthProvider();
-            try {
-                const result = await signInWithPopup(auth, provider);
-                await handleAuthSuccess(result);
-            } catch (error) {
-                showMessage(error.message, true);
-            }
-        });
-
-        anonBtn.addEventListener('click', async () => {
-            try {
-                const userCredential = await signInAnonymously(auth);
-                await handleAuthSuccess(userCredential);
-            } catch (error) {
-                showMessage(error.message, true);
-            }
-        });
-    </script>
 </body>
 </html>
