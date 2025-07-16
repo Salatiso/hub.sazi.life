@@ -28,6 +28,8 @@ hub.sazi.life/
 │   │   └── index.html
 │   ├── components/
 │   │   └── header.html
+│   |   ├── footer.html
+│   |   ├── sidebar.html
 │   ├── life-cv/
 │   │   └── life-cv.html
 │   ├── public-pages/
@@ -52,6 +54,7 @@ hub.sazi.life/
     ├── eKhaya-Platform_Overhaul_&_Integration_Specification.html
     └── publications/
         └── formal-research-paper.html
+
 
 
 ## Project Overview
