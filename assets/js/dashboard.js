@@ -368,3 +368,19 @@ document.addEventListener('DOMContentLoaded', async () => {
 });
 
 // ... (rest of the functions) ...
+// Add this import at the top of dashboard.js
+import * as commsUI from './commshub/comms-ui.js';
+
+// ... inside the onAuthStateChanged callback, in the Page Specific Logic Router ...
+                
+// --- Page Specific Logic Router ---
+const path = window.location.pathname;
+
+// ... (existing routes for finhelp, etc.) ...
+
+// CommsHub Route
+else if (path.includes('/commshub/index.html')) {
+    commsUI.initCommsHub(user.uid);
+} 
+
+// ... (the rest of the router) ...
