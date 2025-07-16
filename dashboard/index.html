@@ -58,15 +58,17 @@
     <!-- The single, updated dashboard script -->
 
     <script>
-        function loadModule(path) {
-            const script = document.createElement('script');
-            script.type = 'module';
-            script.src = `${window.location.origin}/${path}`;
-            document.body.appendChild(script);
-        }
+    function loadModule(path) {
+        const base = window.location.origin + window.location.pathname.split('/').slice(0, 2).join('/');
+        const script = document.createElement('script');
+        script.type = 'module';
+        script.src = `${base}/${path}`;
+        document.body.appendChild(script);
+    }
 
     loadModule('assets/js/dashboard.js');
-    </script>
+</script>
+
 
 
 </body>
