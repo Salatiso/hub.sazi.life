@@ -5,56 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Sazi.life Dashboard</title>
     
-    <!-- Tailwind CSS is used by your script for styling -->
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
     
-    <!-- Font Awesome for icons used in your script -->
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     
-    <!-- Custom styles for the dashboard and dark mode support -->
-    <style>
-        body { transition: background-color 0.3s, color 0.3s; }
-        .dark { background-color: #1a202c; color: #e2e8f0; }
-        .dark .bg-white { background-color: #2d3748; }
-        .dark .bg-gray-50 { background-color: #171923; }
-        .dark .bg-gray-100 { background-color: #2d3748; }
-        .dark .text-gray-400 { color: #a0aec0; }
-        .dark .text-gray-500 { color: #a0aec0; }
-        .dark .text-gray-800 { color: #e2e8f0; }
-        .dark .shadow-md { box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06); }
-        .dark .shadow-md { box-shadow: 0 4px 6px -1px rgba(255,255,255,0.05), 0 2px 4px -1px rgba(255,255,255,0.03); }
-        .dark .border, .dark .divide-y > :not([hidden]) ~ :not([hidden]) { border-color: #4a5568; }
-        .dark input, .dark textarea { background-color: #4a5568; border-color: #718096; }
-    </style>
+    <!-- Custom Dashboard Styles -->
+    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
 </head>
-<body class="bg-gray-50 dark:bg-gray-900">
+<body class="theme-default">
 
-    <div id="app-container" class="flex h-screen">
-        <!-- Sidebar for navigation -->
-        <div id="sidebar-placeholder" class="bg-white dark:bg-gray-800 shadow-md">
+    <div id="app-container" class="flex h-screen bg-main text-primary">
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-placeholder">
             <!-- Sidebar will be loaded here by JS -->
         </div>
 
         <!-- Main content area -->
         <div class="flex-1 flex flex-col">
-            <!-- Header for user actions -->
+            <!-- Header Placeholder -->
             <div id="header-placeholder">
                 <!-- Header will be loaded here by JS -->
             </div>
 
             <!-- Scrollable main content -->
             <main id="main-content" class="flex-1 overflow-y-auto">
-                <div class='py-8 text-center text-gray-400'>Loading Dashboard...</div>
+                <div class='p-8 text-center text-secondary'>Loading Dashboard...</div>
             </main>
 
-            <!-- Footer -->
+            <!-- Footer Placeholder -->
             <div id="footer-placeholder">
                 <!-- Footer will be loaded here by JS -->
             </div>
         </div>
     </div>
 
-    <!-- The single, updated dashboard script -->
+    <!-- Main Dashboard Script -->
     <script type="module" src="../assets/js/dashboard.js"></script>
 
 </body>

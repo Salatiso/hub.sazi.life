@@ -1,244 +1,124 @@
-<!-- File: /dashboard/life-cv.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LifeCV - Sazi Ecosystem Dashboard</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+
+    <!-- Custom Dashboard Styles -->
     <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
 </head>
-<body class="flex h-screen bg-main text-primary">
+<body class="theme-default">
 
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-        <div class="flex items-center space-x-3 mb-8">
-            <svg class="sazi-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/></svg>
-            <span class="font-poppins font-bold text-xl">sazi.life</span>
+    <div id="app-container" class="flex h-screen bg-main text-primary">
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-placeholder">
+            <!-- Sidebar will be loaded here by JS -->
         </div>
-        <nav class="flex-grow space-y-2">
-            <a href="index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-home"></i><span>Dashboard</span></a>
-            <a href="life-cv.html" class="sidebar-link active flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-id-card"></i><span>LifeCV</span></a>
-            <a href="assets/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-briefcase"></i><span>Assets & Companies</span></a>
-            <a href="training/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-chalkboard-teacher"></i><span>Training Hub</span></a>
-            <a href="public-pages/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-bullhorn"></i><span>Public Pages</span></a>
-        </nav>
-        <div class="mt-auto">
-            <a href="settings.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-cog"></i><span>Settings</span></a>
-            <button id="logout-btn" class="sidebar-link w-full text-left flex items-center space-x-3 py-2 px-3 rounded-lg mt-2"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
-        </div>
-    </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        
-        <div class="flex-grow">
-            <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                <!-- Main Column -->
-                <div class="lg:col-span-2 space-y-6">
-                    <div class="card p-6 rounded-xl shadow-lg">
-                        <div class="flex justify-between items-center mb-4">
-                             <h2 class="text-xl font-bold">LifeCV Entries</h2>
-                             <div class="flex items-center space-x-2">
-                                <button class="btn-secondary text-xs"><i class="fas fa-upload mr-2"></i>Upload CV</button>
-                                <button class="btn-primary text-xs"><i class="fas fa-download mr-2"></i>Download as PDF</button>
-                            </div>
-                        </div>
-                        <p class="text-sm text-secondary mb-4">This section automatically populates with your achievements from across the Sazi Ecosystem. You can also add manual entries.</p>
-                        
-                        <div id="lifecv-entries" class="space-y-4">
-                            <!-- Example Entry -->
-                            <div class="border border-input-border p-4 rounded-lg">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <span class="text-xs font-semibold uppercase tracking-wider text-accent-color">Skill</span>
-                                        <p class="font-bold text-lg">Completed "OHS Basics" Course</p>
-                                        <p class="text-sm text-secondary">Source: sazi.life</p>
-                                    </div>
-                                    <div class="flex space-x-2 text-secondary">
-                                        <button class="hover:text-primary"><i class="fas fa-pencil-alt"></i></button>
-                                        <button class="hover:text-red-500"><i class="fas fa-trash"></i></button>
-                                    </div>
+        <!-- Main content area -->
+        <div class="flex-1 flex flex-col">
+            <!-- Header Placeholder -->
+            <div id="header-placeholder">
+                <!-- Header will be loaded here by JS -->
+            </div>
+
+            <!-- Scrollable main content -->
+            <main id="main-content" class="flex-1 overflow-y-auto p-8">
+                
+                <!-- Original Life-CV content is preserved here -->
+                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+                    <!-- Main Column -->
+                    <div class="lg:col-span-2 space-y-6">
+                        <div class="card p-6 rounded-xl shadow-lg">
+                            <div class="flex justify-between items-center mb-4">
+                                 <h2 class="text-xl font-bold">LifeCV Entries</h2>
+                                 <div class="flex items-center space-x-2">
+                                    <button class="btn-secondary text-xs"><i class="fas fa-upload mr-2"></i>Upload CV</button>
+                                    <button class="btn-primary text-xs"><i class="fas fa-download mr-2"></i>Download as PDF</button>
                                 </div>
                             </div>
-                             <!-- Example Entry 2 -->
-                            <div class="border border-input-border p-4 rounded-lg">
-                                <div class="flex justify-between items-start">
-                                    <div>
-                                        <span class="text-xs font-semibold uppercase tracking-wider text-orange-400">Portfolio</span>
-                                        <p class="font-bold text-lg">Generated Safety Plan for ABC Construction</p>
-                                        <p class="text-sm text-secondary">Source: SafetyHelp</p>
+                            <p class="text-sm text-secondary mb-4">This section automatically populates with your achievements from across the Sazi Ecosystem. You can also add manual entries.</p>
+                            
+                            <div id="lifecv-entries" class="space-y-4">
+                                <!-- Example Entry -->
+                                <div class="border border-input-border p-4 rounded-lg">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <span class="text-xs font-semibold uppercase tracking-wider text-accent-color">Skill</span>
+                                            <p class="font-bold text-lg">Completed "OHS Basics" Course</p>
+                                            <p class="text-sm text-secondary">Source: sazi.life</p>
+                                        </div>
+                                        <div class="flex space-x-2 text-secondary">
+                                            <button class="hover:text-primary"><i class="fas fa-pencil-alt"></i></button>
+                                            <button class="hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                        </div>
                                     </div>
-                                    <div class="flex space-x-2 text-secondary">
-                                        <button class="hover:text-primary"><i class="fas fa-pencil-alt"></i></button>
-                                        <button class="hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                </div>
+                                 <!-- Example Entry 2 -->
+                                <div class="border border-input-border p-4 rounded-lg">
+                                    <div class="flex justify-between items-start">
+                                        <div>
+                                            <span class="text-xs font-semibold uppercase tracking-wider text-orange-400">Portfolio</span>
+                                            <p class="font-bold text-lg">Generated Safety Plan for ABC Construction</p>
+                                            <p class="text-sm text-secondary">Source: SafetyHelp</p>
+                                        </div>
+                                        <div class="flex space-x-2 text-secondary">
+                                            <button class="hover:text-primary"><i class="fas fa-pencil-alt"></i></button>
+                                            <button class="hover:text-red-500"><i class="fas fa-trash"></i></button>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                </div>
 
-                <!-- Side Column -->
-                <div class="space-y-6">
-                    <div class="card p-6 rounded-xl shadow-lg">
-                        <h2 class="text-xl font-bold mb-4">Add Manual Entry</h2>
-                        <form id="add-entry-form" class="space-y-4">
-                            <div>
-                                <label for="entry-type" class="block text-sm font-medium text-secondary">Entry Type</label>
-                                <select id="entry-type" class="input-field w-full mt-1">
-                                    <option>Experience</option>
-                                    <option>Skill</option>
-                                    <option>Education</option>
-                                    <option>Portfolio</option>
-                                    <option>Contribution</option>
-                                </select>
-                            </div>
-                            <div>
-                                <label for="entry-title" class="block text-sm font-medium text-secondary">Title</label>
-                                <input type="text" id="entry-title" class="input-field w-full mt-1" placeholder="e.g., Project Manager">
-                            </div>
-                            <div>
-                                <label for="entry-description" class="block text-sm font-medium text-secondary">Description</label>
-                                <textarea id="entry-description" rows="3" class="input-field w-full mt-1" placeholder="Describe your achievement..."></textarea>
-                            </div>
-                            <button type="submit" class="btn-primary w-full">Add to LifeCV</button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-
-        <div id="footer-placeholder"></div>
-    </main>
-    
-    <script type="module" src="../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'My LifeCV';
-                document.getElementById('page-subtitle').textContent = 'Your dynamic, holistic portfolio of skills and experiences.';
-            }, 100);
-        });
-    </script>
-</body>
-</html>
-```html
-<!-- File: /dashboard/profile.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>My Profile - Sazi Ecosystem</title>
-    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
-</head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-        <!-- ... -->
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        
-        <div class="flex-grow">
-            <div class="card p-6 rounded-xl shadow-lg max-w-2xl mx-auto">
-                <form id="profile-form" class="space-y-4">
-                    <div>
-                        <label for="profile-name" class="block text-sm font-medium text-secondary">Full Name</label>
-                        <input type="text" id="profile-name" class="input-field w-full mt-1">
-                    </div>
-                    <div>
-                        <label for="profile-email" class="block text-sm font-medium text-secondary">Email Address</label>
-                        <input type="email" id="profile-email" class="input-field w-full mt-1" disabled>
-                         <p class="text-xs text-secondary mt-1">Email cannot be changed.</p>
-                    </div>
-                    <!-- Add other profile fields here -->
-                    <div class="flex justify-end pt-4">
-                        <button type="submit" class="btn-primary">Save Profile</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div id="footer-placeholder"></div>
-    </main>
-    
-    <script type="module" src="../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'My Profile';
-                document.getElementById('page-subtitle').textContent = 'Manage your personal information for the Sazi Ecosystem.';
-            }, 100);
-        });
-    </script>
-</body>
-</html>
-```html
-<!-- File: /dashboard/settings.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Settings - Sazi Ecosystem</title>
-    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
-</head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-        <!-- ... -->
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        
-        <div class="flex-grow">
-             <div class="card p-6 rounded-xl shadow-lg max-w-2xl mx-auto">
-                <div class="space-y-6">
-                    <!-- Notification Settings -->
-                    <div>
-                        <h3 class="text-lg font-semibold">Notifications</h3>
-                        <div class="mt-2 space-y-2">
-                            <label class="flex items-center">
-                                <input type="checkbox" class="h-4 w-4 rounded border-input-border bg-input-bg text-accent-color focus:ring-accent-color">
-                                <span class="ml-2 text-sm">Email me about new course assignments.</span>
-                            </label>
-                            <label class="flex items-center">
-                                <input type="checkbox" class="h-4 w-4 rounded border-input-border bg-input-bg text-accent-color focus:ring-accent-color">
-                                <span class="ml-2 text-sm">Notify me of activity in my community hub.</span>
-                            </label>
-                        </div>
-                    </div>
-                     <!-- Account Actions -->
-                    <div>
-                        <h3 class="text-lg font-semibold">Account</h3>
-                        <p class="text-sm text-secondary">Manage your account data and security.</p>
-                        <div class="mt-4 space-y-2">
-                            <button class="btn-secondary text-sm">Change Password</button>
-                            <button class="text-red-500 hover:underline text-sm ml-4">Delete My Account</button>
+                    <!-- Side Column -->
+                    <div class="space-y-6">
+                        <div class="card p-6 rounded-xl shadow-lg">
+                            <h2 class="text-xl font-bold mb-4">Add Manual Entry</h2>
+                            <form id="add-entry-form" class="space-y-4">
+                                <div>
+                                    <label for="entry-type" class="block text-sm font-medium text-secondary">Entry Type</label>
+                                    <select id="entry-type" class="input-field w-full mt-1">
+                                        <option>Experience</option>
+                                        <option>Skill</option>
+                                        <option>Education</option>
+                                        <option>Portfolio</option>
+                                        <option>Contribution</option>
+                                    </select>
+                                </div>
+                                <div>
+                                    <label for="entry-title" class="block text-sm font-medium text-secondary">Title</label>
+                                    <input type="text" id="entry-title" class="input-field w-full mt-1" placeholder="e.g., Project Manager">
+                                </div>
+                                <div>
+                                    <label for="entry-description" class="block text-sm font-medium text-secondary">Description</label>
+                                    <textarea id="entry-description" rows="3" class="input-field w-full mt-1" placeholder="Describe your achievement..."></textarea>
+                                </div>
+                                <button type="submit" class="btn-primary w-full">Add to LifeCV</button>
+                            </form>
                         </div>
                     </div>
                 </div>
+
+            </main>
+
+            <!-- Footer Placeholder -->
+            <div id="footer-placeholder">
+                <!-- Footer will be loaded here by JS -->
             </div>
         </div>
+    </div>
 
-        <div id="footer-placeholder"></div>
-    </main>
-    
+    <!-- Main Dashboard Script -->
     <script type="module" src="../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'Settings';
-                document.getElementById('page-subtitle').textContent = 'Manage your account and notification preferences.';
-            }, 100);
-        });
-    </script>
+
 </body>
 </html>
