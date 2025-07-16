@@ -3,54 +3,60 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard - Sazi.life</title>
-    <!-- Absolute path to CSS -->
-    <link rel="stylesheet" href="dashboard/assets/css/dashboard-styles.css">
+    <title>Sazi.life Dashboard</title>
+    
+    <!-- Tailwind CSS is used by your script for styling -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons used in your script -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom styles for the dashboard and dark mode support -->
+    <style>
+        body { transition: background-color 0.3s, color 0.3s; }
+        .dark { background-color: #1a202c; color: #e2e8f0; }
+        .dark .bg-white { background-color: #2d3748; }
+        .dark .bg-gray-50 { background-color: #171923; }
+        .dark .bg-gray-100 { background-color: #2d3748; }
+        .dark .text-gray-400 { color: #a0aec0; }
+        .dark .text-gray-500 { color: #a0aec0; }
+        .dark .text-gray-800 { color: #e2e8f0; }
+        .dark .shadow-sm { box-shadow: 0 1px 2px 0 rgba(255, 255, 255, 0.05); }
+        .dark .border, .dark .divide-y > :not([hidden]) ~ :not([hidden]) { border-color: #4a5568; }
+        .dark input, .dark textarea { background-color: #4a5568; border-color: #718096; }
+        .sidebar-link.active { background-color: #4299e1; color: white; }
+        .dark .sidebar-link.active { background-color: #2b6cb0; }
+    </style>
 </head>
-<body>
-    <!-- The header will be dynamically loaded here -->
-    <header id="dashboard-header"></header>
+<body class="bg-gray-50">
 
-    <main class="container">
-        <section class="content-section">
-            <h2>Welcome to your Sazi.life Dashboard</h2>
-            <p>This is your central hub for managing all aspects of your digital presence and professional life.</p>
-            <p>Use the navigation menu above to access your Profile, LifeCV, Publications, and more.</p>
-        </section>
+    <div id="app-container" class="flex h-screen">
+        <!-- Sidebar for navigation -->
+        <div id="sidebar" class="bg-white shadow-md">
+            <!-- Sidebar content will be loaded here by JS -->
+        </div>
 
-        <section class="content-section quick-links">
-            <h3>Quick Links</h3>
-            <div class="grid-container">
-                <!-- Correct, absolute paths for navigation -->
-                <a href="dashboard/profile.html" class="grid-item">
-                    <h4>My Profile</h4>
-                    <p>Update your personal information and settings.</p>
-                </a>
-                <a href="dashboard/life-cv/life-cv.html" class="grid-item">
-                    <h4>LifeCV</h4>
-                    <p>Manage your dynamic curriculum vitae.</p>
-                </a>
-                <a href="dashboard/publications/index.html" class="grid-item">
-                    <h4>Publications</h4>
-                    <p>Create and manage your articles and papers.</p>
-                </a>
-                <a href="dashboard/assets/index.html" class="grid-item">
-                    <h4>Asset Hub</h4>
-                    <p>Access your stored documents and media.</p>
-                </a>
-                <a href="dashboard/activity.html" class="grid-item">
-                    <h4>Activity Feed</h4>
-                    <p>See the latest updates and notifications.</p>
-                </a>
-                <a href="dashboard/training/index.html" class="grid-item">
-                    <h4>Training</h4>
-                    <p>Access and manage training materials.</p>
-                </a>
+        <!-- Main content area -->
+        <div class="flex-1 flex flex-col">
+            <!-- Header for user actions -->
+            <div id="header">
+                <!-- Header content will be loaded here by JS -->
             </div>
-        </section>
-    </main>
 
-    <!-- Absolute path to JS -->
-    <script src="/dashboard/assets/js/dashboard.js"></script>
+            <!-- Scrollable main content -->
+            <main id="main-content" class="flex-1 p-6 overflow-y-auto">
+                <div class='py-8 text-center text-gray-400'>Loading Dashboard...</div>
+            </main>
+
+            <!-- Footer -->
+            <div id="footer">
+                <!-- Footer content will be loaded here by JS -->
+            </div>
+        </div>
+    </div>
+
+    <!-- The single, updated dashboard script -->
+    <script type="module" src="/assets/js/dashboard.js"></script>
+
 </body>
 </html>
