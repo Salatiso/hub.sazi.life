@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Assets - FinanceHelp</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Asset Register - The Hub</title>
     <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
-</head>
+    </head>
 <body class="theme-default">
     <div id="app-container" class="flex h-screen bg-main text-primary">
         <div id="sidebar-placeholder"></div>
@@ -18,41 +16,30 @@
                     <h1 class="text-3xl font-bold font-poppins text-primary">Asset Register</h1>
                     <p class="text-secondary">A complete record of everything you own.</p>
                 </header>
-
                 <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Add Asset Form -->
                     <div class="lg:col-span-1">
                         <div class="card p-6 rounded-xl">
                             <h2 class="text-xl font-bold mb-4">Add a New Asset</h2>
                             <form id="add-asset-form" class="space-y-4">
-                                <div>
-                                    <label for="name" class="block text-sm font-medium text-secondary">Asset Name</label>
-                                    <input type="text" name="name" id="name" class="input-field w-full mt-1" placeholder="e.g., Toyota Hilux" required>
-                                </div>
-                                <div>
-                                    <label for="assetType" class="block text-sm font-medium text-secondary">Asset Type</label>
-                                    <select name="assetType" id="assetType" class="input-field w-full mt-1">
-                                        <option>Movable</option>
-                                        <option>Immovable</option>
-                                        <option>Financial</option>
-                                        <option>Business</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="currentValue" class="block text-sm font-medium text-secondary">Current Value (R)</label>
-                                    <input type="number" name="currentValue" id="currentValue" class="input-field w-full mt-1" required>
-                                </div>
-                                <button type="submit" class="btn-primary w-full !mt-6">Save Asset</button>
-                            </form>
+                                </form>
                         </div>
                     </div>
-                    <!-- Asset List -->
                     <div class="lg:col-span-2">
                         <div class="card p-6 rounded-xl">
                             <h2 class="text-xl font-bold mb-4">My Assets</h2>
                             <div id="assets-list" class="space-y-3">
-                                <!-- Assets will be loaded here by JS -->
-                                <p class="text-secondary text-center py-4">Loading assets...</p>
+                                <div class="bg-main p-4 rounded-lg flex justify-between items-center">
+                                    <div>
+                                        <h4 class="font-bold text-primary">Toyota Hilux</h4>
+                                        <p class="text-sm text-secondary">Movable</p>
+                                    </div>
+                                    <div class="flex items-center gap-4">
+                                        <p class="text-lg font-semibold text-primary">R 250,000</p>
+                                        <a href="/hub.sazi.life/dashboard/public-pages/editor.html?assetId=123" class="btn-primary text-xs !p-2" title="Publish this Asset">
+                                            <i class="fas fa-bullhorn"></i>
+                                        </a>
+                                    </div>
+                                </div>
                             </div>
                         </div>
                     </div>

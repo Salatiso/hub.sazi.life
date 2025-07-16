@@ -3,11 +3,9 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Public Page Editor - Sazi Ecosystem</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <title>Public Page Editor - The Hub</title>
     <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
-</head>
+    </head>
 <body class="theme-default">
     <div id="app-container" class="flex h-screen bg-main text-primary">
         <div id="sidebar-placeholder"></div>
@@ -15,49 +13,28 @@
             <div id="header-placeholder"></div>
             <main id="main-content" class="flex-1 overflow-y-auto p-8">
                 <header class="mb-6">
-                    <h1 class="text-3xl font-bold font-poppins text-primary">Public Page Editor</h1>
-                    <p class="text-secondary">Create a beautiful, shareable page for your asset or profile.</p>
+                    <h1 class="text-3xl font-bold font-poppins text-primary">Publishing Wizard</h1>
+                    <p class="text-secondary">Create a beautiful, shareable page for your asset.</p>
                 </header>
-
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-                    <!-- Left Column: Form / Wizard -->
-                    <div class="lg:col-span-1">
-                        <div class="card p-6 rounded-xl space-y-6">
-                            <div>
-                                <label for="asset-select" class="block text-sm font-bold text-secondary">1. Select Asset to Publish</label>
-                                <select id="asset-select" class="input-field w-full mt-1">
-                                    <option>Select an asset...</option>
-                                    <!-- Options will be loaded by JS -->
-                                </select>
+                <div class="card p-6 rounded-xl max-w-3xl mx-auto">
+                    <div id="publish-wizard" class="space-y-6">
+                        <div class="wizard-step active" data-step="1">
+                            <h3 class="text-lg font-semibold">Step 1: What is your goal?</h3>
+                            <div class="mt-4 grid grid-cols-2 gap-4">
+                                <button class="wizard-choice-btn p-6 text-center border rounded-lg hover:border-primary"><i class="fas fa-tag text-3xl mb-2"></i><span>Sell this Item</span></button>
+                                <button class="wizard-choice-btn p-6 text-center border rounded-lg hover:border-primary"><i class="fas fa-key text-3xl mb-2"></i><span>Rent out this Property</span></button>
                             </div>
-                            <div>
-                                <label for="template-select" class="block text-sm font-bold text-secondary">2. Choose a Template</label>
-                                <div id="template-select" class="grid grid-cols-2 gap-2 mt-2">
-                                    <div class="template-option border-2 border-accent-color rounded-lg p-2 text-center cursor-pointer" data-template="professional-profile">
-                                        <i class="fas fa-user-tie text-2xl"></i>
-                                        <span class="text-xs block mt-1">Professional</span>
-                                    </div>
-                                    <div class="template-option border-2 border-transparent rounded-lg p-2 text-center cursor-pointer" data-template="homely-rental">
-                                        <i class="fas fa-couch text-2xl"></i>
-                                        <span class="text-xs block mt-1">Homely</span>
-                                    </div>
-                                </div>
-                            </div>
-                             <div>
-                                <label for="page-headline" class="block text-sm font-bold text-secondary">3. Add Public Details</label>
-                                <input type="text" id="page-headline" class="input-field w-full mt-1" placeholder="Public Headline...">
-                                <textarea id="page-description" rows="4" class="input-field w-full mt-2" placeholder="Public description..."></textarea>
-                            </div>
-                            <button id="publish-btn" class="btn-primary w-full !mt-8">Publish Page</button>
                         </div>
-                    </div>
-
-                    <!-- Right Column: Live Preview -->
-                    <div class="lg:col-span-2">
-                        <div class="card p-2 rounded-xl">
-                           <div class="bg-main rounded-lg w-full h-full min-h-[600px] overflow-hidden">
-                               <iframe id="preview-frame" class="w-full h-full border-0"></iframe>
-                           </div>
+                        <div class="wizard-step" data-step="2">
+                            <h3 class="text-lg font-semibold">Step 2: Choose a Template</h3>
+                            </div>
+                        <div class="wizard-step" data-step="3">
+                             <h3 class="text-lg font-semibold">Step 3: Add Public Details</h3>
+                             </div>
+                         <div class="wizard-step" data-step="4">
+                            <h3 class="text-lg font-semibold">Step 4: Review & Publish</h3>
+                            <p class="text-secondary mb-4">Your page is ready. Once published, you'll get a shareable link.</p>
+                            <button id="publish-now-btn" class="btn-primary w-full">Publish Now</button>
                         </div>
                     </div>
                 </div>

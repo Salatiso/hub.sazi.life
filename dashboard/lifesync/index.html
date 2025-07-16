@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>LifeSync - The Hub</title>
+    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
+    </head>
+<body class="theme-default">
+     <div id="app-container" class="flex h-screen bg-main text-primary">
+        <div id="sidebar-placeholder"></div>
+        <div class="flex-1 flex flex-col">
+            <div id="header-placeholder"></div>
+            <main id="main-content" class="flex-1 overflow-y-auto p-8 text-center">
+                 <header class="mb-6">
+                    <h1 class="text-3xl font-bold font-poppins text-primary">LifeSync Compatibility Engine</h1>
+                    <p class="text-secondary max-w-2xl mx-auto">Understand yourself and your relationships on a deeper level. Start by taking a personal assessment or invite a partner to sync profiles.</p>
+                </header>
+                <div class="flex justify-center gap-4">
+                    <a href="assessment.html" class="btn-primary">Take Personal Assessment</a>
+                    <button id="invite-partner-btn" class="btn-secondary">Invite Partner to Sync</button>
+                </div>
+                <div class="mt-8 card p-6 rounded-xl max-w-3xl mx-auto hidden" id="compatibility-report-container">
+                    <h2 class="text-xl font-bold">Your Compatibility Report</h2>
+                    </div>
+            </main>
+            <div id="footer-placeholder"></div>
+        </div>
+    </div>
+    <script type="module" src="../../assets/js/dashboard.js"></script>
+</body>
+</html>
