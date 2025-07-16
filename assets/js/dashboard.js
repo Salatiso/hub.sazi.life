@@ -1,8 +1,7 @@
-// File: /assets/js/dashboard.js (Corrected)
+// File: /assets/js/dashboard.js (Cleaned)
 
 /*
   This file contains the shared JavaScript for the entire Sazi Ecosystem dashboard.
-  It now includes the complete logic for the Profile, LifeCV, Asset, and Public Pages hubs.
 */
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
@@ -36,13 +35,14 @@ const loadComponent = async (componentPath, placeholderId) => {
         placeholder.innerHTML = `<p class="text-red-500">Error loading ${placeholderId}.</p>`;
     }
 };
+
 const setupDropdown = (containerId, buttonId, menuId) => {
     const container = document.getElementById(containerId);
     if (!container) return;
     const button = document.getElementById(buttonId);
     const menu = document.getElementById(menuId);
 
-    if(button && menu) {
+    if (button && menu) {
         button.addEventListener('click', (event) => {
             event.stopPropagation();
             menu.classList.toggle('hidden');
@@ -55,6 +55,7 @@ const setupDropdown = (containerId, buttonId, menuId) => {
         }
     });
 };
+
 const setupThemeSwitcher = () => {
     const htmlEl = document.documentElement;
     const applyTheme = (theme) => {
@@ -66,9 +67,9 @@ const setupThemeSwitcher = () => {
     const lightBtn = document.getElementById('theme-toggle-light');
     const childBtn = document.getElementById('theme-toggle-child');
 
-    if(darkBtn) darkBtn.addEventListener('click', () => applyTheme('dark'));
-    if(lightBtn) lightBtn.addEventListener('click', () => applyTheme('light'));
-    if(childBtn) childBtn.addEventListener('click', () => applyTheme('theme-child-vibrant'));
+    if (darkBtn) darkBtn.addEventListener('click', () => applyTheme('dark'));
+    if (lightBtn) lightBtn.addEventListener('click', () => applyTheme('light'));
+    if (childBtn) childBtn.addEventListener('click', () => applyTheme('theme-child-vibrant'));
 
     const savedTheme = localStorage.getItem('theme') || 'dark';
     applyTheme(savedTheme);
@@ -76,29 +77,33 @@ const setupThemeSwitcher = () => {
 
 // --- Main Initialization on DOMContentLoaded ---
 document.addEventListener('DOMContentLoaded', async () => {
-    // Determine path prefix for loading components based on directory depth
     const pathSegments = window.location.pathname.split('/').filter(Boolean);
     const dashboardIndex = pathSegments.indexOf('dashboard');
     const depth = dashboardIndex !== -1 ? pathSegments.length - dashboardIndex - 1 : 0;
-    const pathPrefix = '../'.repeat(depth);
+    const pathPrefix = '../'.repeat(depth) || './'; // Fallback for root
 
+    // Load components and setup UI
+    try {
+        await Promise.all([
+            loadComponent(`${pathPrefix}components/header.html`, 'header-placeholder'),
+            loadComponent(`${pathPrefix}components/footer.html`, 'footer-placeholder'),
+        ]);
+        // These might be inside the header, so wait for it to load
+        await Promise.all([
+            loadComponent(`${pathPrefix}components/language-switcher.html`, 'language-switcher-placeholder'),
+            loadComponent(`${pathPrefix}components/theme-switcher.html`, 'theme-switcher-placeholder')
+        ]);
 
-    await Promise.all([
-        loadComponent(`${pathPrefix}components/header.html`, 'header-placeholder'),
-        loadComponent(`${pathPrefix}components/footer.html`, 'footer-placeholder'),
-    ]);
-    await Promise.all([
-        loadComponent(`${pathPrefix}components/language-switcher.html`, 'language-switcher-placeholder'),
-        loadComponent(`${pathPrefix}components/theme-switcher.html`, 'theme-switcher-placeholder')
-    ]);
+        setupDropdown('ecosystem-dropdown-container', 'ecosystem-btn', 'ecosystem-menu');
+        setupDropdown('language-dropdown-container', 'language-btn', 'language-menu');
+        setupThemeSwitcher();
 
-    setupDropdown('ecosystem-dropdown-container', 'ecosystem-btn', 'ecosystem-menu');
-    setupDropdown('language-dropdown-container', 'language-btn', 'language-menu');
-    setupThemeSwitcher();
-
-    const logoutButton = document.getElementById('logout-btn');
-    if (logoutButton) {
-        logoutButton.addEventListener('click', () => signOut(auth));
+        const logoutButton = document.getElementById('logout-btn');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', () => signOut(auth));
+        }
+    } catch (error) {
+        console.error("Error setting up base UI:", error);
     }
 
     // --- Page Specific Logic Router ---
@@ -123,21 +128,28 @@ const showMessage = (elementId, message, isError = false) => {
     setTimeout(() => messageDiv.classList.add('hidden'), 3000);
 };
 
-// --- Profile & LifeCV Page Logic (Placeholder, add your full implementation) ---
-const initializeProfilePage = () => { console.log("Profile page initialized."); };
-const initializeLifeCvPage = () => { console.log("LifeCV page initialized."); };
+// --- Page Initialization Functions ---
 
-// --- Asset Hub Logic ---
-const initializeAssetsIndexPage = () => {
+function initializeProfilePage() {
+    console.log("Profile page initialized.");
+    // Add your profile page specific logic here
+};
+
+function initializeLifeCvPage() {
+    console.log("LifeCV page initialized.");
+    // Add your LifeCV page specific logic here
+};
+
+function initializeAssetsIndexPage() {
     onAuthStateChanged(auth, user => {
         if (user) {
-            // This function would fetch and display lists of properties, vehicles, etc.
             console.log("Asset Index Page Initialized for user:", user.uid);
+            // Logic to fetch and display lists of assets
         }
     });
 };
 
-const initializeAssetEditorPage = (assetType) => {
+function initializeAssetEditorPage(assetType) {
     const assetForm = document.getElementById('asset-form');
     if (!assetForm) return;
 
@@ -145,21 +157,21 @@ const initializeAssetEditorPage = (assetType) => {
     const assetId = urlParams.get('id');
     const isNew = !assetId;
 
-    // Dynamically set titles
-    const assetTitle = assetType.charAt(0).toUpperCase() + assetType.slice(1, -1); // e.g. 'Propertie' -> 'Property'
-    document.getElementById('page-title').textContent = isNew ? `Add New ${assetTitle}` : `Edit ${assetTitle}`;
-    document.getElementById('page-subtitle').textContent = `Manage your ${assetType} records.`;
+    const assetTitle = assetType.charAt(0).toUpperCase() + assetType.slice(1, -1);
+    // Note: These title elements might not exist on all pages, check for them.
+    const pageTitleEl = document.getElementById('page-title');
+    const pageSubtitleEl = document.getElementById('page-subtitle');
+    if (pageTitleEl) pageTitleEl.textContent = isNew ? `Add New ${assetTitle}` : `Edit ${assetTitle}`;
+    if (pageSubtitleEl) pageSubtitleEl.textContent = `Manage your ${assetType} records.`;
 
     onAuthStateChanged(auth, async (user) => {
         if (user && !isNew) {
-            // Fetch and populate form if editing
             const assetRef = doc(db, "users", user.uid, "assets", assetType, assetId);
             const docSnap = await getDoc(assetRef);
             if (docSnap.exists()) {
                 const data = docSnap.data();
-                // Populate form fields...
                 assetForm['asset-name'].value = data.assetName || '';
-                // ... and so on for all fields.
+                // Populate other form fields...
             }
         }
     });
@@ -201,20 +213,19 @@ const initializeAssetEditorPage = (assetType) => {
     });
 };
 
-// --- Public Pages Hub Logic ---
-const initializePublicPagesIndex = () => {
-    // Logic to fetch and display a list of the user's created public pages
+function initializePublicPagesIndex() {
     console.log("Public Pages Index initialized.");
+    // Logic to fetch and display a list of the user's created public pages
 };
 
-const initializePublicPageEditor = () => {
+function initializePublicPageEditor() {
     const publicPageForm = document.getElementById('public-page-form');
     if (!publicPageForm) return;
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            // Logic to fetch user's assets (properties, vehicles) to populate the checklist
             const assetsContainer = document.getElementById('assets-checklist');
+            if (!assetsContainer) return;
             const assetTypes = ['properties', 'vehicles', 'companies'];
             assetsContainer.innerHTML = ''; // Clear
 
@@ -253,7 +264,6 @@ const initializePublicPageEditor = () => {
         };
 
         try {
-            // Save this data to a top-level 'publicPages' collection
             await addDoc(collection(db, "publicPages"), pageData);
             showMessage('public-page-message', "Public page saved successfully!");
         } catch (error) {
