@@ -1,4 +1,4 @@
-// File: /assets/js/dashboard.js (Updated)
+// File: /assets/js/dashboard.js (Corrected)
 
 /*
   This file contains the shared JavaScript for the entire Sazi Ecosystem dashboard.
@@ -22,7 +22,7 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
-// --- Component Loader & UI Setup (from previous turns, unchanged) ---
+// --- Component Loader & UI Setup ---
 const loadComponent = async (componentPath, placeholderId) => {
     const placeholder = document.getElementById(placeholderId);
     if (!placeholder) return;
@@ -76,10 +76,12 @@ const setupThemeSwitcher = () => {
 
 // --- Main Initialization on DOMContentLoaded ---
 document.addEventListener('DOMContentLoaded', async () => {
-    // Component loading logic...
+    // Determine path prefix for loading components based on directory depth
     const pathSegments = window.location.pathname.split('/').filter(Boolean);
-    const depth = pathSegments.includes('dashboard') ? pathSegments.length - pathSegments.indexOf('dashboard') - 1 : 0;
-    const pathPrefix = '../../'.repeat(depth);
+    const dashboardIndex = pathSegments.indexOf('dashboard');
+    const depth = dashboardIndex !== -1 ? pathSegments.length - dashboardIndex - 1 : 0;
+    const pathPrefix = '../'.repeat(depth);
+
 
     await Promise.all([
         loadComponent(`${pathPrefix}components/header.html`, 'header-placeholder'),
@@ -121,16 +123,15 @@ const showMessage = (elementId, message, isError = false) => {
     setTimeout(() => messageDiv.classList.add('hidden'), 3000);
 };
 
-// --- Profile & LifeCV Page Logic (from previous turns) ---
-const initializeProfilePage = () => { /* ... */ };
-const initializeLifeCvPage = () => { /* ... */ };
+// --- Profile & LifeCV Page Logic (Placeholder, add your full implementation) ---
+const initializeProfilePage = () => { console.log("Profile page initialized."); };
+const initializeLifeCvPage = () => { console.log("LifeCV page initialized."); };
 
 // --- Asset Hub Logic ---
 const initializeAssetsIndexPage = () => {
     onAuthStateChanged(auth, user => {
         if (user) {
             // This function would fetch and display lists of properties, vehicles, etc.
-            // For brevity, we'll just confirm it's loaded.
             console.log("Asset Index Page Initialized for user:", user.uid);
         }
     });
@@ -145,7 +146,7 @@ const initializeAssetEditorPage = (assetType) => {
     const isNew = !assetId;
 
     // Dynamically set titles
-    const assetTitle = assetType.charAt(0).toUpperCase() + assetType.slice(1, -1);
+    const assetTitle = assetType.charAt(0).toUpperCase() + assetType.slice(1, -1); // e.g. 'Propertie' -> 'Property'
     document.getElementById('page-title').textContent = isNew ? `Add New ${assetTitle}` : `Edit ${assetTitle}`;
     document.getElementById('page-subtitle').textContent = `Manage your ${assetType} records.`;
 
@@ -203,6 +204,7 @@ const initializeAssetEditorPage = (assetType) => {
 // --- Public Pages Hub Logic ---
 const initializePublicPagesIndex = () => {
     // Logic to fetch and display a list of the user's created public pages
+    console.log("Public Pages Index initialized.");
 };
 
 const initializePublicPageEditor = () => {
@@ -260,192 +262,3 @@ const initializePublicPageEditor = () => {
         }
     });
 };
-```html
-<!-- File: /dashboard/assets/properties/editor.html (Updated) -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Manage Property - Sazi Ecosystem</title>
-    <link rel="stylesheet" href="../../../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
-    <script src="[https://cdn.tailwindcss.com](https://cdn.tailwindcss.com)"></script>
-    <link rel="stylesheet" href="[https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css](https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css)">
-    <link href="[https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap](https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap)" rel="stylesheet">
-</head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-        <!-- Sidebar content -->
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        
-        <div class="flex-grow">
-            <div class="card p-6 rounded-xl shadow-lg max-w-4xl mx-auto">
-                <div id="asset-message" class="hidden"></div>
-                <!-- NOTE: This form is a template. The labels and placeholders would be
-                     dynamically adjusted by JavaScript based on the asset type (property, vehicle, etc.) -->
-                <form id="asset-form" class="space-y-6">
-                    <!-- Private Record Keeping Section -->
-                    <div>
-                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">Private Records (Not for public view)</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label for="asset-name" class="block text-sm font-medium text-secondary">Property Nickname</label>
-                                <input type="text" id="asset-name" name="asset-name" class="input-field w-full mt-1" placeholder="e.g., My Main Home">
-                            </div>
-                            <div>
-                                <label for="asset-type" class="block text-sm font-medium text-secondary">Property Type</label>
-                                <input type="text" id="asset-type" name="asset-type" class="input-field w-full mt-1" placeholder="e.g., House, Apartment">
-                            </div>
-                            <div>
-                                <label for="asset-purchase-date" class="block text-sm font-medium text-secondary">Purchase Date</label>
-                                <input type="date" id="asset-purchase-date" name="asset-purchase-date" class="input-field w-full mt-1">
-                            </div>
-                            <div>
-                                <label for="asset-purchase-price" class="block text-sm font-medium text-secondary">Purchase Price (R)</label>
-                                <input type="number" id="asset-purchase-price" name="asset-purchase-price" class="input-field w-full mt-1">
-                            </div>
-                             <div class="md:col-span-2">
-                                <label for="asset-deed-info" class="block text-sm font-medium text-secondary">Deed / Legal Info</label>
-                                <textarea id="asset-deed-info" name="asset-deed-info" rows="2" class="input-field w-full mt-1" placeholder="Deeds Office Ref: T12345/2020"></textarea>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Public Classifieds Section -->
-                    <div>
-                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">Public Classifieds Data</h3>
-                        <p class="text-xs text-secondary mb-4 -mt-2">This information will only be shown on your public pages if you choose to feature this asset.</p>
-                        <div class="space-y-4">
-                            <div>
-                                <label for="public-headline" class="block text-sm font-medium text-secondary">Public Headline</label>
-                                <input type="text" id="public-headline" name="public-headline" class="input-field w-full mt-1" placeholder="e.g., Spacious 3-Bedroom House for Sale">
-                            </div>
-                             <div>
-                                <label for="public-price" class="block text-sm font-medium text-secondary">Sale/Rental Price (R)</label>
-                                <input type="number" id="public-price" name="public-price" class="input-field w-full mt-1">
-                            </div>
-                            <div>
-                                <label for="public-description" class="block text-sm font-medium text-secondary">Public Description</label>
-                                <textarea id="public-description" name="public-description" rows="4" class="input-field w-full mt-1" placeholder="A beautiful family home with a large garden..."></textarea>
-                            </div>
-                            <div>
-                                <label for="public-photos" class="block text-sm font-medium text-secondary">Upload Photos</label>
-                                <input type="file" id="public-photos" name="public-photos" multiple class="input-field w-full mt-1 file:mr-4 file:py-2 file:px-4 file:rounded-full file:border-0 file:text-sm file:font-semibold file:bg-accent-color/10 file:text-accent-color hover:file:bg-accent-color/20">
-                            </div>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end pt-4">
-                        <button type="button" class="btn-secondary mr-2">Cancel</button>
-                        <button type="submit" class="btn-primary">Save Property Details</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div id="footer-placeholder"></div>
-    </main>
-    
-    <script type="module" src="../../../assets/js/dashboard.js"></script>
-</body>
-</html>
-```html
-<!-- File: /dashboard/public-pages/editor.html (Updated) -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Manage Public Page - Sazi Ecosystem</title>
-    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
-</head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-        <!-- ... -->
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        
-        <div class="flex-grow">
-            <div class="card p-6 rounded-xl shadow-lg max-w-4xl mx-auto">
-                <div id="public-page-message" class="hidden"></div>
-                <form id="public-page-form" class="space-y-8">
-                    <!-- Page Settings -->
-                    <div>
-                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">1. Page Settings</h3>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div>
-                                <label for="page-title-input" class="block text-sm font-medium text-secondary">Page Title</label>
-                                <input type="text" id="page-title-input" name="page-title-input" class="input-field w-full mt-1" placeholder="e.g., My Car Sale" required>
-                            </div>
-                            <div>
-                                <label for="page-url" class="block text-sm font-medium text-secondary">Custom URL</label>
-                                <div class="flex items-center mt-1">
-                                    <span class="text-sm text-secondary pr-2">hub.sazi.life/public/</span>
-                                    <input type="text" id="page-url" name="page-url" class="input-field w-full" placeholder="my-car-sale" required>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Template Selection -->
-                    <div>
-                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">2. Choose a Template</h3>
-                        <div class="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-4">
-                            <!-- Example Template -->
-                            <label class="cursor-pointer">
-                                <input type="radio" name="template" value="modern-grid" class="sr-only" checked>
-                                <div class="p-2 border-2 border-accent-color rounded-lg text-center">
-                                    <i class="fas fa-th-large text-3xl mb-2"></i>
-                                    <span class="block text-xs font-semibold">Modern Grid</span>
-                                </div>
-                            </label>
-                            <!-- Other templates would go here -->
-                        </div>
-                    </div>
-                    <!-- Link Assets -->
-                    <div>
-                        <h3 class="text-lg font-semibold border-b border-input-border pb-2 mb-4">3. Link Your Assets</h3>
-                        <div id="assets-checklist" class="space-y-2">
-                            <p class="text-secondary text-sm">Loading your assets...</p>
-                        </div>
-                    </div>
-
-                    <div class="flex justify-end pt-4">
-                        <button type="button" class="btn-secondary mr-2">Save as Draft</button>
-                        <button type="submit" class="btn-primary">Publish Page</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-
-        <div id="footer-placeholder"></div>
-    </main>
-    
-    <script>
-    const script = document.createElement('script');
-      script.type = 'module';
-      script.src = `${window.location.origin}/assets/js/dashboard.js`;
-    document.body.appendChild(script);
-    </script>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'Manage Public Page';
-                document.getElementById('page-subtitle').textContent = 'Create and configure your public-facing classifieds page.';
-            }, 100);
-        });
-    </script>
-</body>
-</html>
