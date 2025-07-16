@@ -1,171 +1,82 @@
-/* File: /assets/css/dashboard-styles.css */
+/* assets/css/dashboard-styles.css */
 
-/* This file contains the shared styles for the entire Sazi Ecosystem dashboard.
-  It defines the color variables for the different themes and common component styles.
-*/
-
-:root {
-    --sidebar-bg: #1e293b; /* slate-800 */
-    --main-bg: #0f172a; /* slate-900 */
-    --card-bg: #1e293b; /* slate-800 */
-    --text-primary: #f1f5f9; /* slate-100 */
-    --text-secondary: #94a3b8; /* slate-400 */
-    --accent-color: #38bdf8; /* sky-400 */
-    --input-bg: #334155; /* slate-700 */
-    --input-border: #475569; /* slate-600 */
-    --btn-primary-bg: #2563eb; /* blue-600 */
-    --btn-primary-hover-bg: #1d4ed8; /* blue-700 */
-    --btn-secondary-bg: #475569; /* slate-600 */
-    --btn-secondary-hover-bg: #64748b; /* slate-500 */
+/* Default Dark Theme (as a base) */
+:root, .theme-default {
+  --main-bg: #111827; /* gray-900 */
+  --sidebar-bg: #1f2937; /* gray-800 */
+  --card-bg: #1f2937; /* gray-800 */
+  --text-primary: #f9fafb; /* gray-50 */
+  --text-secondary: #9ca3af; /* gray-400 */
+  --border-color: #374151; /* gray-700 */
+  --accent-color: #3b82f6; /* blue-500 */
+  --accent-text: #ffffff;
 }
 
-html.light {
-    --sidebar-bg: #ffffff;
-    --main-bg: #f1f5f9; /* slate-100 */
-    --card-bg: #ffffff;
-    --text-primary: #1e293b; /* slate-800 */
-    --text-secondary: #64748b; /* slate-500 */
-    --accent-color: #0ea5e9; /* sky-500 */
-    --input-bg: #ffffff;
-    --input-border: #cbd5e1; /* slate-300 */
-    --btn-primary-bg: #3b82f6; /* blue-500 */
-    --btn-primary-hover-bg: #2563eb; /* blue-600 */
-    --btn-secondary-bg: #e2e8f0; /* slate-200 */
-    --btn-secondary-hover-bg: #cbd5e1; /* slate-300 */
+/* Sazi Light Theme */
+.theme-light {
+  --main-bg: #f3f4f6; /* gray-100 */
+  --sidebar-bg: #ffffff;
+  --card-bg: #ffffff;
+  --text-primary: #111827; /* gray-900 */
+  --text-secondary: #6b7280; /* gray-500 */
+  --border-color: #e5e7eb; /* gray-200 */
+  --accent-color: #0ea5e9; /* Sazi Sky */
+  --accent-text: #ffffff;
 }
 
-html.theme-child-vibrant {
-    --sidebar-bg: #ffedd5; /* orange-100 */
-    --main-bg: #fef3c7; /* amber-100 */
-    --card-bg: #ffffff;
-    --text-primary: #7c2d12; /* orange-900 */
-    --text-secondary: #b45309; /* amber-700 */
-    --accent-color: #f59e0b; /* amber-500 */
-    --input-bg: #ffffff;
-    --input-border: #fed7aa; /* orange-200 */
-    --btn-primary-bg: #f97316; /* orange-500 */
-    --btn-primary-hover-bg: #ea580c; /* orange-600 */
-    --btn-secondary-bg: #fed7aa; /* orange-200 */
-    --btn-secondary-hover-bg: #fdba74; /* orange-300 */
+/* Oceanic Theme */
+.theme-oceanic {
+  --main-bg: #0c2431;
+  --sidebar-bg: #11374e;
+  --card-bg: #11374e;
+  --text-primary: #e0f2fe; /* light sky */
+  --text-secondary: #7dd3fc; /* sky-300 */
+  --border-color: #075985; /* sky-800 */
+  --accent-color: #38bdf8; /* sky-400 */
+  --accent-text: #0c2431;
 }
 
+/* Terracotta Theme */
+.theme-terracotta {
+  --main-bg: #44221a;
+  --sidebar-bg: #5f3227;
+  --card-bg: #5f3227;
+  --text-primary: #fde5d8; /* light amber */
+  --text-secondary: #fbb686; /* amber-300 */
+  --border-color: #854d0e; /* amber-800 */
+  --accent-color: #fb923c; /* Sazi Earth / amber-500 */
+  --accent-text: #44221a;
+}
+
+/* Apply variables */
 body {
-    font-family: 'Manrope', sans-serif;
-    background-color: var(--main-bg);
-    color: var(--text-primary);
-    transition: background-color 0.3s, color 0.3s;
+  background-color: var(--main-bg);
+  color: var(--text-primary);
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.sazi-logo-svg { width: 40px; height: auto; }
-.sidebar { background-color: var(--sidebar-bg); }
-.card { background-color: var(--card-bg); }
-.sidebar-link { color: var(--text-secondary); }
-.sidebar-link.active, .sidebar-link:hover { color: var(--accent-color); background-color: rgba(14, 165, 233, 0.1); }
-.sidebar-link i { width: 20px; text-align: center; }
+.sidebar {
+    background-color: var(--sidebar-bg);
+}
 
-.input-field {
-    background-color: var(--input-bg);
-    border: 1px solid var(--input-border);
-    border-radius: 0.375rem;
-    padding: 0.5rem 0.75rem;
-    color: var(--text-primary);
-    transition: all 0.3s;
+.card {
+    background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
 }
-.input-field:focus {
-    outline: none;
-    border-color: var(--accent-color);
-    box-shadow: 0 0 0 1px var(--accent-color);
-}
+
+.text-primary { color: var(--text-primary); }
+.text-secondary { color: var(--text-secondary); }
+.border-input-border { border-color: var(--border-color); }
+.text-accent-color { color: var(--accent-color); }
 
 .btn-primary {
-    background-color: var(--btn-primary-bg);
-    color: white;
+    background-color: var(--accent-color);
+    color: var(--accent-text);
     padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
+    border-radius: 0.5rem;
     font-weight: 600;
-    transition: background-color 0.3s;
+    transition: opacity 0.2s;
 }
-.btn-primary:hover { background-color: var(--btn-primary-hover-bg); }
-
-.btn-secondary {
-    background-color: var(--btn-secondary-bg);
-    color: var(--text-primary);
-    padding: 0.5rem 1rem;
-    border-radius: 0.375rem;
-    font-weight: 600;
-    transition: background-color 0.3s;
+.btn-primary:hover {
+    opacity: 0.9;
 }
-.btn-secondary:hover { background-color: var(--btn-secondary-hover-bg); }
-```javascript
-// File: /assets/js/dashboard.js
-
-/*
-  This file contains the shared JavaScript for the entire Sazi Ecosystem dashboard.
-  It handles Firebase initialization, authentication state, logout, and theme switching.
-  It will be included in every dashboard page.
-*/
-
-import { initializeApp } from "[https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js](https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js)";
-import { getAuth, onAuthStateChanged, signOut } from "[https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js](https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js)";
-import { getFirestore, doc, getDoc } from "[https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js](https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js)";
-
-// Your web app's Firebase configuration
-const firebaseConfig = {
-    apiKey: "AIzaSyD_pRVkeVzciCPowxsj44NRVlbyZvFPueI",
-    authDomain: "lifecv-d2724.firebaseapp.com",
-    projectId: "lifecv-d2724",
-    storageBucket: "lifecv-d2724.firebasestorage.app",
-    messagingSenderId: "1039752653127",
-    appId: "1:1039752653127:web:54afa09b21c98ef231c462",
-    measurementId: "G-BDCNHBQTR2"
-};
-
-// Initialize Firebase
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-const db = getFirestore(app);
-
-// --- Authentication Handling ---
-onAuthStateChanged(auth, async (user) => {
-    if (user) {
-        // User is signed in. You can add logic here to fetch user-specific data
-        // and populate elements common to all dashboard pages, like a username in the header.
-        console.log("User is signed in:", user.uid);
-    } else {
-        // User is signed out, redirect to the login page.
-        // The check ensures we don't redirect from the login page itself.
-        if (!window.location.pathname.includes('login.html')) {
-            window.location.href = '/login.html'; // Adjust path if needed
-        }
-    }
-});
-
-// --- Logout Functionality ---
-// This assumes a button with id="logout-btn" exists on the page.
-const logoutButton = document.getElementById('logout-btn');
-if (logoutButton) {
-    logoutButton.addEventListener('click', () => {
-        signOut(auth).catch((error) => console.error('Logout Error:', error));
-    });
-}
-
-// --- Theme Switcher Logic ---
-const htmlEl = document.documentElement;
-const applyTheme = (theme) => {
-    htmlEl.classList.remove('light', 'theme-child-vibrant', 'dark');
-    htmlEl.classList.add(theme); // 'dark' is the default if no class is added
-    localStorage.setItem('theme', theme);
-};
-
-// This assumes theme toggle buttons exist. Add these buttons to your header component.
-const darkThemeBtn = document.getElementById('theme-toggle-dark');
-const lightThemeBtn = document.getElementById('theme-toggle-light');
-const childThemeBtn = document.getElementById('theme-toggle-child');
-
-if (darkThemeBtn) darkThemeBtn.addEventListener('click', () => applyTheme('dark'));
-if (lightThemeBtn) lightThemeBtn.addEventListener('click', () => applyTheme('light'));
-if (childThemeBtn) childThemeBtn.addEventListener('click', () => applyTheme('theme-child-vibrant'));
-
-// Apply saved theme on initial load
-const savedTheme = localStorage.getItem('theme') || 'dark'; // Default to dark
-applyTheme(savedTheme);

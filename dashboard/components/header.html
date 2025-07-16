@@ -12,15 +12,24 @@
             <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500" href="https://salatiso.com/hrhelp/">HRHelp</a>
             <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500" href="https://safetyfirst.help">SafetyHelp</a>
             <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500" href="https://salatiso.com/ekhaya/">eKhaya</a>
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500" href="https://flamea.org">Flamea</a>
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500" href="https://salatiso.com/familyvalue/">FamilyValue</a>
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500" href="https://salatiso.com/lifesync/">LifeSync</a>
         </div>
 
-        <!-- Right side: Profile and Logout -->
+        <!-- Right side: Controls -->
         <div class="flex items-center space-x-4">
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500 font-semibold" href="/hub.sazi.life/dashboard/profile.html">Profile</a>
-            <a id="logout-btn" class="text-red-500 hover:text-red-700 font-semibold" href="#" role="button">Logout</a>
+            <!-- Placeholder for the new Theme Switcher -->
+            <div id="theme-switcher-placeholder"></div>
+            <!-- Placeholder for the new Language Switcher -->
+            <div id="language-switcher-placeholder"></div>
+            
+            <div class="relative" id="user-dropdown-container">
+                <button id="user-btn" class="flex items-center space-x-2">
+                    <img class="h-8 w-8 rounded-full object-cover" src="https://placehold.co/100x100/4A5568/E2E8F0?text=S" alt="User avatar">
+                </button>
+                <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl py-2 z-50">
+                     <a href="/hub.sazi.life/dashboard/profile.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</a>
+                     <a id="logout-btn" href="#" role="button" class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700">Logout</a>
+                </div>
+            </div>
         </div>
     </div>
-</nav>
+</header>
