@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CommsHub - Explainer Pamphlet</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700;900&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --brand-color: #4f46e5; --brand-color-dark: #818cf8; } /* Indigo */
+        body { font-family: 'Manrope', sans-serif; background-color: #e5e7eb; color: #1f2937; }
+        .dark body { background-color: #111827; color: #d1d5db; }
+        .a4-landscape { width: 297mm; height: 210mm; margin: 1rem auto; background-color: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: grid; grid-template-columns: 1fr 1fr 1fr; page-break-after: always; }
+        .dark .a4-landscape { background-color: #1f2937; }
+        .panel { padding: 1.5rem; border-left: 1px dashed #d1d5db; display: flex; flex-direction: column; }
+        .dark .panel { border-left-color: #4b5563; }
+        .panel:first-child { border-left: none; }
+        h1, h2, h3 { font-family: 'Roboto Slab', serif; color: var(--brand-color); font-weight: 700; }
+        .dark h1, .dark h2, .dark h3 { color: var(--brand-color-dark); }
+        .feature-list li { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1rem; }
+        .feature-list i { margin-top: 0.25rem; color: var(--brand-color); }
+        .dark .feature-list i { color: var(--brand-color-dark); }
+        .no-print { text-align: center; padding: 1rem; }
+        .back-panel { background-color: #1e293b; color: #d1d5db; }
+        .dark .back-panel { background-color: #111827; }
+        [contenteditable="true"]:hover { outline: 2px dashed var(--brand-color); background-color: rgba(79, 70, 229, 0.1); }
+        @media print { .no-print { display: none; } /* Other print styles */ }
+    </style>
+</head>
+<body>
+    <div class="no-print"><button onclick="window.print()" class="mt-2 bg-indigo-600 text-white font-bold py-2 px-6 rounded-lg">Print Pamphlet</button></div>
+    <!-- PAGE 1: OUTSIDE -->
+    <div class="a4-landscape">
+        <div class="panel">
+            <h2 class="text-2xl">Turn Conversation into Action</h2>
+            <p class="text-sm mt-2">In our families, communities, and businesses, great ideas are born in conversation. But too often, they get lost in the endless scroll of chat messages. CommsHub is designed to solve this problem.</p>
+            <h3 class="text-lg mt-4">The Power of Accountable Communication:</h3>
+            <ul class="text-sm space-y-3 mt-2 feature-list">
+                <li><i class="fas fa-flag fa-fw"></i><div><strong>One-Click Actions:</strong> Instantly turn any message—"The gate needs fixing"—into a trackable task assigned to the right person.</div></li>
+                <li><i class="fas fa-clipboard-list fa-fw"></i><div><strong>Clear Dashboards:</strong> See all tasks assigned to you in one place, and get a bird's-eye view of all actions within your group.</div></li>
+                <li><i class="fab fa-whatsapp fa-fw"></i><div><strong>Import Your Chats:</strong> Upload your exported WhatsApp chats and turn past discussions into a structured action plan.</div></li>
+                <li><i class="fas fa-bell fa-fw"></i><div><strong>Stay Informed:</strong> Receive email and platform notifications so you never miss an assignment or a due date.</div></li>
+            </ul>
+        </div>
+        <div class="panel back-panel">
+            <div class="flex-grow">
+                <h2 class="!text-indigo-400 text-2xl">The Sazi Ecosystem</h2>
+                <p class="text-xs mt-2 text-slate-400">CommsHub is the nervous system of the Sazi Ecosystem. It connects every module, ensuring that communication flows seamlessly into action and recognized achievement.</p>
+                <div class="space-y-4 mt-4">
+                    <a href="https://hub.sazi.life" target="_blank" class="flex items-center gap-3 text-white hover:!text-indigo-400">
+                        <i class="fas fa-atom fa-fw text-lg"></i>
+                        <div><span class="font-bold">Sazi.life Hub</span><span class="block text-xs text-slate-400">hub.sazi.life</span></div>
+                    </a>
+                    <a href="https://finhelp.salatiso.com" target="_blank" class="flex items-center gap-3 text-white hover:!text-indigo-400">
+                        <i class="fas fa-wallet fa-fw text-lg"></i>
+                        <div><span class="font-bold">FinanceHelp</span><span class="block text-xs text-slate-400">finhelp.salatiso.com</span></div>
+                    </a>
+                    <a href="https://salatiso.com/familyvalue" target="_blank" class="flex items-center gap-3 text-white hover:!text-indigo-400">
+                        <i class="fas fa-users fa-fw text-lg"></i>
+                        <div><span class="font-bold">FamilyValue</span><span class="block text-xs text-slate-400">salatiso.com/familyvalue</span></div>
+                    </a>
+                </div>
+            </div>
+            <div class="text-xs text-center text-slate-400">&copy; 2025 A Salatiso Initiative</div>
+        </div>
+        <div class="panel text-center justify-between items-center">
+            <div>
+                <i class="fas fa-comments-dollar text-6xl" style="color: var(--brand-color);"></i>
+                <h1 class="text-4xl mt-4">CommsHub</h1>
+                <p class="mt-2 text-slate-600 dark:text-slate-400">Where Talk Becomes Action.</p>
+            </div>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://hub.sazi.life/dashboard/commshub" alt="QR Code for CommsHub" class="w-24 h-24">
+            <div class="text-sm text-slate-500 dark:text-slate-400">
+                <p>A Communication & Action Hub for:</p>
+                <p class="font-bold text-lg text-slate-700 dark:text-slate-200" contenteditable="true">[Your Family, Team, or Stokvel]</p>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
