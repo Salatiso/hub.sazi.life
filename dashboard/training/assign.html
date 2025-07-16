@@ -1,70 +1,82 @@
 <!DOCTYPE html>
-<html lang="en" class="dark">
+<html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Assign Training - Sazi Ecosystem</title>
+
+    <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
+    
+    <!-- Custom Dashboard Styles -->
     <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
 </head>
-<body class="flex h-screen bg-main text-primary">
+<body class="theme-default">
 
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4 transition-colors duration-300">
-        <div class="flex items-center space-x-3 mb-8">
-            <svg class="sazi-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/></svg>
-            <span class="font-poppins font-bold text-xl">sazi.life</span>
+    <div id="app-container" class="flex h-screen bg-main text-primary">
+        
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-placeholder">
+            <!-- The sidebar will be loaded here by dashboard.js -->
         </div>
-        <nav class="flex-grow space-y-2">
-            <a href="../index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-home"></i><span>Dashboard</span></a>
-            <a href="../life-cv.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-id-card"></i><span>LifeCV</span></a>
-            <a href="../assets/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-briefcase"></i><span>Assets & Companies</span></a>
-            <a href="index.html" class="sidebar-link active flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-chalkboard-teacher"></i><span>Training Hub</span></a>
-            <a href="../public-pages/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-bullhorn"></i><span>Public Pages</span></a>
-        </nav>
-        <div class="mt-auto">
-            <a href="../settings.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-cog"></i><span>Settings</span></a>
-            <button id="logout-btn" class="sidebar-link w-full text-left flex items-center space-x-3 py-2 px-3 rounded-lg mt-2"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
-        </div>
-    </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 overflow-y-auto p-8">
-        <header class="flex justify-between items-center mb-8">
-            <div>
-                <h1 class="text-3xl font-bold font-poppins">Assign a Course</h1>
-                <p class="text-secondary">Select a course and assign it to a member of your family or organization.</p>
+        <!-- Main content area -->
+        <div class="flex-1 flex flex-col">
+            
+            <!-- Header Placeholder -->
+            <div id="header-placeholder">
+                <!-- The header will be loaded here by dashboard.js -->
             </div>
-        </header>
 
-        <div class="card p-6 rounded-xl shadow-lg max-w-2xl mx-auto">
-            <form id="assign-course-form" class="space-y-6">
-                <div>
-                    <label for="course-select" class="block text-sm font-medium text-secondary">1. Select a Course</label>
-                    <select id="course-select" class="input-field w-full mt-1">
-                        <option>Introduction to OHS</option>
-                        <option>Basic First Aid Principles</option>
-                        <option>Financial Literacy 101</option>
-                    </select>
+            <!-- Scrollable main content -->
+            <main id="main-content" class="flex-1 overflow-y-auto p-8">
+                
+                <header class="flex justify-between items-center mb-8">
+                    <div>
+                        <h1 class="text-3xl font-bold font-poppins text-primary">Assign a Course</h1>
+                        <p class="text-secondary">Select a course and assign it to a member of your family or organization.</p>
+                    </div>
+                </header>
+
+                <div class="card p-6 rounded-xl shadow-lg max-w-2xl mx-auto">
+                    <form id="assign-course-form" class="space-y-6">
+                        <div>
+                            <label for="course-select" class="block text-sm font-medium text-secondary">1. Select a Course</label>
+                            <select id="course-select" class="input-field w-full mt-1">
+                                <option>Introduction to OHS</option>
+                                <option>Basic First Aid Principles</option>
+                                <option>Financial Literacy 101</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label for="member-select" class="block text-sm font-medium text-secondary">2. Assign to Member</label>
+                            <select id="member-select" class="input-field w-full mt-1">
+                                <option>Sazi Mdeni (Child)</option>
+                                <option>John Doe (Employee)</option>
+                            </select>
+                        </div>
+                         <div>
+                            <label for="due-date" class="block text-sm font-medium text-secondary">3. Set a Due Date (Optional)</label>
+                            <input type="date" id="due-date" class="input-field w-full mt-1">
+                        </div>
+                        <button type="submit" class="btn-primary w-full !mt-8">Assign Course</button>
+                    </form>
                 </div>
-                <div>
-                    <label for="member-select" class="block text-sm font-medium text-secondary">2. Assign to Member</label>
-                    <select id="member-select" class="input-field w-full mt-1">
-                        <option>Sazi Mdeni (Child)</option>
-                        <option>John Doe (Employee)</option>
-                    </select>
-                </div>
-                 <div>
-                    <label for="due-date" class="block text-sm font-medium text-secondary">3. Set a Due Date (Optional)</label>
-                    <input type="date" id="due-date" class="input-field w-full mt-1">
-                </div>
-                <button type="submit" class="btn-primary w-full !mt-8">Assign Course</button>
-            </form>
+
+            </main>
+
+            <!-- Footer Placeholder -->
+            <div id="footer-placeholder">
+                <!-- The footer will be loaded here by dashboard.js -->
+            </div>
         </div>
-    </main>
+    </div>
 
+    <!-- Main Dashboard Script -->
     <script type="module" src="../../assets/js/dashboard.js"></script>
+
 </body>
 </html>

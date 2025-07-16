@@ -1,225 +1,96 @@
-<!-- File: /dashboard/training/index.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Training Hub - Sazi Ecosystem Dashboard</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    
+    <!-- Custom Dashboard Styles -->
     <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
 </head>
-<body class="flex h-screen bg-main text-primary">
+<body class="theme-default">
 
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-        <div class="flex items-center space-x-3 mb-8">
-            <svg class="sazi-logo-svg" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/></svg>
-            <span class="font-poppins font-bold text-xl">sazi.life</span>
+    <div id="app-container" class="flex h-screen bg-main text-primary">
+        
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-placeholder">
+            <!-- The sidebar will be loaded here by dashboard.js -->
         </div>
-        <nav class="flex-grow space-y-2">
-            <a href="../index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-home"></i><span>Dashboard</span></a>
-            <a href="../life-cv.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-id-card"></i><span>LifeCV</span></a>
-            <a href="../assets/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-briefcase"></i><span>Assets & Companies</span></a>
-            <a href="index.html" class="sidebar-link active flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-chalkboard-teacher"></i><span>Training Hub</span></a>
-            <a href="../public-pages/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-bullhorn"></i><span>Public Pages</span></a>
-        </nav>
-        <div class="mt-auto">
-            <a href="../settings.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-cog"></i><span>Settings</span></a>
-            <button id="logout-btn" class="sidebar-link w-full text-left flex items-center space-x-3 py-2 px-3 rounded-lg mt-2"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
-        </div>
-    </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
+        <!-- Main content area -->
+        <div class="flex-1 flex flex-col">
+            
+            <!-- Header Placeholder -->
+            <div id="header-placeholder">
+                <!-- The header will be loaded here by dashboard.js -->
+            </div>
 
-        <div class="flex-grow">
-            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
-                <!-- My Assigned Learning -->
-                <div class="card p-6 rounded-xl shadow-lg">
-                    <h2 class="text-xl font-bold mb-4">My Assigned Learning</h2>
-                    <div class="space-y-4">
-                        <!-- Example Item -->
-                        <div class="bg-slate-700/50 p-4 rounded-lg">
-                            <p class="font-bold">Introduction to OHS</p>
-                            <p class="text-sm text-secondary">Assigned by: Salatiso Mdeni</p>
-                            <div class="w-full bg-slate-600 rounded-full h-2.5 mt-2">
-                                <div class="bg-green-500 h-2.5 rounded-full" style="width: 75%"></div>
+            <!-- Scrollable main content -->
+            <main id="main-content" class="flex-1 overflow-y-auto p-8">
+                
+                <header class="flex justify-between items-center mb-6">
+                    <div>
+                        <h1 class="text-3xl font-bold font-poppins text-primary">Training Hub</h1>
+                        <p class="text-secondary">Assign courses, host live sessions, and manage learning.</p>
+                    </div>
+                    <div class="flex space-x-2">
+                         <a href="assign.html" class="btn-primary"><i class="fas fa-user-plus mr-2"></i>Assign a Course</a>
+                         <a href="host.html" class="btn-secondary"><i class="fas fa-video mr-2"></i>Host a Session</a>
+                    </div>
+                </header>
+
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                    <!-- My Assigned Learning -->
+                    <div class="card p-6 rounded-xl shadow-lg">
+                        <h2 class="text-xl font-bold mb-4">My Assigned Learning</h2>
+                        <div class="space-y-4">
+                            <!-- Example Item -->
+                            <div class="bg-main p-4 rounded-lg">
+                                <p class="font-bold text-primary">Introduction to OHS</p>
+                                <p class="text-sm text-secondary">Assigned by: Salatiso Mdeni</p>
+                                <div class="w-full bg-gray-700 rounded-full h-2.5 mt-2">
+                                    <div class="bg-green-500 h-2.5 rounded-full" style="width: 75%"></div>
+                                </div>
+                                <p class="text-xs text-right text-secondary mt-1">75% Complete</p>
                             </div>
-                            <p class="text-xs text-right text-secondary mt-1">75% Complete</p>
+                            <!-- End Example Item -->
                         </div>
-                        <!-- End Example Item -->
+                    </div>
+
+                    <!-- Training I'm Hosting -->
+                    <div class="card p-6 rounded-xl shadow-lg">
+                        <h2 class="text-xl font-bold mb-4">Training I'm Hosting</h2>
+                        <div class="space-y-4">
+                            <!-- Example Item -->
+                            <div class="bg-main p-4 rounded-lg">
+                                <p class="font-bold text-primary">Live Q&A: OHS Risk Assessments</p>
+                                <p class="text-sm text-secondary">Next Session: July 20, 2025 @ 18:00</p>
+                                <div class="mt-2">
+                                    <span class="text-sm font-semibold text-primary">32 Attendees Registered</span>
+                                </div>
+                            </div>
+                             <!-- End Example Item -->
+                        </div>
                     </div>
                 </div>
 
-                <!-- Training I'm Hosting -->
-                <div class="card p-6 rounded-xl shadow-lg">
-                    <h2 class="text-xl font-bold mb-4">Training I'm Hosting</h2>
-                    <div class="space-y-4">
-                        <!-- Example Item -->
-                        <div class="bg-slate-700/50 p-4 rounded-lg">
-                            <p class="font-bold">Live Q&A: OHS Risk Assessments</p>
-                            <p class="text-sm text-secondary">Next Session: July 20, 2025 @ 18:00</p>
-                            <div class="mt-2">
-                                <span class="text-sm font-semibold">32 Attendees Registered</span>
-                            </div>
-                        </div>
-                         <!-- End Example Item -->
-                    </div>
-                </div>
+            </main>
+
+            <!-- Footer Placeholder -->
+            <div id="footer-placeholder">
+                <!-- The footer will be loaded here by dashboard.js -->
             </div>
         </div>
+    </div>
 
-        <div id="footer-placeholder"></div>
-    </main>
-
+    <!-- Main Dashboard Script -->
     <script type="module" src="../../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'Training Hub';
-                document.getElementById('page-subtitle').textContent = 'Assign courses, host live sessions, and manage learning.';
-            }, 100);
-        });
-    </script>
-</body>
-</html>
-```html
-<!-- File: /dashboard/training/assign.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Assign Training - Sazi Ecosystem</title>
-    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
-</head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-        <!-- ... -->
-        <nav class="flex-grow space-y-2">
-            <a href="../index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-home"></i><span>Dashboard</span></a>
-            <a href="../life-cv.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-id-card"></i><span>LifeCV</span></a>
-            <a href="../assets/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-briefcase"></i><span>Assets & Companies</span></a>
-            <a href="index.html" class="sidebar-link active flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-chalkboard-teacher"></i><span>Training Hub</span></a>
-            <a href="../public-pages/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-bullhorn"></i><span>Public Pages</span></a>
-        </nav>
-        <!-- ... -->
-    </aside>
 
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        <div class="flex-grow">
-            <div class="card p-6 rounded-xl shadow-lg max-w-2xl mx-auto">
-                <form id="assign-course-form" class="space-y-6">
-                    <div>
-                        <label for="course-select" class="block text-sm font-medium text-secondary">1. Select a Course</label>
-                        <select id="course-select" class="input-field w-full mt-1">
-                            <option>Introduction to OHS</option>
-                            <option>Basic First Aid Principles</option>
-                            <option>Financial Literacy 101</option>
-                        </select>
-                    </div>
-                    <div>
-                        <label for="member-select" class="block text-sm font-medium text-secondary">2. Assign to Member</label>
-                        <select id="member-select" class="input-field w-full mt-1">
-                            <option>Sazi Mdeni (Child)</option>
-                            <option>John Doe (Employee)</option>
-                        </select>
-                    </div>
-                     <div>
-                        <label for="due-date" class="block text-sm font-medium text-secondary">3. Set a Due Date (Optional)</label>
-                        <input type="date" id="due-date" class="input-field w-full mt-1">
-                    </div>
-                    <button type="submit" class="btn-primary w-full !mt-8">Assign Course</button>
-                </form>
-            </div>
-        </div>
-        <div id="footer-placeholder"></div>
-    </main>
-
-    <script type="module" src="../../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'Assign a Course';
-                document.getElementById('page-subtitle').textContent = 'Select a course and assign it to a member of your family or organization.';
-            }, 100);
-        });
-    </script>
-</body>
-</html>
-```html
-<!-- File: /dashboard/training/host.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Host a Session - Sazi Ecosystem</title>
-    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
-</head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-        <!-- ... -->
-        <nav class="flex-grow space-y-2">
-            <a href="../index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-home"></i><span>Dashboard</span></a>
-            <a href="../life-cv.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-id-card"></i><span>LifeCV</span></a>
-            <a href="../assets/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-briefcase"></i><span>Assets & Companies</span></a>
-            <a href="index.html" class="sidebar-link active flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-chalkboard-teacher"></i><span>Training Hub</span></a>
-            <a href="../public-pages/index.html" class="sidebar-link flex items-center space-x-3 py-2 px-3 rounded-lg"><i class="fas fa-bullhorn"></i><span>Public Pages</span></a>
-        </nav>
-        <!-- ... -->
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        <div class="flex-grow">
-            <div class="card p-6 rounded-xl shadow-lg max-w-2xl mx-auto">
-                <form id="host-session-form" class="space-y-6">
-                     <div>
-                        <label for="session-title" class="block text-sm font-medium text-secondary">Session Title</label>
-                        <input type="text" id="session-title" class="input-field w-full mt-1" placeholder="e.g., Live Q&A: OHS Risk Assessments">
-                    </div>
-                    <div>
-                        <label for="session-description" class="block text-sm font-medium text-secondary">Description</label>
-                        <textarea id="session-description" rows="3" class="input-field w-full mt-1" placeholder="What will this session cover?"></textarea>
-                    </div>
-                    <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                        <div>
-                            <label for="session-date" class="block text-sm font-medium text-secondary">Date</label>
-                            <input type="date" id="session-date" class="input-field w-full mt-1">
-                        </div>
-                         <div>
-                            <label for="session-time" class="block text-sm font-medium text-secondary">Time</label>
-                            <input type="time" id="session-time" class="input-field w-full mt-1">
-                        </div>
-                    </div>
-                     <div>
-                        <label for="session-link" class="block text-sm font-medium text-secondary">Meeting Link (e.g., Zoom, Google Meet)</label>
-                        <input type="url" id="session-link" class="input-field w-full mt-1" placeholder="https://...">
-                    </div>
-                    <button type="submit" class="btn-primary w-full !mt-8">Create Session</button>
-                </form>
-            </div>
-        </div>
-        <div id="footer-placeholder"></div>
-    </main>
-
-    <script type="module" src="../../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'Host a Live Session';
-                document.getElementById('page-subtitle').textContent = 'Create a live training event for your community or organization.';
-            }, 100);
-        });
-    </script>
 </body>
 </html>
