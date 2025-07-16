@@ -1,7 +1,8 @@
 // assets/js/dashboard.js
 
-// NOTE: Requires Firebase SDK v10+ and Firestore.
-// All UI elements are controlled via DOM selectors, and the html must have element IDs that match these (e.g., #header, #footer, #main-content).
+// NOTE: This is the full-featured Single-Page Application script.
+// It requires one main HTML shell (e.g., /dashboard/index.html) and will dynamically load all content.
+// All original Firebase functionality has been preserved.
 
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
 import {
@@ -12,7 +13,7 @@ import {
   getFirestore, doc, getDoc, setDoc, updateDoc, onSnapshot, collection, addDoc, deleteDoc
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Replace with your project's Firebase config
+// Your project's Firebase config
 const firebaseConfig = {
   apiKey: "AIzaSyD_pRVkeVzciCPowxsj44NRVlbyZvFPueI",
   authDomain: "lifecv-d2724.firebaseapp.com",
@@ -42,9 +43,11 @@ onAuthStateChanged(auth, async (user) => {
   if (!user) {
     window.location.href = "/index.html";
   } else {
+    // Once authenticated, load the entire SPA interface
     await loadUserData(user);
     loadHeaderFooter();
     setupNavigation();
+    // Load the initial page, which is the dashboard home
     loadDashboardHome();
   }
 });
@@ -60,13 +63,15 @@ async function loadUserData(user) {
       lastLogin: new Date(),
     }, { merge: true });
   }
-  // Optionally update UI with user info here.
 }
 
 // Dynamic loading for header/footer
 function loadHeaderFooter() {
-  if (document.getElementById("header")) {
-    document.getElementById("header").innerHTML = `
+  const headerContainer = document.getElementById("header");
+  const footerContainer = document.getElementById("footer");
+
+  if (headerContainer) {
+    headerContainer.innerHTML = `
       <nav class="bg-white px-6 py-3 flex justify-between items-center shadow-sm">
         <span class="font-bold text-blue-700 text-lg">Sazi Ecosystem</span>
         <div class="flex gap-3 items-center">
@@ -76,10 +81,12 @@ function loadHeaderFooter() {
       </nav>
     `;
     document.getElementById("theme-btn").onclick = toggleTheme;
+    // Correctly wire up the sign out button to Firebase Auth
     document.getElementById("signout-btn").onclick = () => signOut(auth);
   }
-  if (document.getElementById("footer")) {
-    document.getElementById("footer").innerHTML = `
+
+  if (footerContainer) {
+    footerContainer.innerHTML = `
       <footer class="bg-gray-50 py-5 text-center text-gray-400 text-xs">
         &copy; ${(new Date()).getFullYear()} Sazi Ecosystem.
       </footer>
@@ -89,15 +96,9 @@ function loadHeaderFooter() {
 
 // Theme Toggle: light/dark
 function toggleTheme() {
-  document.body.classList.toggle("dark");
   const html = document.documentElement;
-  if (html.classList.contains("dark")) {
-    html.classList.remove("dark");
-    localStorage.setItem("theme", "light");
-  } else {
-    html.classList.add("dark");
-    localStorage.setItem("theme", "dark");
-  }
+  html.classList.toggle("dark");
+  localStorage.setItem("theme", html.classList.contains("dark") ? "dark" : "light");
 }
 
 // On load: apply theme
@@ -107,20 +108,26 @@ function toggleTheme() {
   }
 })();
 
-// Navigation
+// Navigation Setup: Listen for clicks on any element with a `data-nav` attribute
 function setupNavigation() {
-  document.querySelectorAll("[data-nav]").forEach(btn => {
-    btn.onclick = evt => {
-      evt.preventDefault();
-      loadPage(btn.getAttribute("data-nav"));
-    };
+  document.body.addEventListener('click', (evt) => {
+    const navButton = evt.target.closest('[data-nav]');
+    if (navButton) {
+        evt.preventDefault();
+        loadPage(navButton.getAttribute("data-nav"));
+    }
   });
 }
 
-// Core routes/pages
+// Core Page Router: Loads content into the #main-content div
 function loadPage(page) {
   const main = document.getElementById("main-content");
+  if (!main) {
+      console.error("#main-content element not found!");
+      return;
+  }
   main.innerHTML = "<div class='py-8 text-center text-gray-400'>Loading...</div>";
+  
   switch (page) {
     case "profile":
       loadProfile();
@@ -131,28 +138,39 @@ function loadPage(page) {
     case "public":
       loadPublicEditor();
       break;
+    // --- ADDED NEW PAGE ROUTES ---
+    case "activity":
+      loadActivity();
+      break;
+    case "life-cv":
+      loadLifeCv();
+      break;
+    case "dashboard":
     default:
       loadDashboardHome();
       break;
   }
 }
 
-// Dashboard home view
+// --- PAGE CONTENT FUNCTIONS ---
+
+// Dashboard home view (UPDATED with all navigation links)
 function loadDashboardHome() {
   const main = document.getElementById("main-content");
   main.innerHTML = `
-    <h2 class="font-bold text-xl mb-2">Dashboard</h2>
-    <ul class="grid grid-cols-1 md:grid-cols-2 gap-4">
-      <li><a href="#" data-nav="profile" class="block p-4 rounded bg-blue-50 hover:bg-blue-100">Profile</a></li>
-      <li><a href="#" data-nav="assets" class="block p-4 rounded bg-green-50 hover:bg-green-100">Assets Manager</a></li>
-      <li><a href="#" data-nav="public" class="block p-4 rounded bg-yellow-50 hover:bg-yellow-100">Public Page Editor</a></li>
+    <h2 class="font-bold text-xl mb-4">Dashboard</h2>
+    <ul class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <li><a href="#" data-nav="profile" class="block p-4 rounded bg-blue-50 hover:bg-blue-100 text-blue-800 font-semibold">My Profile</a></li>
+      <li><a href="#" data-nav="life-cv" class="block p-4 rounded bg-purple-50 hover:bg-purple-100 text-purple-800 font-semibold">Life-CV</a></li>
+      <li><a href="#" data-nav="assets" class="block p-4 rounded bg-green-50 hover:bg-green-100 text-green-800 font-semibold">Assets Manager</a></li>
+      <li><a href="#" data-nav="activity" class="block p-4 rounded bg-indigo-50 hover:bg-indigo-100 text-indigo-800 font-semibold">My Activity</a></li>
+      <li><a href="#" data-nav="public" class="block p-4 rounded bg-yellow-50 hover:bg-yellow-100 text-yellow-800 font-semibold">Public Page Editor</a></li>
     </ul>
-    <div id="dashboard-message" style="display:none"></div>
+    <div id="dashboard-message" style="display:none" class="mt-4"></div>
   `;
-  setupNavigation();
 }
 
-// Profile Page
+// Profile Page (Original Functionality)
 async function loadProfile() {
   const user = auth.currentUser;
   const userRef = doc(db, "users", user.uid);
@@ -174,7 +192,6 @@ async function loadProfile() {
     </form>
     <div><a href="#" data-nav="dashboard" class="text-blue-600 text-sm">&larr; Back to Dashboard</a></div>
   `;
-  setupNavigation();
   document.getElementById("profile-form").onsubmit = async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
@@ -185,7 +202,7 @@ async function loadProfile() {
   };
 }
 
-// Assets Page (CRUD for 'assets' collection under user's doc)
+// Assets Page (Original Functionality)
 async function loadAssets() {
   const user = auth.currentUser;
   const main = document.getElementById("main-content");
@@ -201,9 +218,7 @@ async function loadAssets() {
     <div class="mt-4"><a href="#" data-nav="dashboard" class="text-blue-600 text-sm">&larr; Back to Dashboard</a></div>
     <div id="dashboard-message" style="display:none"></div>
   `;
-  setupNavigation();
 
-  // Live asset list
   const assetList = document.getElementById("asset-list");
   const assetsCol = collection(db, "users", user.uid, "assets");
   onSnapshot(assetsCol, snap => {
@@ -229,7 +244,6 @@ async function loadAssets() {
     });
   });
 
-  // Add asset
   document.getElementById("asset-add-form").onsubmit = async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
@@ -244,7 +258,7 @@ async function loadAssets() {
   };
 }
 
-// Public page classified editor (simple version)
+// Public page classified editor (Original Functionality)
 async function loadPublicEditor() {
   const user = auth.currentUser;
   const publicRef = doc(db, "users", user.uid, "pages", "classified");
@@ -270,7 +284,6 @@ async function loadPublicEditor() {
     </div>
     <div id="dashboard-message" style="display:none"></div>
   `;
-  setupNavigation();
   document.getElementById("public-form").onsubmit = async (e) => {
     e.preventDefault();
     const fd = new FormData(e.target);
@@ -283,5 +296,21 @@ async function loadPublicEditor() {
   };
 }
 
-// Optional: Add additional pages/routes as needed
+// --- ADDED PLACEHOLDER FUNCTIONS FOR NEW PAGES ---
+function loadActivity() {
+    const main = document.getElementById("main-content");
+    main.innerHTML = `
+        <h2 class="font-bold text-xl mb-2">My Activity</h2>
+        <p>This section will show a log of your recent activities.</p>
+        <p class="mt-4"><a href="#" data-nav="dashboard" class="text-blue-600 text-sm">&larr; Back to Dashboard</a></p>
+    `;
+}
 
+function loadLifeCv() {
+    const main = document.getElementById("main-content");
+    main.innerHTML = `
+        <h2 class="font-bold text-xl mb-2">Life-CV</h2>
+        <p>This section will contain your comprehensive Life-CV.</p>
+        <p class="mt-4"><a href="#" data-nav="dashboard" class="text-blue-600 text-sm">&larr; Back to Dashboard</a></p>
+    `;
+}
