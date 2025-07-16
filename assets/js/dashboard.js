@@ -432,7 +432,13 @@ const initializePublicPageEditor = () => {
         <div id="footer-placeholder"></div>
     </main>
     
-    <script type="module" src="../../assets/js/dashboard.js"></script>
+    <script>
+    const script = document.createElement('script');
+      script.type = 'module';
+      script.src = `${window.location.origin}/assets/js/dashboard.js`;
+    document.body.appendChild(script);
+    </script>
+
     <script>
         document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
