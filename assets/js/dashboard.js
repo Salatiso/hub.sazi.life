@@ -1,4 +1,4 @@
-// File: /assets/js/dashboard.js (Cleaned and Updated)
+// File: /assets/js/dashboard.js (Corrected Path Logic)
 
 /*
   This file contains the shared JavaScript for the entire Sazi Ecosystem dashboard.
@@ -80,20 +80,19 @@ const setupThemeSwitcher = () => {
 
 // --- Main Initialization on DOMContentLoaded ---
 document.addEventListener('DOMContentLoaded', async () => {
-    const pathSegments = window.location.pathname.split('/').filter(Boolean);
-    const dashboardIndex = pathSegments.indexOf('dashboard');
-    const depth = dashboardIndex !== -1 ? pathSegments.length - dashboardIndex - 1 : 0;
-    const pathPrefix = '../'.repeat(depth) || './';
+    // For GitHub Pages, the repo name is the first part of the path.
+    // This creates a reliable base path like "/hub.sazi.life/"
+    const repoName = window.location.pathname.split('/')[1];
+    const basePath = `/${repoName}/`;
 
-    // Load common components
+    // Load common components using absolute paths from the repo root
+    // CORRECTED: Added "dashboard/" to the component path.
     await Promise.all([
-        loadComponent(`${pathPrefix}components/header.html`, 'header-placeholder'),
-        loadComponent(`${pathPrefix}components/footer.html`, 'footer-placeholder'),
-        // Assuming you have a sidebar component now
-        loadComponent(`${pathPrefix}components/sidebar.html`, 'sidebar-placeholder') 
+        loadComponent(`${basePath}dashboard/components/header.html`, 'header-placeholder'),
+        loadComponent(`${basePath}dashboard/components/footer.html`, 'footer-placeholder'),
+        loadComponent(`${basePath}dashboard/components/sidebar.html`, 'sidebar-placeholder') 
     ]);
 
-    // Setup UI elements which might be inside loaded components
     // A small delay ensures the components are rendered before we attach listeners
     setTimeout(() => {
         setupDropdown('ecosystem-dropdown-container', 'ecosystem-btn', 'ecosystem-menu');
@@ -106,13 +105,12 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     }, 100);
 
-
     // --- Page Specific Logic Router ---
     const path = window.location.pathname;
     
-    // ** NEW LOGIC TO LOAD THE MAIN DASHBOARD VIEW **
     if (path.endsWith('/dashboard/') || path.endsWith('/dashboard/index.html')) {
-        loadComponent(`${pathPrefix}dashboard/overview.html`, 'main-content');
+        // The overview file is inside the dashboard folder
+        loadComponent(`${basePath}dashboard/overview.html`, 'main-content');
     } 
     else if (path.includes('/profile.html')) initializeProfilePage();
     else if (path.includes('/life-cv.html')) initializeLifeCvPage();
