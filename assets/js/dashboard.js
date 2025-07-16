@@ -41,7 +41,7 @@ function showMessage(msg, isError = false) {
 // Guard: Require Auth, else redirect to login
 onAuthStateChanged(auth, async (user) => {
   if (!user) {
-    window.location.href = "/index.html";
+    window.location.href = "/dashboard/index.html";
   } else {
     // Once authenticated, load the entire SPA interface
     await loadUserData(user);
