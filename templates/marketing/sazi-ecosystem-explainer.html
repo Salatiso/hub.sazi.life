@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en" class="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Sazi Ecosystem - A Unified Toolkit for Life</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700;900&family=Manrope:wght@400;700&display=swap" rel="stylesheet">
+    <style>
+        :root { --brand-color: #0ea5e9; --brand-color-dark: #38bdf8; } /* Sazi Sky Blue */
+        body { font-family: 'Manrope', sans-serif; background-color: #e5e7eb; color: #1f2937; }
+        .dark body { background-color: #111827; color: #d1d5db; }
+        .a4-landscape { width: 297mm; height: 210mm; margin: 1rem auto; background-color: #ffffff; box-shadow: 0 5px 15px rgba(0,0,0,0.1); display: grid; grid-template-columns: 1fr 1fr 1fr; page-break-after: always; }
+        .dark .a4-landscape { background-color: #1f2937; }
+        .panel { padding: 2rem; border-left: 1px dashed #d1d5db; display: flex; flex-direction: column; }
+        .dark .panel { border-left-color: #4b5563; }
+        .panel:first-child { border-left: none; }
+        h1, h2, h3 { font-family: 'Roboto Slab', serif; color: var(--brand-color); font-weight: 700; }
+        .dark h1, .dark h2, .dark h3 { color: var(--brand-color-dark); }
+        .feature-list li { display: flex; align-items: flex-start; gap: 0.75rem; margin-bottom: 1.25rem; font-size: 0.9rem; }
+        .feature-list i { margin-top: 0.25rem; color: var(--brand-color); width: 20px; text-align: center; }
+        .dark .feature-list i { color: var(--brand-color-dark); }
+        .no-print { text-align: center; padding: 1rem; }
+        .back-panel { background-color: #111827; color: #d1d5db; }
+        .dark .back-panel { background-color: #020617; }
+        [contenteditable="true"]:hover { outline: 2px dashed var(--brand-color); background-color: rgba(14, 165, 233, 0.1); }
+        .sazi-logo-svg { width: 100px; height: auto; }
+        @media print { .no-print { display: none; } /* Other print styles */ }
+    </style>
+</head>
+<body>
+    <div class="no-print"><button onclick="window.print()" class="mt-2 bg-sky-600 text-white font-bold py-2 px-6 rounded-lg">Print Pamphlet</button></div>
+    <!-- PAGE 1: OUTSIDE -->
+    <div class="a4-landscape">
+        <div class="panel justify-between">
+            <div>
+                <h2 class="text-2xl">The Philosophy: Live. Learn. Lead.</h2>
+                <p class="text-sm mt-4 text-slate-600 dark:text-slate-400">Our ecosystem is built on a simple, powerful belief learned under a tree in the Transkei: true knowledge comes from experience. We empower you to live a full life, learn from your actions, and lead your family and community by example.</p>
+                <p class="text-sm mt-4 text-slate-600 dark:text-slate-400">This is more than a set of apps; it's a toolkit for self-reliance, designed to give you control over your life's most important assets: your skills, your finances, and your family.</p>
+            </div>
+            <div class="mt-auto pt-4 text-center">
+                <p class="text-sm font-bold">Begin your journey at the central hub:</p>
+                <p class="font-bold text-sky-600 dark:text-sky-400">https://hub.sazi.life</p>
+            </div>
+        </div>
+        <div class="panel back-panel">
+            <div class="flex-grow">
+                <h2 class="!text-sky-400 text-2xl">One Ecosystem. Endless Possibilities.</h2>
+                <p class="text-xs mt-2 text-slate-400">Your single Sazi.life account is the key that unlocks a universe of specialized tools. Each platform is designed to work together, feeding valuable experience into your LifeCV.</p>
+                <div class="space-y-4 mt-6">
+                    <a href="https://finhelp.salatiso.com" target="_blank" class="flex items-center gap-4 text-white hover:!text-sky-400"><i class="fas fa-wallet fa-fw text-xl text-green-400"></i><div><span class="font-bold">FinanceHelp</span><span class="block text-xs text-slate-400">finhelp.salatiso.com</span></div></a>
+                    <a href="https://salatiso.com/familyvalue" target="_blank" class="flex items-center gap-4 text-white hover:!text-sky-400"><i class="fas fa-users fa-fw text-xl text-violet-400"></i><div><span class="font-bold">FamilyValue</span><span class="block text-xs text-slate-400">salatiso.com/familyvalue</span></div></a>
+                    <a href="https://safetyfirst.help" target="_blank" class="flex items-center gap-4 text-white hover:!text-sky-400"><i class="fas fa-hard-hat fa-fw text-xl text-blue-400"></i><div><span class="font-bold">SafetyHelp</span><span class="block text-xs text-slate-400">safetyfirst.help</span></div></a>
+                    <a href="https://ekhaya.salatiso.com" target="_blank" class="flex items-center gap-4 text-white hover:!text-sky-400"><i class="fas fa-home fa-fw text-xl text-orange-400"></i><div><span class="font-bold">eKhaya</span><span class="block text-xs text-slate-400">ekhaya.salatiso.com</span></div></a>
+                </div>
+            </div>
+            <div class="text-xs text-center text-slate-400">&copy; 2025 A Salatiso Initiative</div>
+        </div>
+        <div class="panel text-center justify-between items-center">
+            <div>
+                <svg class="sazi-logo-svg inline-block" viewBox="0 0 250 100" xmlns="http://www.w3.org/2000/svg"><g transform="scale(0.55) translate(0, 10)"><path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/></g><text x="75" y="68" style="font-family: 'Poppins', sans-serif; font-size: 45px; font-weight: 700;" fill="#1E3A8A" class="dark:fill-white">azi<tspan style="font-family: 'Manrope', sans-serif; font-weight: 400;" fill="#D97706">.life</tspan></text></svg>
+                <h1 class="text-4xl mt-4">The Sazi Ecosystem</h1>
+                <p class="mt-2 text-slate-600 dark:text-slate-400">The Tools for a Life Well-Lived.</p>
+            </div>
+            <img src="https://api.qrserver.com/v1/create-qr-code/?size=100x100&data=https://hub.sazi.life" alt="QR Code for Sazi.life Hub" class="w-24 h-24">
+            <div class="text-sm text-slate-500 dark:text-slate-400">
+                <p>A Holistic Overview for:</p>
+                <p class="font-bold text-lg text-slate-700 dark:text-slate-200" contenteditable="true">[Your Name, Family, or Company]</p>
+            </div>
+        </div>
+    </div>
+    <!-- PAGE 2: INSIDE -->
+    <div class="a4-landscape">
+        <div class="panel">
+            <h2 class="text-2xl"><i class="fas fa-wallet mr-3"></i>FinanceHelp</h2>
+            <p class="text-sm mt-2 text-slate-600 dark:text-slate-400">Take command of your financial destiny. FinanceHelp is your personal CFO, providing the tools to track, manage, and grow your wealth with clarity and confidence.</p>
+            <ul class="text-sm space-y-3 mt-4 feature-list flex-grow">
+                <li><i class="fas fa-magic fa-fw"></i><div><strong>Instant Expense Logging:</strong> Paste bank SMS notifications to log spending automatically. No more manual data entry.</div></li>
+                <li><i class="fas fa-chart-pie fa-fw"></i><div><strong>Holistic Asset Register:</strong> Keep a secure record of every asset you own, from property and vehicles to investments and business shares.</div></li>
+                <li><i class="fas fa-file-invoice-dollar fa-fw"></i><div><strong>One-Click Tax Pack:</strong> At tax time, generate a comprehensive report of your financial data, simplifying your annual submission.</div></li>
+            </ul>
+        </div>
+        <div class="panel">
+            <h2 class="text-2xl"><i class="fas fa-users mr-3"></i>FamilyValue</h2>
+            <p class="text-sm mt-2 text-slate-600 dark:text-slate-400">Recognize the true value of every family member. FamilyValue is a revolutionary tool for managing your family like the vital enterprise it is, making invisible contributions visible and valued.</p>
+            <ul class="text-sm space-y-3 mt-4 feature-list flex-grow">
+                <li><i class="fas fa-balance-scale fa-fw"></i><div><strong>Contribution Valuation:</strong> Our unique engine assigns a real-world monetary value to non-financial work like childcare and household management.</div></li>
+                <li><i class="fas fa-sitemap fa-fw"></i><div><strong>Family Governance:</strong> Establish a formal family charter with defined roles to manage your shared affairs with structure and respect.</div></li>
+                <li><i class="fas fa-lock fa-fw"></i><div><strong>Secure "Handshake" Protocol:</strong> No family information is ever shared publicly without multi-level approval from your designated family leaders.</div></li>
+            </ul>
+        </div>
+        <div class="panel">
+            <h2 class="text-2xl"><i class="fas fa-id-card mr-3"></i>LifeCV</h2>
+            <p class="text-sm mt-2 text-slate-600 dark:text-slate-400">Your LifeCV is the ultimate proof of your competence. It’s a dynamic portfolio, automatically built from your actions across the entire ecosystem, showcasing what you can do, not just what you've studied.</p>
+            <ul class="text-sm space-y-3 mt-4 feature-list flex-grow">
+                <li><i class="fas fa-cogs fa-fw"></i><div><strong>Action-Based Credentials:</strong> Successfully managing a budget in FinanceHelp or a property on eKhaya automatically becomes a verifiable skill on your LifeCV.</div></li>
+                <li><i class="fas fa-user-check fa-fw"></i><div><strong>A True Reflection:</strong> It captures your professional experience, community contributions, and practical skills in one holistic, credible document.</div></li>
+                <li><i class="fas fa-share-square fa-fw"></i><div><strong>Share with Confidence:</strong> Generate beautiful, professional web profiles or PDFs to share with employers, clients, or banks, with full control over what they see.</div></li>
+            </ul>
+        </div>
+    </div>
+</body>
+</html>
