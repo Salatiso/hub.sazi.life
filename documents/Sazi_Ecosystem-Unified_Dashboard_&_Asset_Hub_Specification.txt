@@ -8,8 +8,51 @@
   measurementId: "G-BDCNHBQTR2"
 };
 Enabled Sign-On Methods: Email/Password, Google, Anonymous.4. Architecture for Commercial Independence (Federated Data Model)How It Works: User identity is unified in /users/{userId}. Each platform's commercial data (e.g., subscriptions) is stored in its own separate, top-level collection (e.g., /safetyhelp_subscriptions/{userId}). Access is strictly controlled by Firestore Security Rules.Benefits: This allows for independent accounting, secure partner access (via service accounts with specific roles), and the simplicity of a single Firebase project for authentication.5. Unified Dashboard: File Structure[cite_start]The central dashboard at hub.sazi.life will use the following structure[cite: 378, 392, 417, 423]:/
-hub.sazi.life/├── .gitattributes├── README.md├── index.html├── about.html├── assets/│   ├── css/│   │   └── dashboard-styles.css│   └── js/│       └── dashboard.js├── dashboard/│   ├── index.html│   ├── activity.html│   ├── profile.html│   ├── assets/│   │   └── index.html│   ├── components/│   │   └── header.html│   ├── life-cv/│   │   └── life-cv.html│   ├── public-pages/│   │   └── index.html│   ├── publications/│   │   └── index.html│   └── training/│       ├── index.html│       ├── assign.html│       └── host.html├── documents/│   ├── Sazi.life Overhaul Research Plan_.txt│   ├── Sazi.life-Comprehensive_Project_Plan_&Investor_Prospectus.txt│   ├── Sazi.life-Official_Brand_Identity&Style_Guide.txt│   ├── Sazi.life_Strategic_Profile.txt│   ├── Sazi_Ecosystem-Explainer_Video_Proposal.txt│   ├── Sazi_Ecosystem-Publications_Hub&Templates_Specification.txt│   ├── Sazi_Ecosystem-Unified_Dashboard&Asset_Hub_Specification.txt│   └── The_Sazi_Ecosystem&LifeCV-Technical& Functional_Specification.txt└── templates/├── eKhaya-Platform_Overhaul_&_Integration_Specification.html├── Sazi_Ecosystem-Explainer_Brochures_TemplatesV1.html└── publications/└── formal-research-paper.html
-6. README.md# The Sazi Ecosystem - Unified Dashboard (hub.sazi.life)
+
+hub.sazi.life/
+├── .gitattributes
+├── README.md
+├── about.html
+├── index.html
+├── assets/
+│   ├── css/
+│   │   └── dashboard-styles.css
+│   └── js/
+│       ├── auth.js
+│       └── dashboard.js
+├── dashboard/
+│   ├── activity.html
+│   ├── index.html
+│   ├── profile.html
+│   ├── assets/
+│   │   └── index.html
+│   ├── components/
+│   │   └── header.html
+│   ├── life-cv/
+│   │   └── life-cv.html
+│   ├── public-pages/
+│   │   └── index.html
+│   ├── publications/
+│   │   └── index.html
+│   └── training/
+│       ├── assign.html
+│       ├── host.html
+│       └── index.html
+├── documents/
+│   ├── Sazi.life Overhaul Research Plan_.txt
+│   ├── Sazi.life-Comprehensive_Project_Plan_&_Investor_Prospectus.txt
+│   ├── Sazi.life-Official_Brand_Identity_&_Style_Guide.txt
+│   ├── Sazi.life_Strategic_Profile.txt
+│   ├── Sazi_Ecosystem-Explainer_Video_Proposal.txt
+│   ├── Sazi_Ecosystem-Publications_Hub_&_Templates_Specification.txt
+│   ├── Sazi_Ecosystem-Unified_Dashboard_&_Asset_Hub_Specification.txt
+│   └── The_Sazi_Ecosystem_&_LifeCV-Technical_& Functional_Specification.txt
+└── templates/
+    ├── Sazi_Ecosystem-Explainer_Brochures_TemplatesV1.html
+    ├── eKhaya-Platform_Overhaul_&_Integration_Specification.html
+    └── publications/
+        └── formal-research-paper.html
+
 
 ## Project Overview
 
