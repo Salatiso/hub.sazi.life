@@ -1,33 +1,32 @@
 <!-- File: dashboard/components/header.html -->
-<!-- This header is now built with Tailwind CSS to match the rest of your project. -->
-<header class="bg-white dark:bg-gray-800 shadow-md p-4">
+<header class="header p-4 shadow-md">
     <div class="container-fluid mx-auto flex justify-between items-center">
         <!-- Left side: Brand -->
-        <a href="/hub.sazi.life/dashboard/index.html" class="text-xl font-bold text-gray-800 dark:text-white">Sazi.life</a>
+        <a href="/hub.sazi.life/dashboard/index.html" class="text-xl font-bold text-primary">Sazi.life</a>
 
         <!-- Center: Ecosystem Links (visible on larger screens) -->
-        <div class="hidden lg:flex items-center space-x-4">
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500" href="https://salatiso.com/docuhelp/">DocuHelp</a>
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500" href="https://salatiso.com/legalhelp/">LegalHelp</a>
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500" href="https://salatiso.com/hrhelp/">HRHelp</a>
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500" href="https://safetyfirst.help">SafetyHelp</a>
-            <a class="text-gray-600 dark:text-gray-300 hover:text-blue-500" href="https://salatiso.com/ekhaya/">eKhaya</a>
+        <div class="hidden lg:flex items-center space-x-6">
+            <a class="text-secondary hover:text-primary transition-colors" href="https://salatiso.com/docuhelp/">DocuHelp</a>
+            <a class="text-secondary hover:text-primary transition-colors" href="https://salatiso.com/legalhelp/">LegalHelp</a>
+            <a class="text-secondary hover:text-primary transition-colors" href="https://salatiso.com/hrhelp/">HRHelp</a>
+            <a class="text-secondary hover:text-primary transition-colors" href="https://safetyfirst.help">SafetyHelp</a>
         </div>
 
         <!-- Right side: Controls -->
-        <div class="flex items-center space-x-4">
-            <!-- Placeholder for the new Theme Switcher -->
+        <div class="flex items-center space-x-2">
+            <!-- Placeholder for the Theme Switcher -->
             <div id="theme-switcher-placeholder"></div>
-            <!-- Placeholder for the new Language Switcher -->
+            <!-- Placeholder for the Language Switcher -->
             <div id="language-switcher-placeholder"></div>
             
+            <!-- User menu dropdown -->
             <div class="relative" id="user-dropdown-container">
-                <button id="user-btn" class="flex items-center space-x-2">
-                    <img class="h-8 w-8 rounded-full object-cover" src="https://placehold.co/100x100/4A5568/E2E8F0?text=S" alt="User avatar">
+                <button id="user-btn" class="flex items-center justify-center h-10 w-10 rounded-full bg-main hover:opacity-80 transition">
+                    <img class="h-9 w-9 rounded-full object-cover" src="https://placehold.co/100x100/4A5568/E2E8F0?text=S" alt="User avatar">
                 </button>
-                <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 bg-white dark:bg-gray-800 rounded-lg shadow-xl py-2 z-50">
-                     <a href="/hub.sazi.life/dashboard/profile.html" class="block px-4 py-2 text-sm text-gray-700 dark:text-gray-200 hover:bg-gray-100 dark:hover:bg-gray-700">Profile</a>
-                     <a id="logout-btn" href="#" role="button" class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-gray-100 dark:hover:bg-gray-700">Logout</a>
+                <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 card rounded-lg shadow-xl py-2 z-50">
+                     <a href="/hub.sazi.life/dashboard/profile.html" class="block px-4 py-2 text-sm text-secondary hover:text-primary hover:bg-main">Profile</a>
+                     <a id="logout-btn" href="#" role="button" class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-main">Logout</a>
                 </div>
             </div>
         </div>

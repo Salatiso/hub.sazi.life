@@ -1,6 +1,6 @@
 /* assets/css/dashboard-styles.css */
 
-/* Default Dark Theme (as a base) */
+/* --- Theme Color Definitions --- */
 :root, .theme-default {
   --main-bg: #111827; /* gray-900 */
   --sidebar-bg: #1f2937; /* gray-800 */
@@ -10,9 +10,9 @@
   --border-color: #374151; /* gray-700 */
   --accent-color: #3b82f6; /* blue-500 */
   --accent-text: #ffffff;
+  --hover-bg: rgba(255, 255, 255, 0.05);
 }
 
-/* Sazi Light Theme */
 .theme-light {
   --main-bg: #f3f4f6; /* gray-100 */
   --sidebar-bg: #ffffff;
@@ -22,9 +22,9 @@
   --border-color: #e5e7eb; /* gray-200 */
   --accent-color: #0ea5e9; /* Sazi Sky */
   --accent-text: #ffffff;
+  --hover-bg: #f3f4f6; /* gray-100 */
 }
 
-/* Oceanic Theme */
 .theme-oceanic {
   --main-bg: #0c2431;
   --sidebar-bg: #11374e;
@@ -34,9 +34,9 @@
   --border-color: #075985; /* sky-800 */
   --accent-color: #38bdf8; /* sky-400 */
   --accent-text: #0c2431;
+  --hover-bg: rgba(255, 255, 255, 0.1);
 }
 
-/* Terracotta Theme */
 .theme-terracotta {
   --main-bg: #44221a;
   --sidebar-bg: #5f3227;
@@ -46,21 +46,29 @@
   --border-color: #854d0e; /* amber-800 */
   --accent-color: #fb923c; /* Sazi Earth / amber-500 */
   --accent-text: #44221a;
+  --hover-bg: rgba(255, 255, 255, 0.1);
 }
 
-/* Apply variables */
+/* --- Base Component Styles --- */
 body {
   background-color: var(--main-bg);
   color: var(--text-primary);
   transition: background-color 0.3s, color 0.3s;
 }
 
-.sidebar {
+.sidebar, .header, .footer {
     background-color: var(--sidebar-bg);
+    color: var(--text-primary);
+    transition: background-color 0.3s, color 0.3s;
 }
 
 .card {
     background-color: var(--card-bg);
+    border: 1px solid var(--border-color);
+}
+
+.input-field {
+    background-color: var(--main-bg);
     border: 1px solid var(--border-color);
 }
 
@@ -79,4 +87,26 @@ body {
 }
 .btn-primary:hover {
     opacity: 0.9;
+}
+
+/* --- Sidebar Active Link Style --- */
+.sidebar-link {
+    display: flex;
+    align-items: center;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    transition: background-color 0.2s;
+    color: var(--text-secondary);
+}
+.sidebar-link:hover {
+    background-color: var(--hover-bg);
+    color: var(--text-primary);
+}
+.sidebar-link.active {
+    background-color: var(--accent-color);
+    color: var(--accent-text);
+    font-weight: 700;
+}
+.sidebar-link.active i {
+    color: var(--accent-text) !important;
 }
