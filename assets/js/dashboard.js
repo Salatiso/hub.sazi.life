@@ -1,5 +1,5 @@
 // File: /assets/js/dashboard.js
-// Description: Main script for The Hub dashboard with client-side routing.
+// Description: Main script for The Hub dashboard with client-side routing and corrected pathing.
 
 // --- Firebase & Module Imports ---
 import { auth, db } from './firebase-config.js'; 
@@ -18,8 +18,28 @@ const translations = {
 
 // --- Core UI & Routing Functions ---
 
+/**
+ * NEW: Calculates the relative path from the current page to the /dashboard/ root.
+ * This makes component loading reliable regardless of directory depth.
+ * @returns {string} A relative path prefix (e.g., './', '../', '../../').
+ */
+const getRelativePathPrefix = () => {
+    const path = window.location.pathname;
+    const pathSegments = path.split('/').filter(Boolean); // remove empty strings
+    const dashboardIndex = pathSegments.indexOf('dashboard');
+    
+    if (dashboardIndex === -1) {
+        // Should not happen if we are in the dashboard, but as a fallback
+        return './';
+    }
+    
+    // Calculate depth from the 'dashboard' folder
+    const depth = pathSegments.length - dashboardIndex - 1;
+    return '../'.repeat(depth) || './';
+};
+
+
 const loadComponent = async (componentPath, placeholderId) => {
-    // ... this function remains the same
     const placeholder = document.getElementById(placeholderId);
     if (!placeholder) return;
     try {
@@ -29,10 +49,6 @@ const loadComponent = async (componentPath, placeholderId) => {
     } catch (error) { console.error(`Error loading component ${componentPath}:`, error); }
 };
 
-/**
- * NEW: Fetches page content and loads it into the main content area.
- * @param {string} path - The path to the HTML content to load.
- */
 const loadPageContent = async (path) => {
     const mainContent = document.getElementById('main-content');
     if (!mainContent) return;
@@ -41,7 +57,6 @@ const loadPageContent = async (path) => {
         const response = await fetch(path);
         if (!response.ok) throw new Error(`Page not found: ${path}`);
         mainContent.innerHTML = await response.text();
-        // After loading new content, re-run page-specific logic
         routePageLogic(path, auth.currentUser.uid);
     } catch (error) {
         console.error(`Error loading page content ${path}:`, error);
@@ -82,7 +97,6 @@ const setupLanguageSwitcher = () => { /* ... remains the same */
 const setActiveSidebarLink = (path) => {
     document.querySelectorAll('.sidebar-link').forEach(link => {
         const linkPath = link.getAttribute('href');
-        // Use startsWith for parent paths (e.g., /dashboard/finhelp/ should match /dashboard/finhelp/index.html)
         if (linkPath && path.startsWith(linkPath)) {
             link.classList.add('active');
         } else {
@@ -150,21 +164,22 @@ const routePageLogic = (path, userId) => {
 
 // --- Main Initialization Controller ---
 document.addEventListener('DOMContentLoaded', async () => {
-    const basePath = '/'; // Simplified for SPA routing
-
     applyTheme(localStorage.getItem('theme') || 'theme-default');
 
-    // Load static shell components
+    // Get the correct relative path to the components directory
+    const componentPathPrefix = getRelativePathPrefix() + 'components/';
+
+    // Load static shell components using the correct relative path
     await Promise.all([
-        loadComponent(`${basePath}dashboard/components/header.html`, 'header-placeholder'),
-        loadComponent(`${basePath}dashboard/components/sidebar.html`, 'sidebar-placeholder'),
-        loadComponent(`${basePath}dashboard/components/footer.html`, 'footer-placeholder'),
+        loadComponent(`${componentPathPrefix}header.html`, 'header-placeholder'),
+        loadComponent(`${componentPathPrefix}sidebar.html`, 'sidebar-placeholder'),
+        loadComponent(`${componentPathPrefix}footer.html`, 'footer-placeholder'),
     ]);
     
     // Load components that go inside the header
     await Promise.all([
-        loadComponent(`${basePath}dashboard/components/theme-switcher.html`, 'theme-switcher-placeholder'),
-        loadComponent(`${basePath}dashboard/components/language-switcher.html`, 'language-switcher-placeholder')
+        loadComponent(`${componentPathPrefix}theme-switcher.html`, 'theme-switcher-placeholder'),
+        loadComponent(`${componentPathPrefix}language-switcher.html`, 'language-switcher-placeholder')
     ]);
 
     // --- Navigation Handling ---
@@ -174,7 +189,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         setActiveSidebarLink(path);
     };
 
-    // Listen for clicks on sidebar links
     document.body.addEventListener('click', (e) => {
         const link = e.target.closest('.sidebar-link, .sidebar-nav-link');
         if (link) {
@@ -184,10 +198,10 @@ document.addEventListener('DOMContentLoaded', async () => {
         }
     });
 
-    // Handle browser back/forward buttons
     window.addEventListener('popstate', () => {
-        loadPageContent(window.location.pathname);
-        setActiveSidebarLink(window.location.pathname);
+        const currentPath = window.location.pathname;
+        loadPageContent(currentPath);
+        setActiveSidebarLink(currentPath);
     });
 
     // --- Auth State Change ---
@@ -196,7 +210,6 @@ document.addEventListener('DOMContentLoaded', async () => {
             setTimeout(async () => {
                 await updateHeaderUserInfo(user);
 
-                // Setup all interactive UI elements
                 setupDropdown('user-btn', 'user-menu');
                 setupDropdown('theme-btn', 'theme-menu');
                 setupDropdown('language-btn', 'language-menu');
@@ -206,8 +219,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 setLanguage(localStorage.getItem('language') || 'en');
                 displayWelcomeMessage();
 
-                // Initial page load
-                const initialPath = window.location.pathname.endsWith('/') ? '/dashboard/overview.html' : window.location.pathname;
+                const initialPath = window.location.pathname.endsWith('/') || window.location.pathname.endsWith('/dashboard/') ? '/dashboard/overview.html' : window.location.pathname;
                 loadPageContent(initialPath);
                 setActiveSidebarLink(initialPath);
                 
@@ -220,14 +232,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
             }, 200);
         } else {
-            // Redirect to login if not on login page
             if (!window.location.pathname.includes('index.html')) {
                  window.location.href = '/index.html';
             }
         }
     });
 
-    // Global click listener to close dropdowns
     document.addEventListener('click', (e) => {
         if (!e.target.closest('#user-dropdown-container, #theme-dropdown-container, #language-dropdown-container, #ecosystem-dropdown-container')) {
             document.querySelectorAll('.user-menu-dropdown').forEach(menu => menu.classList.add('hidden'));
