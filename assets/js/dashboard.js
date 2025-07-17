@@ -1,5 +1,5 @@
 // File: /assets/js/dashboard.js
-// Description: Main script for The Hub dashboard with final pathing and routing corrections.
+// Description: Main script for The Hub dashboard with definitive pathing for GitHub Pages.
 
 // --- Firebase & Module Imports ---
 import { auth, db } from './firebase-config.js'; 
@@ -18,8 +18,8 @@ const translations = {
 
 // --- Core UI & Routing Functions ---
 
-// CRITICAL FIX: Define the base path for the GitHub Pages repository.
-// This tells the script where the project's "home" folder is on the server.
+// CRITICAL FIX: Define the absolute base path for the GitHub Pages repository.
+// This tells the script exactly where the project's "home" folder is on the server.
 const basePath = '/hub.sazi.life';
 
 const loadComponent = async (componentPath, placeholderId) => {
@@ -29,7 +29,7 @@ const loadComponent = async (componentPath, placeholderId) => {
         return;
     }
     try {
-        // Always construct the full path from the defined base path.
+        // Always construct the full, absolute path from the defined base path.
         const fullPath = `${basePath}${componentPath}`;
         const response = await fetch(fullPath);
         if (!response.ok) throw new Error(`Component not found: ${fullPath}`);
@@ -44,7 +44,7 @@ const loadPageContent = async (path) => {
     if (!mainContent) return;
     mainContent.innerHTML = `<div class='p-8 text-center text-secondary'>Loading...</div>`;
     try {
-        // Always construct the full path from the defined base path.
+        // Always construct the full, absolute path from the defined base path.
         const fullPath = `${basePath}${path}`;
         const response = await fetch(fullPath);
         if (!response.ok) throw new Error(`Page not found: ${fullPath}`);
@@ -58,10 +58,38 @@ const loadPageContent = async (path) => {
     }
 };
 
-const setLanguage = (lang) => { /* ... remains the same */ };
-const applyTheme = (theme) => { /* ... remains the same */ };
-const setupThemeSwitcher = () => { /* ... remains the same */ };
-const setupLanguageSwitcher = () => { /* ... remains the same */ };
+const setLanguage = (lang) => {
+    document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        if (translations[lang] && translations[lang][key]) el.innerText = translations[lang][key];
+    });
+    localStorage.setItem('language', lang);
+};
+
+const applyTheme = (theme) => {
+    document.body.className = theme;
+    localStorage.setItem('theme', theme);
+};
+
+const setupThemeSwitcher = () => {
+    document.body.addEventListener('click', (e) => {
+        const themeOption = e.target.closest('.theme-option');
+        if (themeOption) {
+            applyTheme(themeOption.getAttribute('data-theme'));
+            document.getElementById('theme-menu').classList.add('hidden');
+        }
+    });
+};
+
+const setupLanguageSwitcher = () => {
+    document.body.addEventListener('click', (e) => {
+        const langOption = e.target.closest('.language-option');
+        if (langOption) {
+            setLanguage(langOption.getAttribute('data-lang'));
+            document.getElementById('language-menu').classList.add('hidden');
+        }
+    });
+};
 
 const setActiveSidebarLink = (path) => {
     document.querySelectorAll('.sidebar-link').forEach(link => {
@@ -74,9 +102,54 @@ const setActiveSidebarLink = (path) => {
     });
 };
 
-const setupDropdown = (buttonId, menuId) => { /* ... remains the same */ };
-const displayWelcomeMessage = () => { /* ... remains the same */ };
-const updateHeaderUserInfo = async (user) => { /* ... remains the same */ };
+const setupDropdown = (buttonId, menuId) => {
+    const button = document.getElementById(buttonId);
+    const menu = document.getElementById(menuId);
+    if (button && menu) {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelectorAll('.user-menu-dropdown').forEach(m => {
+                if (m.id !== menuId) m.classList.add('hidden');
+            });
+            menu.classList.toggle('hidden');
+        });
+    }
+};
+
+const displayWelcomeMessage = () => {
+    const message = sessionStorage.getItem('welcomeMessage');
+    if (message) {
+        const messageContainer = document.getElementById('dashboard-welcome-message');
+        if (messageContainer) {
+            messageContainer.innerHTML = message;
+            messageContainer.classList.remove('hidden');
+            sessionStorage.removeItem('welcomeMessage');
+        }
+    }
+};
+
+const updateHeaderUserInfo = async (user) => {
+    const userNameEl = document.getElementById('user-name');
+    const userAvatarEl = document.getElementById('user-avatar');
+    if (!userNameEl || !userAvatarEl) return;
+    try {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            const nameToDisplay = user.displayName || userData.name || user.email;
+            userNameEl.textContent = nameToDisplay;
+        } else {
+            userNameEl.textContent = user.email;
+        }
+        if (user.photoURL) {
+            userAvatarEl.src = user.photoURL;
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        userNameEl.textContent = user.email;
+    }
+};
 
 const routePageLogic = (path, userId) => {
     if (!userId) return;
@@ -90,7 +163,6 @@ const routePageLogic = (path, userId) => {
 document.addEventListener('DOMContentLoaded', async () => {
     applyTheme(localStorage.getItem('theme') || 'theme-default');
 
-    // Paths are now relative to the root, and will be prefixed with basePath
     const componentPathPrefix = '/dashboard/components/';
 
     await Promise.all([
@@ -117,7 +189,6 @@ document.addEventListener('DOMContentLoaded', async () => {
         const link = e.target.closest('.sidebar-link, .sidebar-nav-link');
         if (link) {
             e.preventDefault();
-            // Get the path relative to the project root (e.g., /dashboard/overview.html)
             const path = new URL(link.href).pathname.replace(basePath, '');
             handleNavigation(path);
         }
@@ -142,7 +213,6 @@ document.addEventListener('DOMContentLoaded', async () => {
                 setLanguage(localStorage.getItem('language') || 'en');
                 displayWelcomeMessage();
 
-                // Determine initial page to load, removing the basePath
                 const pathName = window.location.pathname.replace(basePath, '');
                 const initialPath = (pathName === '/' || pathName === '/dashboard/') 
                     ? '/dashboard/overview.html' 
