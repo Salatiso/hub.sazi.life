@@ -1,45 +1,45 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Overview - The Hub</title>
-    <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <!-- Corrected relative path -->
-    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
-</head>
-<body class="theme-default">
-    <!-- Standard App Container -->
-    <div id="app-container" class="flex h-screen bg-main text-primary">
+<!-- File: /dashboard/overview.html -->
+<!-- This is the main content that gets loaded into the dashboard index page. -->
+<div class="p-4 sm:p-6 lg:p-8">
+    <header class="mb-8">
+        <h1 class="text-3xl font-bold font-poppins text-primary">Dashboard Overview</h1>
+        <p class="text-secondary">Welcome back! Here's a summary of your ecosystem.</p>
+    </header>
 
-        <!-- Sidebar Placeholder -->
-        <div id="sidebar-placeholder"></div>
+    <!-- Grid for summary cards/widgets -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
 
-        <div class="flex-1 flex flex-col">
-            <!-- Header Placeholder -->
-            <div id="header-placeholder"></div>
-
-            <!-- Main Content Area -->
-            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
-                <!-- Original page content starts here -->
-                <header class="mb-8">
-                    <h1 class="text-3xl font-bold font-poppins text-primary">Dashboard Overview</h1>
-                    <p class="text-secondary">Welcome back! Here's a summary of your ecosystem.</p>
-                </header>
-                
-                <!-- Additional content for the overview can be placed here -->
-                <div class="text-center text-secondary">
-                    <p>Your main dashboard content is loading...</p>
-                </div>
-                <!-- Original page content ends here -->
-            </main>
-
-            <!-- Footer Placeholder -->
-            <div id="footer-placeholder"></div>
+        <!-- Life-CV Card -->
+        <div class="card p-6 rounded-xl flex flex-col">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-id-card text-2xl text-accent-color mr-4"></i>
+                <h3 class="font-bold text-xl text-primary">Life-CV</h3>
+            </div>
+            <p class="text-secondary text-sm flex-grow">Your dynamic, living portfolio. It grows as you engage with the ecosystem, capturing your skills and experiences automatically.</p>
+            <a href="/dashboard/life-cv/life-cv.html" class="sidebar-nav-link btn-primary text-center mt-4 inline-block">View My Life-CV</a>
         </div>
+
+        <!-- FinHelp Card -->
+        <div class="card p-6 rounded-xl flex flex-col">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-wallet text-2xl text-accent-color mr-4"></i>
+                <h3 class="font-bold text-xl text-primary">FinHelp</h3>
+            </div>
+            <p class="text-secondary text-sm flex-grow">Take control of your financial world. Manage assets, track expenses, and prepare for your financial future with confidence.</p>
+            <a href="/dashboard/finhelp/index.html" class="sidebar-nav-link btn-primary text-center mt-4 inline-block">Go to FinHelp</a>
+        </div>
+
+        <!-- FamilyHub Card -->
+        <div class="card p-6 rounded-xl flex flex-col">
+            <div class="flex items-center mb-4">
+                <i class="fas fa-users text-2xl text-accent-color mr-4"></i>
+                <h3 class="font-bold text-xl text-primary">FamilyHub</h3>
+            </div>
+            <p class="text-secondary text-sm flex-grow">The central point for your family's shared values, goals, and important information. Strengthen your family bond and build a legacy.</p>
+            <a href="/dashboard/familyhub/index.html" class="sidebar-nav-link btn-primary text-center mt-4 inline-block">Open FamilyHub</a>
+        </div>
+
+        <!-- Add more cards for other key areas like Publications, CommsHub etc. -->
+
     </div>
-    <!-- Corrected relative path -->
-    <script type="module" src="../assets/js/dashboard.js"></script>
-</body>
-</html>
+</div>
