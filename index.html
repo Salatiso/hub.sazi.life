@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign In - The Hub by Salatiso</title>
+    <title>The Hub by Salatiso</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -21,7 +21,6 @@
 
     <div class="w-full max-w-md p-8 space-y-6 bg-white shadow-xl rounded-2xl m-4">
         <div class="text-center">
-            <!-- Salatiso Logo -->
             <a href="https://salatiso.com" target="_blank" class="inline-block group">
                 <svg viewBox="0 0 100 100" class="salatiso-logo-svg mx-auto text-slate-800 group-hover:text-blue-600 transition-colors">
                     <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/>
@@ -29,48 +28,53 @@
                     <path d="M50 10 L 40 25 L 60 25 Z" fill="currentColor"/>
                 </svg>
             </a>
-            <h1 class="text-2xl font-bold text-slate-800 mt-4 font-poppins">Welcome to The Hub</h1>
-            <p class="text-slate-500 text-sm">One account. A lifetime of tools.</p>
+            <h1 id="form-title" class="text-2xl font-bold text-slate-800 mt-4 font-poppins">Sign In</h1>
+            <p class="text-slate-500 text-sm">to access your lifetime of tools.</p>
         </div>
 
         <div id="message-area" class="hidden"></div>
 
-        <form id="login-form" class="space-y-6">
-            <div class="rounded-md shadow-sm -space-y-px">
+        <form id="auth-form" class="space-y-4">
+            <div class="rounded-md shadow-sm space-y-3">
                 <div>
-                    <label for="email-address" class="sr-only">Email address</label>
-                    <input id="email-address" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Email address">
+                    <label for="email" class="sr-only">Email address</label>
+                    <input id="email" name="email" type="email" autocomplete="email" required class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Email address">
                 </div>
                 <div>
                     <label for="password" class="sr-only">Password</label>
-                    <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Password">
+                    <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Password">
+                </div>
+                <!-- Confirm Password field for Sign Up, hidden by default -->
+                <div id="confirm-password-container" class="hidden">
+                    <label for="confirm-password" class="sr-only">Confirm Password</label>
+                    <input id="confirm-password" name="confirm-password" type="password" class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Confirm Password">
                 </div>
             </div>
 
-            <div class="flex items-center justify-between">
+            <div class="flex items-center justify-end">
                 <div class="text-sm">
                     <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
-                        Forgot your password?
+                        Forgot password?
                     </a>
                 </div>
             </div>
 
             <div>
-                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-800 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">
-                    Sign in
+                <button id="submit-button" type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-800 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">
+                    Sign In
                 </button>
             </div>
         </form>
+        
+        <div class="text-sm text-center">
+            <a href="#" id="form-toggle-link" class="text-slate-600 hover:text-slate-900">
+                Don't have an account? <span class="font-medium text-blue-600 hover:text-blue-500">Sign Up</span>
+            </a>
+        </div>
 
         <div class="relative">
-            <div class="absolute inset-0 flex items-center">
-                <div class="w-full border-t border-gray-300"></div>
-            </div>
-            <div class="relative flex justify-center text-sm">
-                <span class="px-2 bg-white text-gray-500">
-                    Or continue with
-                </span>
-            </div>
+            <div class="absolute inset-0 flex items-center"><div class="w-full border-t border-gray-300"></div></div>
+            <div class="relative flex justify-center text-sm"><span class="px-2 bg-white text-gray-500">Or continue with</span></div>
         </div>
 
         <div>
@@ -84,10 +88,9 @@
             </button>
         </div>
         
-        <!-- Updated Ecosystem Links -->
+        <!-- Ecosystem Links -->
         <div class="mt-6 pt-6 border-t text-center">
             <p class="text-xs text-slate-400 mb-4">Your account gives you access to the full Salatiso ecosystem:</p>
-            <!-- This container class has been changed to remove wrapping -->
             <div class="flex justify-center items-center gap-x-4 text-base">
                 <a href="https://safetyfirst.help" target="_blank" class="ecosystem-link text-slate-700">Safety<span class="help-brand-accent">Help</span></a>
                 <a href="https://salatiso.com/legalhelp/" target="_blank" class="ecosystem-link text-slate-700">Legal<span class="help-brand-accent">Help</span></a>
