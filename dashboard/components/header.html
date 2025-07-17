@@ -2,7 +2,6 @@
 <header class="header flex items-center justify-between p-4 border-b border-border-color">
     <!-- Left side: Page Title -->
     <div class="flex items-center">
-        <!-- Salatiso Logo for The Hub -->
         <a href="/dashboard/index.html" class="mr-4">
             <svg viewBox="0 0 100 100" class="h-8 w-8 text-accent-color">
                 <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/>
@@ -17,7 +16,31 @@
     </div>
 
     <!-- Right side: Controls -->
-    <div class="flex items-center space-x-4">
+    <div class="flex items-center space-x-2 sm:space-x-4">
+        <!-- Ecosystem Dropdown (New) -->
+        <div id="ecosystem-dropdown-container" class="relative">
+            <button id="ecosystem-btn" class="flex items-center space-x-2 p-2 rounded-md hover:bg-hover-bg">
+                <i class="fas fa-grip-horizontal text-primary"></i>
+                <span class="hidden lg:inline text-sm font-medium text-primary">Ecosystem</span>
+            </button>
+            <div id="ecosystem-menu" class="user-menu-dropdown absolute right-0 mt-2 w-56 bg-sidebar-bg border border-border-color rounded-lg shadow-lg py-1 hidden z-50">
+                <p class="px-4 py-2 text-xs text-secondary">Help Platforms</p>
+                <a href="https://safetyfirst.help" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">SafetyHelp</a>
+                <a href="https://salatiso.com/legalhelp/" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">LegalHelp</a>
+                <a href="https://finhelp.salatiso.com" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">FinHelp</a>
+                <a href="https://salatiso.com/hrhelp/" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">HRHelp</a>
+                <a href="https://salatiso.com/docuhelp/" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">DocuHelp</a>
+                <div class="border-t border-border-color my-1"></div>
+                <p class="px-4 py-2 text-xs text-secondary">Community Platforms</p>
+                <a href="https://salatiso.com/ekhaya/" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">eKhaya</a>
+                <a href="https://flamea.org" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">Flamea</a>
+                <a href="https://salatiso.com/familyvalue/" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">FamilyValue</a>
+                <div class="border-t border-border-color my-1"></div>
+                 <p class="px-4 py-2 text-xs text-secondary">Learning Platform</p>
+                <a href="https://sazi.life" target="_blank" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">sazi.life</a>
+            </div>
+        </div>
+
         <!-- Theme Switcher -->
         <div id="theme-switcher-placeholder" class="relative"></div>
 
@@ -27,11 +50,13 @@
         <!-- User Dropdown -->
         <div id="user-dropdown-container" class="relative">
             <button id="user-btn" class="flex items-center space-x-2">
-                <img class="h-8 w-8 rounded-full" src="https://placehold.co/100x100/667eea/ffffff?text=U" alt="User avatar">
-                <span class="hidden sm:inline text-sm font-medium text-primary">User Name</span>
+                <!-- ID added for dynamic avatar -->
+                <img id="user-avatar" class="h-8 w-8 rounded-full" src="https://placehold.co/100x100/667eea/ffffff?text=U" alt="User avatar">
+                <!-- ID added for dynamic name -->
+                <span id="user-name" class="hidden sm:inline text-sm font-medium text-primary">User</span>
                 <i class="fas fa-chevron-down text-xs text-secondary"></i>
             </button>
-            <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-sidebar-bg border border-border-color rounded-lg shadow-lg py-1 hidden z-50">
+            <div id="user-menu" class="user-menu-dropdown absolute right-0 mt-2 w-48 bg-sidebar-bg border border-border-color rounded-lg shadow-lg py-1 hidden z-50">
                 <a href="/dashboard/profile.html" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">My Profile</a>
                 <a href="#" id="logout-btn" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">Sign Out</a>
             </div>

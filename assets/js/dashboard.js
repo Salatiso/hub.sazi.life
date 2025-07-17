@@ -2,15 +2,11 @@
 // Description: Main script for The Hub dashboard.
 
 // --- Firebase & Module Imports ---
-// Import the initialized auth instance from the central config file
-import { auth } from './firebase-config.js'; 
+import { auth, db } from './firebase-config.js'; 
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import * as financeUI from './financehelp/finance-ui.js';
 import * as publicPagesUI from './public-pages/publisher.js';
-// import * as familyHubUI from './familyhub/family-ui.js';
-// import * as commsUI from './commshub/comms-ui.js';
-
-// Note: We no longer initialize Firebase here.
 
 // --- TRANSLATION DICTIONARY ---
 const translations = {
@@ -20,33 +16,24 @@ const translations = {
     af: { "sidebar_overview": "Oorsig", "sidebar_lifecv": "Lewens-CV", "sidebar_publications": "Publikasies", "sidebar_public_pages": "Openbare Bladsye", "sidebar_activity": "Aktiwiteit" }
 };
 
-// --- Core UI Functions (loadComponent, setLanguage, applyTheme, etc.) remain the same ---
+// --- Core UI Functions ---
 
 const loadComponent = async (componentPath, placeholderId) => {
     const placeholder = document.getElementById(placeholderId);
-    if (!placeholder) {
-        console.warn(`Placeholder element #${placeholderId} not found.`);
-        return;
-    }
+    if (!placeholder) return;
     try {
         const response = await fetch(componentPath);
         if (!response.ok) throw new Error(`Component not found: ${componentPath}`);
         placeholder.innerHTML = await response.text();
-    } catch (error) {
-        console.error(`Error loading component ${componentPath}:`, error);
-        placeholder.innerHTML = `<p class="text-red-500">Error loading component.</p>`;
-    }
+    } catch (error) { console.error(`Error loading component ${componentPath}:`, error); }
 };
 
 const setLanguage = (lang) => {
     document.querySelectorAll('[data-translate]').forEach(el => {
         const key = el.getAttribute('data-translate');
-        if (translations[lang] && translations[lang][key]) {
-            el.innerText = translations[lang][key];
-        }
+        if (translations[lang] && translations[lang][key]) el.innerText = translations[lang][key];
     });
     localStorage.setItem('language', lang);
-    document.documentElement.lang = lang;
 };
 
 const applyTheme = (theme) => {
@@ -56,8 +43,9 @@ const applyTheme = (theme) => {
 
 const setupThemeSwitcher = () => {
     document.body.addEventListener('click', (e) => {
-        if (e.target.closest('.theme-option')) {
-            applyTheme(e.target.closest('.theme-option').getAttribute('data-theme'));
+        const themeOption = e.target.closest('.theme-option');
+        if (themeOption) {
+            applyTheme(themeOption.getAttribute('data-theme'));
             document.getElementById('theme-menu').classList.add('hidden');
         }
     });
@@ -65,8 +53,9 @@ const setupThemeSwitcher = () => {
 
 const setupLanguageSwitcher = () => {
     document.body.addEventListener('click', (e) => {
-        if (e.target.closest('.language-option')) {
-            setLanguage(e.target.closest('.language-option').getAttribute('data-lang'));
+        const langOption = e.target.closest('.language-option');
+        if (langOption) {
+            setLanguage(langOption.getAttribute('data-lang'));
             document.getElementById('language-menu').classList.add('hidden');
         }
     });
@@ -75,8 +64,8 @@ const setupLanguageSwitcher = () => {
 const setActiveSidebarLink = () => {
     const currentPath = window.location.pathname;
     document.querySelectorAll('.sidebar-link').forEach(link => {
-        const linkPath = link.getAttribute('data-link');
-        if (linkPath && currentPath.includes(linkPath)) {
+        const linkPath = link.getAttribute('href'); // Use href for matching
+        if (linkPath && currentPath.startsWith(linkPath)) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
@@ -91,7 +80,7 @@ const setupDropdown = (buttonId, menuId) => {
         button.addEventListener('click', (e) => {
             e.stopPropagation();
             document.querySelectorAll('.user-menu-dropdown').forEach(m => {
-                if(m.id !== menuId) m.classList.add('hidden');
+                if (m.id !== menuId) m.classList.add('hidden');
             });
             menu.classList.toggle('hidden');
         });
@@ -109,6 +98,41 @@ const displayWelcomeMessage = () => {
         }
     }
 };
+
+/**
+ * NEW: Fetches user data from Firestore and updates the header.
+ * @param {object} user - The authenticated user object from Firebase Auth.
+ */
+const updateHeaderUserInfo = async (user) => {
+    const userNameEl = document.getElementById('user-name');
+    const userAvatarEl = document.getElementById('user-avatar');
+    if (!userNameEl || !userAvatarEl) return;
+
+    try {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+
+        if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            // Use displayName from Auth, fallback to name in DB, fallback to email
+            const nameToDisplay = user.displayName || userData.name || user.email;
+            userNameEl.textContent = nameToDisplay;
+        } else {
+            // If no doc, use email as fallback
+            userNameEl.textContent = user.email;
+        }
+        // Update avatar if available
+        if (user.photoURL) {
+            userAvatarEl.src = user.photoURL;
+        }
+
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        // Fallback to email in case of error
+        userNameEl.textContent = user.email;
+    }
+};
+
 
 const routePageLogic = (path, userId) => {
     if (path.includes('/finhelp/assets.html')) financeUI.initAssetPage(userId);
@@ -136,16 +160,21 @@ document.addEventListener('DOMContentLoaded', async () => {
     ]);
 
     const path = window.location.pathname;
-    if (path.endsWith('/dashboard/') || path.endsWith('/dashboard/index.html')) {
+    if (path.endsWith('/dashboard/') || path.endsWith('/dashboard/index.html') || path.endsWith('/')) {
         await loadComponent(`${basePath}dashboard/overview.html`, 'main-content');
     }
 
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            setTimeout(() => {
+            setTimeout(async () => {
+                // Fetch user data and update header FIRST
+                await updateHeaderUserInfo(user);
+
+                // Then setup all interactive UI elements
                 setupDropdown('user-btn', 'user-menu');
                 setupDropdown('theme-btn', 'theme-menu');
                 setupDropdown('language-btn', 'language-menu');
+                setupDropdown('ecosystem-btn', 'ecosystem-menu'); // Setup new dropdown
                 setupThemeSwitcher();
                 setupLanguageSwitcher();
                 setLanguage(localStorage.getItem('language') || 'en');
@@ -161,7 +190,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 }
                 
                 routePageLogic(window.location.pathname, user.uid);
-            }, 200);
+            }, 200); // Timeout helps ensure all components are loaded
         } else {
             const loginPath = basePath.endsWith('/') ? `${basePath}index.html` : `${basePath}/index.html`;
             if (!window.location.pathname.includes('index.html')) {
@@ -171,7 +200,7 @@ document.addEventListener('DOMContentLoaded', async () => {
     });
 
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('#user-dropdown-container') && !e.target.closest('#theme-dropdown-container') && !e.target.closest('#language-dropdown-container')) {
+        if (!e.target.closest('#user-dropdown-container') && !e.target.closest('#theme-dropdown-container') && !e.target.closest('#language-dropdown-container') && !e.target.closest('#ecosystem-dropdown-container')) {
             document.querySelectorAll('.user-menu-dropdown').forEach(menu => menu.classList.add('hidden'));
         }
     });
