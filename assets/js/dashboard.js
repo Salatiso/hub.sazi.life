@@ -18,21 +18,9 @@ const translations = {
 
 // --- Core UI & Routing Functions ---
 
-/**
- * Calculates the base path of the repository on the server.
- * This is crucial for environments like GitHub Pages where the site is in a sub-directory.
- * @returns {string} The base path, e.g., "/hub.sazi.life" or "".
- */
-const getBasePath = () => {
-    const path = window.location.pathname;
-    const segments = path.split('/').filter(Boolean);
-    const dashboardIndex = segments.indexOf('dashboard');
-    if (dashboardIndex > 0) {
-        return '/' + segments.slice(0, dashboardIndex).join('/');
-    }
-    return '';
-};
-const basePath = getBasePath();
+// CRITICAL FIX: Define the base path for the GitHub Pages repository.
+// This tells the script where the project's "home" folder is on the server.
+const basePath = '/hub.sazi.life';
 
 const loadComponent = async (componentPath, placeholderId) => {
     const placeholder = document.getElementById(placeholderId);
@@ -41,6 +29,7 @@ const loadComponent = async (componentPath, placeholderId) => {
         return;
     }
     try {
+        // Always construct the full path from the defined base path.
         const fullPath = `${basePath}${componentPath}`;
         const response = await fetch(fullPath);
         if (!response.ok) throw new Error(`Component not found: ${fullPath}`);
@@ -55,6 +44,7 @@ const loadPageContent = async (path) => {
     if (!mainContent) return;
     mainContent.innerHTML = `<div class='p-8 text-center text-secondary'>Loading...</div>`;
     try {
+        // Always construct the full path from the defined base path.
         const fullPath = `${basePath}${path}`;
         const response = await fetch(fullPath);
         if (!response.ok) throw new Error(`Page not found: ${fullPath}`);
@@ -76,7 +66,6 @@ const setupLanguageSwitcher = () => { /* ... remains the same */ };
 const setActiveSidebarLink = (path) => {
     document.querySelectorAll('.sidebar-link').forEach(link => {
         const linkPath = link.getAttribute('href');
-        // We need to compare the end of the path because of the base path
         if (linkPath && path.endsWith(linkPath)) {
             link.classList.add('active');
         } else {
@@ -91,7 +80,6 @@ const updateHeaderUserInfo = async (user) => { /* ... remains the same */ };
 
 const routePageLogic = (path, userId) => {
     if (!userId) return;
-    // Use endsWith for reliable matching in sub-directories
     if (path.endsWith('/finhelp/assets.html')) financeUI.initAssetPage(userId);
     else if (path.endsWith('/finhelp/expenses.html')) financeUI.initExpensePage(userId);
     else if (path.endsWith('/finhelp/tax-pack.html')) financeUI.initTaxPackPage(userId);
@@ -102,6 +90,7 @@ const routePageLogic = (path, userId) => {
 document.addEventListener('DOMContentLoaded', async () => {
     applyTheme(localStorage.getItem('theme') || 'theme-default');
 
+    // Paths are now relative to the root, and will be prefixed with basePath
     const componentPathPrefix = '/dashboard/components/';
 
     await Promise.all([
@@ -128,7 +117,8 @@ document.addEventListener('DOMContentLoaded', async () => {
         const link = e.target.closest('.sidebar-link, .sidebar-nav-link');
         if (link) {
             e.preventDefault();
-            const path = link.getAttribute('href');
+            // Get the path relative to the project root (e.g., /dashboard/overview.html)
+            const path = new URL(link.href).pathname.replace(basePath, '');
             handleNavigation(path);
         }
     });
@@ -152,7 +142,7 @@ document.addEventListener('DOMContentLoaded', async () => {
                 setLanguage(localStorage.getItem('language') || 'en');
                 displayWelcomeMessage();
 
-                // Determine initial page to load
+                // Determine initial page to load, removing the basePath
                 const pathName = window.location.pathname.replace(basePath, '');
                 const initialPath = (pathName === '/' || pathName === '/dashboard/') 
                     ? '/dashboard/overview.html' 
@@ -163,7 +153,9 @@ document.addEventListener('DOMContentLoaded', async () => {
                 if (logoutButton) {
                     logoutButton.addEventListener('click', (e) => {
                         e.preventDefault();
-                        signOut(auth).catch(error => console.error('Logout Error:', error));
+                        signOut(auth).then(() => {
+                            window.location.href = `${basePath}/index.html`;
+                        }).catch(error => console.error('Logout Error:', error));
                     });
                 }
             }, 200);
