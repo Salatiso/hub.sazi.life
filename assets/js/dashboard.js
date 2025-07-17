@@ -1,29 +1,18 @@
 // File: /assets/js/dashboard.js
-// Description: Main script for The Hub dashboard. Handles component loading, auth state, and page-specific logic.
+// Description: Main script for The Hub dashboard.
 
 // --- Firebase & Module Imports ---
-import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-app.js";
-import { getAuth, onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
+// Import the initialized auth instance from the central config file
+import { auth } from './firebase-config.js'; 
+import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import * as financeUI from './financehelp/finance-ui.js';
 import * as publicPagesUI from './public-pages/publisher.js';
-// Note: Placeholders for future UI modules
 // import * as familyHubUI from './familyhub/family-ui.js';
 // import * as commsUI from './commshub/comms-ui.js';
 
-// --- Firebase Initialization ---
-const firebaseConfig = {
-    apiKey: "AIzaSyD_pRVkeVzciCPowxsj44NRVlbyZvFPueI",
-    authDomain: "lifecv-d2724.firebaseapp.com",
-    projectId: "lifecv-d2724",
-    storageBucket: "lifecv-d2724.appspot.com",
-    messagingSenderId: "1039752653127",
-    appId: "1:1039752653127:web:54afa09b21c98ef231c462",
-};
+// Note: We no longer initialize Firebase here.
 
-const app = initializeApp(firebaseConfig);
-const auth = getAuth(app);
-
-// --- TRANSLATION DICTIONARY (Restored) ---
+// --- TRANSLATION DICTIONARY ---
 const translations = {
     en: { "sidebar_overview": "Overview", "sidebar_lifecv": "Life-CV", "sidebar_publications": "Publications", "sidebar_public_pages": "Public Pages", "sidebar_activity": "Activity" },
     xh: { "sidebar_overview": "Isishwankathelo", "sidebar_lifecv": "i-Life-CV", "sidebar_publications": "Ushicilelo", "sidebar_public_pages": "Amaphepha Oluntu", "sidebar_activity": "Umsebenzi" },
@@ -31,7 +20,7 @@ const translations = {
     af: { "sidebar_overview": "Oorsig", "sidebar_lifecv": "Lewens-CV", "sidebar_publications": "Publikasies", "sidebar_public_pages": "Openbare Bladsye", "sidebar_activity": "Aktiwiteit" }
 };
 
-// --- Core UI Functions ---
+// --- Core UI Functions (loadComponent, setLanguage, applyTheme, etc.) remain the same ---
 
 const loadComponent = async (componentPath, placeholderId) => {
     const placeholder = document.getElementById(placeholderId);
@@ -49,7 +38,6 @@ const loadComponent = async (componentPath, placeholderId) => {
     }
 };
 
-// --- THEME & LANGUAGE FUNCTIONS (Restored) ---
 const setLanguage = (lang) => {
     document.querySelectorAll('[data-translate]').forEach(el => {
         const key = el.getAttribute('data-translate');
@@ -84,7 +72,6 @@ const setupLanguageSwitcher = () => {
     });
 };
 
-
 const setActiveSidebarLink = () => {
     const currentPath = window.location.pathname;
     document.querySelectorAll('.sidebar-link').forEach(link => {
@@ -103,7 +90,6 @@ const setupDropdown = (buttonId, menuId) => {
     if (button && menu) {
         button.addEventListener('click', (e) => {
             e.stopPropagation();
-            // Close other menus
             document.querySelectorAll('.user-menu-dropdown').forEach(m => {
                 if(m.id !== menuId) m.classList.add('hidden');
             });
@@ -124,14 +110,11 @@ const displayWelcomeMessage = () => {
     }
 };
 
-// --- Page-Specific Logic Router ---
 const routePageLogic = (path, userId) => {
     if (path.includes('/finhelp/assets.html')) financeUI.initAssetPage(userId);
     else if (path.includes('/finhelp/expenses.html')) financeUI.initExpensePage(userId);
     else if (path.includes('/finhelp/tax-pack.html')) financeUI.initTaxPackPage(userId);
     else if (path.includes('/public-pages/editor.html')) publicPagesUI.initPublisherPage(userId);
-    // else if (path.includes('/familyhub/index.html')) familyHubUI.initFamilyHubPage(userId);
-    // else if (path.includes('/commshub/index.html')) commsUI.initCommsHub(userId);
 };
 
 // --- Main Initialization Controller ---
@@ -139,23 +122,19 @@ document.addEventListener('DOMContentLoaded', async () => {
     const repoName = window.location.pathname.split('/')[1] || '';
     const basePath = repoName.startsWith('dashboard') ? '/' : `/${repoName}/`;
 
-    // Set theme immediately from localStorage
     applyTheme(localStorage.getItem('theme') || 'theme-default');
 
-    // Load all shared components
     await Promise.all([
         loadComponent(`${basePath}dashboard/components/header.html`, 'header-placeholder'),
         loadComponent(`${basePath}dashboard/components/sidebar.html`, 'sidebar-placeholder'),
         loadComponent(`${basePath}dashboard/components/footer.html`, 'footer-placeholder'),
     ]);
     
-    // Load components that go inside the header
     await Promise.all([
         loadComponent(`${basePath}dashboard/components/theme-switcher.html`, 'theme-switcher-placeholder'),
         loadComponent(`${basePath}dashboard/components/language-switcher.html`, 'language-switcher-placeholder')
     ]);
 
-    // Load the main content for the index page specifically
     const path = window.location.pathname;
     if (path.endsWith('/dashboard/') || path.endsWith('/dashboard/index.html')) {
         await loadComponent(`${basePath}dashboard/overview.html`, 'main-content');
@@ -164,7 +143,6 @@ document.addEventListener('DOMContentLoaded', async () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
             setTimeout(() => {
-                // Setup all interactive UI elements
                 setupDropdown('user-btn', 'user-menu');
                 setupDropdown('theme-btn', 'theme-menu');
                 setupDropdown('language-btn', 'language-menu');

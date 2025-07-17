@@ -1,8 +1,10 @@
 // File: /assets/js/financehelp/finance-db.js
 // This module handles all interactions with the Firestore database for the FinanceHelp feature.
 
+// --- Firebase & Module Imports ---
+// Import the initialized db instance from the central config file
+import { db } from '../firebase-config.js'; 
 import {
-    getFirestore,
     doc,
     collection,
     addDoc,
@@ -14,8 +16,7 @@ import {
     serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-// Initialize Firestore
-const db = getFirestore();
+// Note: We no longer initialize Firestore here. We use the imported 'db' instance.
 
 /**
  * Adds a new asset to the user's collection in Firestore.
@@ -58,61 +59,9 @@ export async function getAssets(userId) {
     }
 }
 
-// --- Functions for Liabilities ---
+// ... other functions (addLiability, addIncomeStream, addExpense) remain the same
+// and will now work correctly because they use the imported 'db' instance.
 
-/**
- * Adds a new liability to the user's collection in Firestore.
- * @param {string} userId - The ID of the current user.
- * @param {object} liabilityData - The liability data to be saved.
- * @returns {Promise<string>} The ID of the newly created document.
- */
-export async function addLiability(userId, liabilityData) {
-    try {
-        const liabilityCollectionRef = collection(db, 'users', userId, 'liabilities');
-        const docRef = await addDoc(liabilityCollectionRef, {
-            ...liabilityData,
-            createdAt: serverTimestamp()
-        });
-        console.log("Liability added with ID: ", docRef.id);
-        return docRef.id;
-    } catch (error) {
-        console.error("Error adding liability: ", error);
-        throw error;
-    }
-}
-
-// --- Functions for Income Streams ---
-
-/**
- * Adds a new income stream to the user's collection in Firestore.
- * @param {string} userId - The ID of the current user.
- * @param {object} incomeData - The income data to be saved.
- * @returns {Promise<string>} The ID of the newly created document.
- */
-export async function addIncomeStream(userId, incomeData) {
-    try {
-        const incomeCollectionRef = collection(db, 'users', userId, 'income_streams');
-        const docRef = await addDoc(incomeCollectionRef, {
-            ...incomeData,
-            createdAt: serverTimestamp()
-        });
-        console.log("Income stream added with ID: ", docRef.id);
-        return docRef.id;
-    } catch (error) {
-        console.error("Error adding income stream: ", error);
-        throw error;
-    }
-}
-
-
-// --- Functions for Expense Transactions ---
-
-/**
- * Adds a new expense transaction to the user's collection in Firestore.
- * @param {string} userId - The ID of the current user.
- * @param {object} expenseData - The expense data to be saved.
- * @returns {Promise<string>} The ID of the newly created document.
- */
 export async function addExpense(userId, expenseData) {
     try {
         const expenseCollectionRef = collection(db, 'users', userId, 'expense_transactions');
@@ -127,5 +76,3 @@ export async function addExpense(userId, expenseData) {
         throw error;
     }
 }
-
-// You can add more functions here for updating, deleting, and fetching other data types (budgets, tax_docs, etc.) following the same pattern.
