@@ -19,63 +19,82 @@ const translations = {
 // --- Core UI & Routing Functions ---
 
 /**
- * NEW: Calculates the relative path from the current page to the /dashboard/ root.
- * This makes component loading reliable regardless of directory depth.
- * @returns {string} A relative path prefix (e.g., './', '../', '../../').
+ * FIXED: Determines the correct path to components based on current location
+ * @returns {string} The correct path to the components directory
  */
-const getRelativePathPrefix = () => {
+const getComponentsPath = () => {
     const path = window.location.pathname;
-    const pathSegments = path.split('/').filter(Boolean); // remove empty strings
-    const dashboardIndex = pathSegments.indexOf('dashboard');
     
-    if (dashboardIndex === -1) {
-        // Should not happen if we are in the dashboard, but as a fallback
-        return './';
+    // If we're in the dashboard root (/dashboard/ or /dashboard/index.html)
+    if (path.endsWith('/dashboard/') || path.endsWith('/dashboard/index.html') || path === '/dashboard') {
+        return './components/';
     }
     
-    // Calculate depth from the 'dashboard' folder
-    const depth = pathSegments.length - dashboardIndex - 1;
-    return '../'.repeat(depth) || './';
+    // If we're in a subdirectory of dashboard
+    if (path.includes('/dashboard/')) {
+        return '../components/';
+    }
+    
+    // Fallback
+    return './components/';
 };
-
 
 const loadComponent = async (componentPath, placeholderId) => {
     const placeholder = document.getElementById(placeholderId);
-    if (!placeholder) return;
+    if (!placeholder) {
+        console.error(`Placeholder element with id "${placeholderId}" not found`);
+        return;
+    }
+    
     try {
+        console.log(`Loading component from: ${componentPath}`);
         const response = await fetch(componentPath);
-        if (!response.ok) throw new Error(`Component not found: ${componentPath}`);
-        placeholder.innerHTML = await response.text();
-    } catch (error) { console.error(`Error loading component ${componentPath}:`, error); }
+        if (!response.ok) {
+            throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+        }
+        const content = await response.text();
+        placeholder.innerHTML = content;
+        console.log(`Successfully loaded component: ${componentPath}`);
+    } catch (error) {
+        console.error(`Error loading component ${componentPath}:`, error);
+        placeholder.innerHTML = `<div class="p-4 text-red-500">Error loading component: ${componentPath}</div>`;
+    }
 };
 
 const loadPageContent = async (path) => {
     const mainContent = document.getElementById('main-content');
     if (!mainContent) return;
+    
     mainContent.innerHTML = `<div class='p-8 text-center text-secondary'>Loading...</div>`;
+    
     try {
+        console.log(`Loading page content from: ${path}`);
         const response = await fetch(path);
         if (!response.ok) throw new Error(`Page not found: ${path}`);
-        mainContent.innerHTML = await response.text();
-        routePageLogic(path, auth.currentUser.uid);
+        const content = await response.text();
+        mainContent.innerHTML = content;
+        routePageLogic(path, auth.currentUser?.uid);
+        console.log(`Successfully loaded page: ${path}`);
     } catch (error) {
         console.error(`Error loading page content ${path}:`, error);
         mainContent.innerHTML = `<div class='p-8 text-center text-red-500'>Error: Could not load page.</div>`;
     }
 };
 
-const setLanguage = (lang) => { /* ... remains the same */ 
+const setLanguage = (lang) => {
     document.querySelectorAll('[data-translate]').forEach(el => {
         const key = el.getAttribute('data-translate');
         if (translations[lang] && translations[lang][key]) el.innerText = translations[lang][key];
     });
     localStorage.setItem('language', lang);
 };
-const applyTheme = (theme) => { /* ... remains the same */ 
+
+const applyTheme = (theme) => {
     document.body.className = theme;
     localStorage.setItem('theme', theme);
 };
-const setupThemeSwitcher = () => { /* ... remains the same */ 
+
+const setupThemeSwitcher = () => {
     document.body.addEventListener('click', (e) => {
         const themeOption = e.target.closest('.theme-option');
         if (themeOption) {
@@ -84,7 +103,8 @@ const setupThemeSwitcher = () => { /* ... remains the same */
         }
     });
 };
-const setupLanguageSwitcher = () => { /* ... remains the same */ 
+
+const setupLanguageSwitcher = () => {
     document.body.addEventListener('click', (e) => {
         const langOption = e.target.closest('.language-option');
         if (langOption) {
@@ -105,7 +125,7 @@ const setActiveSidebarLink = (path) => {
     });
 };
 
-const setupDropdown = (buttonId, menuId) => { /* ... remains the same */ 
+const setupDropdown = (buttonId, menuId) => {
     const button = document.getElementById(buttonId);
     const menu = document.getElementById(menuId);
     if (button && menu) {
@@ -119,7 +139,7 @@ const setupDropdown = (buttonId, menuId) => { /* ... remains the same */
     }
 };
 
-const displayWelcomeMessage = () => { /* ... remains the same */ 
+const displayWelcomeMessage = () => {
     const message = sessionStorage.getItem('welcomeMessage');
     if (message) {
         const messageContainer = document.getElementById('dashboard-welcome-message');
@@ -131,10 +151,11 @@ const displayWelcomeMessage = () => { /* ... remains the same */
     }
 };
 
-const updateHeaderUserInfo = async (user) => { /* ... remains the same */ 
+const updateHeaderUserInfo = async (user) => {
     const userNameEl = document.getElementById('user-name');
     const userAvatarEl = document.getElementById('user-avatar');
     if (!userNameEl || !userAvatarEl) return;
+    
     try {
         const userDocRef = doc(db, "users", user.uid);
         const userDocSnap = await getDoc(userDocRef);
@@ -164,22 +185,25 @@ const routePageLogic = (path, userId) => {
 
 // --- Main Initialization Controller ---
 document.addEventListener('DOMContentLoaded', async () => {
+    console.log('Dashboard initializing...');
+    
     applyTheme(localStorage.getItem('theme') || 'theme-default');
 
-    // Get the correct relative path to the components directory
-    const componentPathPrefix = getRelativePathPrefix() + 'components/';
+    // Get the correct path to components
+    const componentsPath = getComponentsPath();
+    console.log(`Components path: ${componentsPath}`);
 
-    // Load static shell components using the correct relative path
+    // Load static shell components using the correct path
     await Promise.all([
-        loadComponent(`${componentPathPrefix}header.html`, 'header-placeholder'),
-        loadComponent(`${componentPathPrefix}sidebar.html`, 'sidebar-placeholder'),
-        loadComponent(`${componentPathPrefix}footer.html`, 'footer-placeholder'),
+        loadComponent(`${componentsPath}header.html`, 'header-placeholder'),
+        loadComponent(`${componentsPath}sidebar.html`, 'sidebar-placeholder'),
+        loadComponent(`${componentsPath}footer.html`, 'footer-placeholder'),
     ]);
     
     // Load components that go inside the header
     await Promise.all([
-        loadComponent(`${componentPathPrefix}theme-switcher.html`, 'theme-switcher-placeholder'),
-        loadComponent(`${componentPathPrefix}language-switcher.html`, 'language-switcher-placeholder')
+        loadComponent(`${componentsPath}theme-switcher.html`, 'theme-switcher-placeholder'),
+        loadComponent(`${componentsPath}language-switcher.html`, 'language-switcher-placeholder')
     ]);
 
     // --- Navigation Handling ---
@@ -207,6 +231,8 @@ document.addEventListener('DOMContentLoaded', async () => {
     // --- Auth State Change ---
     onAuthStateChanged(auth, (user) => {
         if (user) {
+            console.log('User authenticated:', user.uid);
+            
             setTimeout(async () => {
                 await updateHeaderUserInfo(user);
 
@@ -219,7 +245,12 @@ document.addEventListener('DOMContentLoaded', async () => {
                 setLanguage(localStorage.getItem('language') || 'en');
                 displayWelcomeMessage();
 
-                const initialPath = window.location.pathname.endsWith('/') || window.location.pathname.endsWith('/dashboard/') ? '/dashboard/overview.html' : window.location.pathname;
+                const currentPath = window.location.pathname;
+                const initialPath = currentPath.endsWith('/') || currentPath.endsWith('/dashboard/') || currentPath.endsWith('/dashboard/index.html') 
+                    ? '/dashboard/overview.html' 
+                    : currentPath;
+                
+                console.log(`Loading initial page: ${initialPath}`);
                 loadPageContent(initialPath);
                 setActiveSidebarLink(initialPath);
                 
@@ -230,17 +261,21 @@ document.addEventListener('DOMContentLoaded', async () => {
                         signOut(auth).catch(error => console.error('Logout Error:', error));
                     });
                 }
-            }, 200);
+            }, 500); // Increased timeout to give components time to load
         } else {
+            console.log('User not authenticated, redirecting to login');
             if (!window.location.pathname.includes('index.html')) {
-                 window.location.href = '/index.html';
+                window.location.href = '/index.html';
             }
         }
     });
 
+    // Close dropdowns when clicking outside
     document.addEventListener('click', (e) => {
         if (!e.target.closest('#user-dropdown-container, #theme-dropdown-container, #language-dropdown-container, #ecosystem-dropdown-container')) {
             document.querySelectorAll('.user-menu-dropdown').forEach(menu => menu.classList.add('hidden'));
         }
     });
+    
+    console.log('Dashboard initialization complete');
 });
