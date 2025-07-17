@@ -39,6 +39,36 @@ const getComponentsPath = () => {
     return './components/';
 };
 
+/**
+ * FIXED: Converts absolute dashboard paths to relative paths for page content
+ * @param {string} absolutePath - The absolute path (e.g., '/dashboard/overview.html')
+ * @returns {string} The relative path based on current location
+ */
+const getRelativePagePath = (absolutePath) => {
+    const currentPath = window.location.pathname;
+    
+    // If we're in the dashboard root and the path starts with /dashboard/
+    if ((currentPath.endsWith('/dashboard/') || currentPath.endsWith('/dashboard/index.html') || currentPath === '/dashboard') 
+        && absolutePath.startsWith('/dashboard/')) {
+        // Convert /dashboard/overview.html to ./overview.html
+        return absolutePath.replace('/dashboard/', './');
+    }
+    
+    // If we're in a subdirectory and the path starts with /dashboard/
+    if (currentPath.includes('/dashboard/') && absolutePath.startsWith('/dashboard/')) {
+        // Convert /dashboard/overview.html to ../overview.html
+        return absolutePath.replace('/dashboard/', '../');
+    }
+    
+    // If it's already relative, return as is
+    if (!absolutePath.startsWith('/')) {
+        return absolutePath;
+    }
+    
+    // Fallback - try to make it relative
+    return absolutePath.replace('/dashboard/', './');
+};
+
 const loadComponent = async (componentPath, placeholderId) => {
     const placeholder = document.getElementById(placeholderId);
     if (!placeholder) {
@@ -67,16 +97,19 @@ const loadPageContent = async (path) => {
     
     mainContent.innerHTML = `<div class='p-8 text-center text-secondary'>Loading...</div>`;
     
+    // Convert absolute paths to relative paths
+    const relativePath = getRelativePagePath(path);
+    
     try {
-        console.log(`Loading page content from: ${path}`);
-        const response = await fetch(path);
-        if (!response.ok) throw new Error(`Page not found: ${path}`);
+        console.log(`Loading page content from: ${relativePath} (original: ${path})`);
+        const response = await fetch(relativePath);
+        if (!response.ok) throw new Error(`Page not found: ${relativePath}`);
         const content = await response.text();
         mainContent.innerHTML = content;
         routePageLogic(path, auth.currentUser?.uid);
-        console.log(`Successfully loaded page: ${path}`);
+        console.log(`Successfully loaded page: ${relativePath}`);
     } catch (error) {
-        console.error(`Error loading page content ${path}:`, error);
+        console.error(`Error loading page content ${relativePath}:`, error);
         mainContent.innerHTML = `<div class='p-8 text-center text-red-500'>Error: Could not load page.</div>`;
     }
 };
