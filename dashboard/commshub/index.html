@@ -3,106 +3,42 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CommsHub - Sazi Ecosystem</title>
+    <title>CommsHub - The Hub</title>
+    <!-- Corrected relative path for nested directory -->
+    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
 </head>
 <body class="theme-default">
+    <!-- Standard App Container -->
     <div id="app-container" class="flex h-screen bg-main text-primary">
+
+        <!-- Sidebar Placeholder -->
         <div id="sidebar-placeholder"></div>
+
         <div class="flex-1 flex flex-col">
+            <!-- Header Placeholder -->
             <div id="header-placeholder"></div>
-            <main id="main-content" class="flex-1 flex overflow-hidden">
-                
-                <!-- Left Column: Group List -->
-                <div class="w-1/3 border-r border-input-border flex flex-col">
-                    <div class="p-4 border-b border-input-border">
-                        <h2 class="text-xl font-bold">My Groups</h2>
-                        <button id="create-group-btn" class="btn-primary w-full mt-2 text-sm">Create New Group</button>
-                    </div>
-                    <div id="groups-list" class="flex-1 overflow-y-auto p-2 space-y-1">
-                        <!-- Group items will be loaded here by JS -->
-                        <p class="text-secondary text-center p-4">Loading groups...</p>
-                    </div>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                <!-- Original page content starts here -->
+                <header class="mb-8">
+                    <h1 class="text-3xl font-bold font-poppins">CommsHub</h1>
+                    <p class="text-secondary">Turn conversations into actions.</p>
+                </header>
+                <div id="comms-hub-content" class="text-center text-secondary">
+                    <p>Loading CommsHub...</p>
                 </div>
-
-                <!-- Right Column: Chat & Actions -->
-                <div class="w-2/3 flex flex-col">
-                    <div id="chat-container" class="flex-1 flex flex-col">
-                        <!-- Welcome Message / Selected Chat View -->
-                        <div id="chat-welcome-screen" class="flex-1 flex flex-col items-center justify-center text-center p-8">
-                            <i class="fas fa-comments text-6xl text-secondary"></i>
-                            <h2 class="text-2xl font-bold mt-4">Welcome to CommsHub</h2>
-                            <p class="text-secondary">Select a group to start chatting or create a new one.</p>
-                        </div>
-
-                        <!-- Active Chat View (hidden by default) -->
-                        <div id="active-chat-view" class="hidden flex-1 flex flex-col">
-                            <div class="p-4 border-b border-input-border flex justify-between items-center">
-                                <h3 id="active-group-name" class="text-lg font-bold"></h3>
-                                <div class="flex items-center space-x-4">
-                                    <button id="view-actions-tab" class="text-secondary hover:text-primary"><i class="fas fa-tasks mr-1"></i> Actions</button>
-                                    <button id="view-chat-tab" class="text-primary font-bold"><i class="fas fa-comment-dots mr-1"></i> Chat</button>
-                                </div>
-                            </div>
-                            <!-- Chat Messages -->
-                            <div id="messages-container" class="flex-1 overflow-y-auto p-4 space-y-4"></div>
-                            <!-- Action Items -->
-                            <div id="actions-container" class="hidden flex-1 overflow-y-auto p-4 space-y-2"></div>
-                            <!-- Message Input -->
-                            <div class="p-4 border-t border-input-border">
-                                <form id="message-form" class="flex items-center gap-2">
-                                    <input type="text" id="message-input" class="input-field w-full" placeholder="Type a message..." autocomplete="off">
-                                    <button type="submit" class="btn-primary px-4"><i class="fas fa-paper-plane"></i></button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-
+                <!-- Original page content ends here -->
             </main>
+
+            <!-- Footer Placeholder -->
+            <div id="footer-placeholder"></div>
         </div>
     </div>
     
-    <!-- Modals for CommsHub -->
-    <div id="create-group-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-        <div class="card p-6 rounded-xl shadow-lg w-full max-w-md">
-            <h3 class="text-xl font-bold mb-4">Create a New Group</h3>
-            <form id="create-group-form" class="space-y-4">
-                <input type="text" id="new-group-name" class="input-field w-full" placeholder="Enter group name..." required>
-                <div class="flex justify-end gap-2">
-                    <button type="button" id="cancel-create-group" class="btn-secondary">Cancel</button>
-                    <button type="submit" class="btn-primary">Create Group</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
-    <div id="create-action-modal" class="hidden fixed inset-0 bg-black bg-opacity-50 z-50 flex items-center justify-center">
-        <div class="card p-6 rounded-xl shadow-lg w-full max-w-md">
-            <h3 class="text-xl font-bold mb-4">Create an Action Item</h3>
-            <form id="create-action-form" class="space-y-4">
-                <div>
-                    <label class="block text-sm font-medium text-secondary">Action</label>
-                    <textarea id="action-title" class="input-field w-full" rows="3" required></textarea>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-secondary">Assign To</label>
-                    <select id="action-assignee" class="input-field w-full"></select>
-                </div>
-                <div>
-                    <label class="block text-sm font-medium text-secondary">Due Date</label>
-                    <input type="date" id="action-due-date" class="input-field w-full">
-                </div>
-                <div class="flex justify-end gap-2">
-                    <button type="button" id="cancel-create-action" class="btn-secondary">Cancel</button>
-                    <button type="submit" class="btn-primary">Create Action</button>
-                </div>
-            </form>
-        </div>
-    </div>
-
+    <!-- Corrected relative path for nested directory -->
     <script type="module" src="../../assets/js/dashboard.js"></script>
 </body>
 </html>

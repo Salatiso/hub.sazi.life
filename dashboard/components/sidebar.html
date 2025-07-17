@@ -1,20 +1,48 @@
-<aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4">
-    <div class="text-center py-4 border-b border-input-border">
-        <h1 class="text-2xl font-bold text-primary">The Hub</h1>
-        <p class="text-xs text-secondary">by Salatiso</p>
+<!-- File: /dashboard/components/sidebar.html -->
+<aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4 transition-colors duration-300">
+    <!-- Logo and Brand -->
+    <div class="text-center mb-8">
+        <a href="/dashboard/index.html" class="inline-block">
+             <svg viewBox="0 0 100 100" class="h-12 w-12 mx-auto text-accent-color">
+                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/>
+                <path d="M50 10 L 50 90 M10 50 L 90 50" stroke="currentColor" stroke-width="2"/>
+                <path d="M50 10 L 40 25 L 60 25 Z" fill="currentColor"/>
+            </svg>
+            <h2 class="text-lg font-bold mt-2 text-primary">The Hub</h2>
+            <p class="text-xs text-secondary">by Salatiso</p>
+        </a>
     </div>
-    <nav class="flex-grow mt-6 space-y-2">
-        <a href="/hub.sazi.life/dashboard/index.html" class="sidebar-link" data-link="dashboard/index.html"><i class="fas fa-tachometer-alt w-6 text-center"></i><span class="ml-3">Overview</span></a>
-        
-        <a href="/hub.sazi.life/dashboard/lifesync/index.html" class="sidebar-link" data-link="dashboard/lifesync"><i class="fas fa-sync-alt w-6 text-center"></i><span class="ml-3">LifeSync</span></a>
-        
-        <a href="/hub.sazi.life/dashboard/familyhub/index.html" class="sidebar-link" data-link="dashboard/familyhub"><i class="fas fa-users w-6 text-center"></i><span class="ml-3">Family Hub</span></a>
 
-        <a href="/hub.sazi.life/dashboard/finhelp/assets.html" class="sidebar-link" data-link="dashboard/finhelp/assets.html"><i class="fas fa-wallet w-6 text-center"></i><span class="ml-3">Assets</span></a>
-        <a href="/hub.sazi.life/dashboard/life-cv/life-cv.html" class="sidebar-link" data-link="dashboard/life-cv.html"><i class="fas fa-id-card w-6 text-center"></i><span class="ml-3">LifeCV</span></a>
-        <a href="/hub.sazi.life/dashboard/public-pages/editor.html" class="sidebar-link" data-link="dashboard/public-pages"><i class="fas fa-globe w-6 text-center"></i><span class="ml-3">Public Pages</span></a>
-        <a href="/hub.sazi.life/dashboard/publications/index.html" class="sidebar-link" data-link="dashboard/publications/index.html"><i class="fas fa-book-open w-6 text-center"></i><span class="ml-3">Publications</span></a>
-        <a href="/hub.sazi.life/dashboard/training/index.html" class="sidebar-link" data-link="dashboard/training/index.html"><i class="fas fa-chalkboard-teacher w-6 text-center"></i><span class="ml-3">Training</span></a>
-        <a href="/hub.sazi.life/dashboard/comms-hub/index.html" class="sidebar-link" data-link="dashboard/comms-hub"><i class="fas fa-comments w-6 text-center"></i><span class="ml-3">CommsHub</span></a>
+    <!-- Navigation Links -->
+    <nav class="flex-grow space-y-2">
+        <a href="/dashboard/overview.html" data-link="overview.html" class="sidebar-link">
+            <i class="fas fa-home w-6 text-center"></i><span data-translate="sidebar_overview">Overview</span>
+        </a>
+        <a href="/dashboard/life-cv/life-cv.html" data-link="life-cv.html" class="sidebar-link">
+            <i class="fas fa-id-card w-6 text-center"></i><span data-translate="sidebar_lifecv">Life-CV</span>
+        </a>
+        <a href="/dashboard/publications/index.html" data-link="publications" class="sidebar-link">
+            <i class="fas fa-book-open w-6 text-center"></i><span data-translate="sidebar_publications">Publications</span>
+        </a>
+        <a href="/dashboard/finhelp/index.html" data-link="finhelp" class="sidebar-link">
+            <i class="fas fa-wallet w-6 text-center"></i><span>FinHelp</span>
+        </a>
+         <a href="/dashboard/familyhub/index.html" data-link="familyhub" class="sidebar-link">
+            <i class="fas fa-users w-6 text-center"></i><span>FamilyHub</span>
+        </a>
+        <a href="/dashboard/commshub/index.html" data-link="commshub" class="sidebar-link">
+            <i class="fas fa-comments w-6 text-center"></i><span>CommsHub</span>
+        </a>
+        <a href="/dashboard/public-pages/index.html" data-link="public-pages" class="sidebar-link">
+            <i class="fas fa-globe w-6 text-center"></i><span data-translate="sidebar_public_pages">Public Pages</span>
+        </a>
+        <a href="/dashboard/activity.html" data-link="activity.html" class="sidebar-link">
+            <i class="fas fa-chart-line w-6 text-center"></i><span data-translate="sidebar_activity">Activity</span>
+        </a>
     </nav>
+
+    <!-- Footer section of sidebar -->
+    <div class="mt-auto text-center text-xs text-secondary">
+        <p>&copy; 2025 Salatiso. All rights reserved.</p>
+    </div>
 </aside>

@@ -1,195 +1,56 @@
-<!-- File: /dashboard/activity.html -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Activity - Sazi Ecosystem Dashboard</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Activity - The Hub</title>
+    <!-- Corrected relative path -->
     <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <div id="sidebar-placeholder"></div>
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        <div class="flex-grow">
-            <div class="card p-6 rounded-xl shadow-lg">
-                <h2 class="text-xl font-bold mb-4">Ecosystem Activity Log</h2>
-                <ul id="activity-feed" class="space-y-4">
-                    <!-- JS will populate this with a more extensive list -->
-                    <li class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center"><i class="fas fa-check text-green-400"></i></div><div><p class="font-semibold">Completed "OHS Basics" on sazi.life</p><p class="text-sm text-secondary">July 14, 2025</p></div></li>
-                    <li class="flex items-center space-x-3"><div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center"><i class="fas fa-file-alt text-blue-400"></i></div><div><p class="font-semibold">Generated "Safety Plan" on SafetyHelp</p><p class="text-sm text-secondary">July 13, 2025</p></div></li>
-                </ul>
-            </div>
-        </div>
-        <div id="footer-placeholder"></div>
-    </main>
-    <script type="module" src="../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'Activity';
-                document.getElementById('page-subtitle').textContent = 'A log of your recent actions across the ecosystem.';
-            }, 100);
-        });
-    </script>
-</body>
-</html>
-```html
-<!-- File: /dashboard/notifications.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Notifications - Sazi Ecosystem Dashboard</title>
-    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
-</head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <div id="sidebar-placeholder"></div>
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        <div class="flex-grow">
-            <div class="card p-6 rounded-xl shadow-lg">
-                <h2 class="text-xl font-bold mb-4">Notifications</h2>
-                <div class="text-center py-12 text-secondary">
-                    <i class="fas fa-bell-slash text-5xl mb-4"></i>
-                    <p>No new notifications.</p>
-                </div>
-            </div>
-        </div>
-        <div id="footer-placeholder"></div>
-    </main>
-    <script type="module" src="../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'Notifications';
-                document.getElementById('page-subtitle').textContent = 'Updates and alerts from the ecosystem.';
-            }, 100);
-        });
-    </script>
-</body>
-</html>
-```html
-<!-- File: /dashboard/help.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Help Center - Sazi Ecosystem Dashboard</title>
-    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
-</head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <div id="sidebar-placeholder"></div>
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        <div class="flex-grow">
-            <div class="card p-6 rounded-xl shadow-lg">
-                <h2 class="text-xl font-bold mb-4">Help & FAQ</h2>
-                <!-- Accordion for FAQs -->
-                <div class="space-y-2">
-                    <details class="p-4 rounded-lg bg-slate-700/50 cursor-pointer"><summary class="font-semibold">What is the LifeCV?</summary><p class="text-secondary mt-2">The LifeCV is a dynamic portfolio of your skills and experiences, automatically updated as you use platforms within the Sazi Ecosystem.</p></details>
-                    <details class="p-4 rounded-lg bg-slate-700/50 cursor-pointer"><summary class="font-semibold">How do I create a Public Page?</summary><p class="text-secondary mt-2">Navigate to the "Public Pages" section in your dashboard. There you can create a new page, choose a template, and link the assets you want to showcase.</p></details>
-                </div>
-            </div>
-        </div>
-        <div id="footer-placeholder"></div>
-    </main>
-    <script type="module" src="../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'Help Center';
-                document.getElementById('page-subtitle').textContent = 'Find answers to frequently asked questions.';
-            }, 100);
-        });
-    </script>
-</body>
-</html>
-```html
-<!-- File: /dashboard/support.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Support - Sazi Ecosystem Dashboard</title>
-    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
-</head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <div id="sidebar-placeholder"></div>
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        <div class="flex-grow">
-            <div class="card p-6 rounded-xl shadow-lg max-w-2xl mx-auto">
-                <h2 class="text-xl font-bold mb-4 text-center">Contact Support</h2>
-                <p class="text-center text-secondary mb-6">If you can't find an answer in our Help Center, please send us a message.</p>
-                <form id="support-form" class="space-y-4">
-                    <div>
-                        <label for="support-subject" class="block text-sm font-medium text-secondary">Subject</label>
-                        <input type="text" id="support-subject" class="input-field w-full mt-1">
-                    </div>
-                    <div>
-                        <label for="support-message" class="block text-sm font-medium text-secondary">How can we help?</label>
-                        <textarea id="support-message" rows="5" class="input-field w-full mt-1"></textarea>
-                    </div>
-                    <div class="text-right pt-2">
-                        <button type="submit" class="btn-primary">Send Support Ticket</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-        <div id="footer-placeholder"></div>
-    </main>
-    <script type="module" src="../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'Support';
-                document.getElementById('page-subtitle').textContent = 'Get help from our team.';
-            }, 100);
-        });
-    </script>
-</body>
-</html>
+<body class="theme-default">
+    <!-- Standard App Container -->
+    <div id="app-container" class="flex h-screen bg-main text-primary">
 
-<!-- File: /dashboard/404.html -->
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <title>Page Not Found - Sazi Ecosystem</title>
-    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
-    <!-- Other head elements... -->
-</head>
-<body class="flex h-screen bg-main text-primary">
-    <!-- Sidebar -->
-    <div id="sidebar-placeholder"></div>
-        <!-- ... -->
-    </aside>
-    <!-- Main Content -->
-    <main class="flex-1 flex flex-col p-8 overflow-y-auto">
-        <div id="header-placeholder"></div>
-        <div class="flex-grow flex flex-col items-center justify-center text-center">
-            <i class="fas fa-compass-slash text-7xl text-accent-color mb-6"></i>
-            <h1 class="text-5xl font-bold font-poppins">404</h1>
-            <p class="text-xl text-secondary mt-2">Oops! The page you're looking for could not be found.</p>
-            <a href="/dashboard/index.html" class="btn-primary mt-8">Go to Dashboard</a>
+        <!-- Sidebar Placeholder -->
+        <div id="sidebar-placeholder"></div>
+
+        <div class="flex-1 flex flex-col">
+            <!-- Header Placeholder -->
+            <div id="header-placeholder"></div>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                <!-- Original page content starts here -->
+                <div class="card p-6 rounded-xl shadow-lg">
+                    <h2 class="text-xl font-bold mb-4">Ecosystem Activity Log</h2>
+                    <ul id="activity-feed" class="space-y-4">
+                        <!-- JS will populate this with a more extensive list -->
+                        <li class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center"><i class="fas fa-check text-green-400"></i></div>
+                            <div>
+                                <p class="font-semibold">Completed "OHS Basics" on sazi.life</p>
+                                <p class="text-sm text-secondary">July 14, 2025</p>
+                            </div>
+                        </li>
+                        <li class="flex items-center space-x-3">
+                            <div class="w-10 h-10 rounded-full bg-blue-500/20 flex items-center justify-center"><i class="fas fa-file-alt text-blue-400"></i></div>
+                            <div>
+                                <p class="font-semibold">Generated "Safety Plan" on SafetyHelp</p>
+                                <p class="text-sm text-secondary">July 13, 2025</p>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <!-- Original page content ends here -->
+            </main>
+
+            <!-- Footer Placeholder -->
+            <div id="footer-placeholder"></div>
         </div>
-        <div id="footer-placeholder"></div>
-    </main>
+    </div>
+    <!-- Corrected relative path -->
     <script type="module" src="../assets/js/dashboard.js"></script>
-    <script>
-        document.addEventListener('DOMContentLoaded', () => {
-            setTimeout(() => {
-                document.getElementById('page-title').textContent = 'Page Not Found';
-                document.getElementById('page-subtitle').textContent = 'Let\'s get you back on track.';
-            }, 100);
-        });
-    </script>
 </body>
 </html>

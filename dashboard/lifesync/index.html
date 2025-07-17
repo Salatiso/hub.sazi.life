@@ -4,29 +4,43 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>LifeSync - The Hub</title>
+    <!-- Corrected relative path for nested directory -->
     <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
-    </head>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
 <body class="theme-default">
-     <div id="app-container" class="flex h-screen bg-main text-primary">
+    <!-- Standard App Container -->
+    <div id="app-container" class="flex h-screen bg-main text-primary">
+
+        <!-- Sidebar Placeholder -->
         <div id="sidebar-placeholder"></div>
+
         <div class="flex-1 flex flex-col">
+            <!-- Header Placeholder -->
             <div id="header-placeholder"></div>
-            <main id="main-content" class="flex-1 overflow-y-auto p-8 text-center">
-                 <header class="mb-6">
-                    <h1 class="text-3xl font-bold font-poppins text-primary">LifeSync Compatibility Engine</h1>
-                    <p class="text-secondary max-w-2xl mx-auto">Understand yourself and your relationships on a deeper level. Start by taking a personal assessment or invite a partner to sync profiles.</p>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                <!-- Original page content starts here -->
+                <header class="mb-8 text-center">
+                    <h1 class="text-3xl font-bold font-poppins">LifeSync Compatibility</h1>
+                    <p class="text-secondary">Discover and connect with like-minded individuals.</p>
                 </header>
-                <div class="flex justify-center gap-4">
-                    <a href="assessment.html" class="btn-primary">Take Personal Assessment</a>
-                    <button id="invite-partner-btn" class="btn-secondary">Invite Partner to Sync</button>
+                <div class="card max-w-lg mx-auto p-6 text-center">
+                    <h2 class="text-xl font-bold">Find Your Match</h2>
+                    <p class="text-secondary mt-2">Complete the compatibility assessment to start connecting with people who share your values and goals.</p>
+                    <a href="./assessment.html" class="btn-primary inline-block mt-6">Start Assessment</a>
                 </div>
-                <div class="mt-8 card p-6 rounded-xl max-w-3xl mx-auto hidden" id="compatibility-report-container">
-                    <h2 class="text-xl font-bold">Your Compatibility Report</h2>
-                    </div>
+                <!-- Original page content ends here -->
             </main>
+
+            <!-- Footer Placeholder -->
             <div id="footer-placeholder"></div>
         </div>
     </div>
+    
+    <!-- Corrected relative path for nested directory -->
     <script type="module" src="../../assets/js/dashboard.js"></script>
 </body>
 </html>

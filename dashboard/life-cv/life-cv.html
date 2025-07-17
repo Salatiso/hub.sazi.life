@@ -3,124 +3,50 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LifeCV - Sazi Ecosystem Dashboard</title>
-
-    <!-- Tailwind CSS -->
-    <script src="https://cdn.tailwindcss.com"></script>
-    
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-
-    <!-- CORRECTED PATH: Go up two levels to find the assets folder -->
+    <title>Life-CV - The Hub</title>
+    <!-- Corrected relative path for nested directory -->
     <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="theme-default">
-
+    <!-- Standard App Container -->
     <div id="app-container" class="flex h-screen bg-main text-primary">
-        
+
         <!-- Sidebar Placeholder -->
-        <div id="sidebar-placeholder">
-            <!-- The sidebar will be loaded here by dashboard.js -->
-        </div>
+        <div id="sidebar-placeholder"></div>
 
-        <!-- Main content area -->
         <div class="flex-1 flex flex-col">
-            
             <!-- Header Placeholder -->
-            <div id="header-placeholder">
-                <!-- The header will be loaded here by dashboard.js -->
-            </div>
+            <div id="header-placeholder"></div>
 
-            <!-- Scrollable main content -->
-            <main id="main-content" class="flex-1 overflow-y-auto p-8">
-                
-                <!-- Original Life-CV content is preserved here -->
-                <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
-                    <!-- Main Column -->
-                    <div class="lg:col-span-2 space-y-6">
-                        <div class="card p-6 rounded-xl shadow-lg">
-                            <div class="flex justify-between items-center mb-4">
-                                 <h2 class="text-xl font-bold">LifeCV Entries</h2>
-                                 <div class="flex items-center space-x-2">
-                                    <button class="btn-secondary text-xs"><i class="fas fa-upload mr-2"></i>Upload CV</button>
-                                    <button class="btn-primary text-xs"><i class="fas fa-download mr-2"></i>Download as PDF</button>
-                                </div>
-                            </div>
-                            <p class="text-sm text-secondary mb-4">This section automatically populates with your achievements from across the Sazi Ecosystem. You can also add manual entries.</p>
-                            
-                            <div id="lifecv-entries" class="space-y-4">
-                                <!-- Example Entry -->
-                                <div class="border border-input-border p-4 rounded-lg">
-                                    <div class="flex justify-between items-start">
-                                        <div>
-                                            <span class="text-xs font-semibold uppercase tracking-wider text-accent-color">Skill</span>
-                                            <p class="font-bold text-lg">Completed "OHS Basics" Course</p>
-                                            <p class="text-sm text-secondary">Source: sazi.life</p>
-                                        </div>
-                                        <div class="flex space-x-2 text-secondary">
-                                            <button class="hover:text-primary"><i class="fas fa-pencil-alt"></i></button>
-                                            <button class="hover:text-red-500"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                                 <!-- Example Entry 2 -->
-                                <div class="border border-input-border p-4 rounded-lg">
-                                    <div class="flex justify-between items-start">
-                                        <div>
-                                            <span class="text-xs font-semibold uppercase tracking-wider" style="color: #D97706;">Portfolio</span>
-                                            <p class="font-bold text-lg">Generated Safety Plan for ABC Construction</p>
-                                            <p class="text-sm text-secondary">Source: SafetyHelp</p>
-                                        </div>
-                                        <div class="flex space-x-2 text-secondary">
-                                            <button class="hover:text-primary"><i class="fas fa-pencil-alt"></i></button>
-                                            <button class="hover:text-red-500"><i class="fas fa-trash"></i></button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                <!-- Original page content starts here -->
+                <header class="mb-8 flex justify-between items-center">
+                    <div>
+                        <h1 class="text-3xl font-bold font-poppins">Life-CV</h1>
+                        <p class="text-secondary">Your dynamic portfolio of skills and experience.</p>
                     </div>
-
-                    <!-- Side Column -->
-                    <div class="space-y-6">
-                        <div class="card p-6 rounded-xl shadow-lg">
-                            <h2 class="text-xl font-bold mb-4">Add Manual Entry</h2>
-                            <form id="add-entry-form" class="space-y-4">
-                                <div>
-                                    <label for="entry-type" class="block text-sm font-medium text-secondary">Entry Type</label>
-                                    <select id="entry-type" class="input-field w-full mt-1 bg-gray-700 border-gray-600 rounded">
-                                        <option>Experience</option>
-                                        <option>Skill</option>
-                                        <option>Education</option>
-                                        <option>Portfolio</option>
-                                        <option>Contribution</option>
-                                    </select>
-                                </div>
-                                <div>
-                                    <label for="entry-title" class="block text-sm font-medium text-secondary">Title</label>
-                                    <input type="text" id="entry-title" class="input-field w-full mt-1 bg-gray-700 border-gray-600 rounded" placeholder="e.g., Project Manager">
-                                </div>
-                                <div>
-                                    <label for="entry-description" class="block text-sm font-medium text-secondary">Description</label>
-                                    <textarea id="entry-description" rows="3" class="input-field w-full mt-1 bg-gray-700 border-gray-600 rounded" placeholder="Describe your achievement..."></textarea>
-                                </div>
-                                <button type="submit" class="btn-primary w-full">Add to LifeCV</button>
-                            </form>
-                        </div>
+                    <div>
+                        <button class="btn-primary"><i class="fas fa-download mr-2"></i>Download PDF</button>
+                    </div>
+                </header>
+                <div id="lifecv-content" class="space-y-8">
+                    <!-- LifeCV sections will be dynamically loaded here -->
+                    <div class="text-center text-secondary">
+                        <p>Loading your Life-CV...</p>
                     </div>
                 </div>
-
+                <!-- Original page content ends here -->
             </main>
 
             <!-- Footer Placeholder -->
-            <div id="footer-placeholder">
-                <!-- The footer will be loaded here by dashboard.js -->
-            </div>
+            <div id="footer-placeholder"></div>
         </div>
     </div>
-
-    <!-- CORRECTED PATH: Go up two levels to find the assets folder -->
+    
+    <!-- Corrected relative path for nested directory -->
     <script type="module" src="../../assets/js/dashboard.js"></script>
-
 </body>
 </html>

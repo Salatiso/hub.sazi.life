@@ -1,29 +1,44 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Family Hub - The Hub</title>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FamilyHub - The Hub</title>
+    <!-- Corrected relative path for nested directory -->
     <link rel="stylesheet" href="../../assets/css/dashboard-styles.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
 </head>
 <body class="theme-default">
+    <!-- Standard App Container -->
     <div id="app-container" class="flex h-screen bg-main text-primary">
+
+        <!-- Sidebar Placeholder -->
         <div id="sidebar-placeholder"></div>
+
         <div class="flex-1 flex flex-col">
+            <!-- Header Placeholder -->
             <div id="header-placeholder"></div>
-            <main id="main-content" class="flex-1 overflow-y-auto p-8">
-                <div id="family-hub-container">
-                    <div id="create-family-prompt" class="text-center card p-10 rounded-xl">
-                        <i class="fas fa-users text-5xl text-accent-color mb-4"></i>
-                        <h1 class="text-3xl font-bold font-poppins">Create Your Family Hub</h1>
-                        <p class="text-secondary mt-2 max-w-xl mx-auto">Build a private intranet to manage your family's contributions, assets, and shared public identity.</p>
-                        <a href="create.html" class="btn-primary mt-6 inline-block">Start Building Your Family</a>
-                    </div>
-                    <div id="family-dashboard" class="hidden">
-                        </div>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                <!-- Original page content starts here -->
+                <header class="mb-8">
+                    <h1 class="text-3xl font-bold font-poppins">FamilyHub</h1>
+                    <p class="text-secondary">Manage your family's shared information and values.</p>
+                </header>
+                <div id="family-hub-content" class="text-center text-secondary">
+                    <p>Loading FamilyHub...</p>
                 </div>
+                <!-- Original page content ends here -->
             </main>
+
+            <!-- Footer Placeholder -->
             <div id="footer-placeholder"></div>
         </div>
     </div>
+    
+    <!-- Corrected relative path for nested directory -->
     <script type="module" src="../../assets/js/dashboard.js"></script>
 </body>
 </html>

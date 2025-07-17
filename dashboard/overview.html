@@ -3,27 +3,43 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard Overview - Sazi Ecosystem Dashboard</title>
+    <title>Dashboard Overview - The Hub</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <!-- Corrected relative path -->
     <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
 </head>
 <body class="theme-default">
+    <!-- Standard App Container -->
     <div id="app-container" class="flex h-screen bg-main text-primary">
+
+        <!-- Sidebar Placeholder -->
         <div id="sidebar-placeholder"></div>
+
         <div class="flex-1 flex flex-col">
+            <!-- Header Placeholder -->
             <div id="header-placeholder"></div>
-            <main id="main-content" class="flex-1 overflow-y-auto p-8">
-                <div class="p-6">
-                    <header class="mb-8">
-                        <h1 class="text-3xl font-bold font-poppins text-gray-800 dark:text-gray-100">Dashboard Overview</h1>
-                        <p class="text-gray-500 dark:text-gray-400">Welcome back! Here's a summary of your Sazi Ecosystem.</p>
-                    </header>
-                    </div>
+
+            <!-- Main Content Area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                <!-- Original page content starts here -->
+                <header class="mb-8">
+                    <h1 class="text-3xl font-bold font-poppins text-primary">Dashboard Overview</h1>
+                    <p class="text-secondary">Welcome back! Here's a summary of your ecosystem.</p>
+                </header>
+                
+                <!-- Additional content for the overview can be placed here -->
+                <div class="text-center text-secondary">
+                    <p>Your main dashboard content is loading...</p>
+                </div>
+                <!-- Original page content ends here -->
             </main>
+
+            <!-- Footer Placeholder -->
             <div id="footer-placeholder"></div>
         </div>
     </div>
+    <!-- Corrected relative path -->
     <script type="module" src="../assets/js/dashboard.js"></script>
 </body>
 </html>

@@ -1,33 +1,39 @@
-<!-- File: dashboard/components/header.html -->
-<header class="header p-4 shadow-md">
-    <div class="container-fluid mx-auto flex justify-between items-center">
-        <!-- Left side: Brand -->
-        <a href="/hub.sazi.life/dashboard/index.html" class="text-xl font-bold text-primary">Sazi.life</a>
-
-        <!-- Center: Ecosystem Links (visible on larger screens) -->
-        <div class="hidden lg:flex items-center space-x-6">
-            <a class="text-secondary hover:text-primary transition-colors" href="https://salatiso.com/docuhelp/">DocuHelp</a>
-            <a class="text-secondary hover:text-primary transition-colors" href="https://salatiso.com/legalhelp/">LegalHelp</a>
-            <a class="text-secondary hover:text-primary transition-colors" href="https://salatiso.com/hrhelp/">HRHelp</a>
-            <a class="text-secondary hover:text-primary transition-colors" href="https://safetyfirst.help">SafetyHelp</a>
+<!-- File: /dashboard/components/header.html -->
+<header class="header flex items-center justify-between p-4 border-b border-border-color">
+    <!-- Left side: Page Title -->
+    <div class="flex items-center">
+        <!-- Salatiso Logo for The Hub -->
+        <a href="/dashboard/index.html" class="mr-4">
+            <svg viewBox="0 0 100 100" class="h-8 w-8 text-accent-color">
+                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/>
+                <path d="M50 10 L 50 90 M10 50 L 90 50" stroke="currentColor" stroke-width="2"/>
+                <path d="M50 10 L 40 25 L 60 25 Z" fill="currentColor"/>
+            </svg>
+        </a>
+        <div>
+            <h1 id="page-title" class="text-xl font-bold text-primary">Dashboard</h1>
+            <p id="page-subtitle" class="text-sm text-secondary">Welcome to The Hub</p>
         </div>
+    </div>
 
-        <!-- Right side: Controls -->
-        <div class="flex items-center space-x-2">
-            <!-- Placeholder for the Theme Switcher -->
-            <div id="theme-switcher-placeholder"></div>
-            <!-- Placeholder for the Language Switcher -->
-            <div id="language-switcher-placeholder"></div>
-            
-            <!-- User menu dropdown -->
-            <div class="relative" id="user-dropdown-container">
-                <button id="user-btn" class="flex items-center justify-center h-10 w-10 rounded-full bg-main hover:opacity-80 transition">
-                    <img class="h-9 w-9 rounded-full object-cover" src="https://placehold.co/100x100/4A5568/E2E8F0?text=S" alt="User avatar">
-                </button>
-                <div id="user-menu" class="hidden absolute right-0 mt-2 w-48 card rounded-lg shadow-xl py-2 z-50">
-                     <a href="/hub.sazi.life/dashboard/profile.html" class="block px-4 py-2 text-sm text-secondary hover:text-primary hover:bg-main">Profile</a>
-                     <a id="logout-btn" href="#" role="button" class="block w-full text-left px-4 py-2 text-sm text-red-500 hover:bg-main">Logout</a>
-                </div>
+    <!-- Right side: Controls -->
+    <div class="flex items-center space-x-4">
+        <!-- Theme Switcher -->
+        <div id="theme-switcher-placeholder" class="relative"></div>
+
+        <!-- Language Switcher -->
+        <div id="language-switcher-placeholder" class="relative"></div>
+
+        <!-- User Dropdown -->
+        <div id="user-dropdown-container" class="relative">
+            <button id="user-btn" class="flex items-center space-x-2">
+                <img class="h-8 w-8 rounded-full" src="https://placehold.co/100x100/667eea/ffffff?text=U" alt="User avatar">
+                <span class="hidden sm:inline text-sm font-medium text-primary">User Name</span>
+                <i class="fas fa-chevron-down text-xs text-secondary"></i>
+            </button>
+            <div id="user-menu" class="absolute right-0 mt-2 w-48 bg-sidebar-bg border border-border-color rounded-lg shadow-lg py-1 hidden z-50">
+                <a href="/dashboard/profile.html" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">My Profile</a>
+                <a href="#" id="logout-btn" class="block px-4 py-2 text-sm text-secondary hover:bg-hover-bg hover:text-primary">Sign Out</a>
             </div>
         </div>
     </div>

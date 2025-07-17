@@ -14,74 +14,104 @@
         .salatiso-logo-svg { width: 120px; height: auto; }
         .ecosystem-link { font-family: 'Roboto Slab', serif; font-weight: 700; text-decoration: none; transition: all 0.2s ease-in-out; }
         .ecosystem-link:hover { transform: scale(1.05); }
-        .help-brand-accent { font-weight: 900; color: #fb923c; }
+        .help-brand-accent { color: #3b82f6; /* blue-600 */ }
     </style>
 </head>
-<body class="flex items-center justify-center min-h-screen p-4">
+<body class="flex items-center justify-center min-h-screen">
 
-    <div class="w-full max-w-lg">
-        <div class="bg-white rounded-2xl shadow-2xl p-8">
-            
-            <div class="text-center mb-6">
-                <!-- Salatiso Logo -->
-                <a href="https://salatiso.com" target="_blank" class="inline-block group">
-                    <svg viewBox="0 0 100 100" class="salatiso-logo-svg mx-auto text-slate-800 group-hover:text-blue-600 transition-colors"><circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/><path d="M50 10 L 50 90 M10 50 L 90 50" stroke="#4b5563" stroke-width="2"/><path d="M50 10 L 40 25 L 60 25 Z" fill="currentColor"/></svg>
-                </a>
-                <h1 class="text-2xl font-bold text-slate-800 mt-4 font-poppins">Welcome to The Hub</h1>
-                <p class="text-slate-500 text-sm">One account. A lifetime of tools.</p>
+    <div class="w-full max-w-md p-8 space-y-6 bg-white shadow-xl rounded-2xl m-4">
+        <div class="text-center">
+            <!-- Salatiso Logo -->
+            <a href="https://salatiso.com" target="_blank" class="inline-block group">
+                <svg viewBox="0 0 100 100" class="salatiso-logo-svg mx-auto text-slate-800 group-hover:text-blue-600 transition-colors">
+                    <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/>
+                    <path d="M50 10 L 50 90 M10 50 L 90 50" stroke="#4b5563" stroke-width="2"/>
+                    <path d="M50 10 L 40 25 L 60 25 Z" fill="currentColor"/>
+                </svg>
+            </a>
+            <h1 class="text-2xl font-bold text-slate-800 mt-4 font-poppins">Welcome to The Hub</h1>
+            <p class="text-slate-500 text-sm">One account. A lifetime of tools.</p>
+        </div>
+
+        <div id="message-area" class="hidden"></div>
+
+        <form id="login-form" class="space-y-6">
+            <div class="rounded-md shadow-sm -space-y-px">
+                <div>
+                    <label for="email-address" class="sr-only">Email address</label>
+                    <input id="email-address" name="email" type="email" autocomplete="email" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-t-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Email address">
+                </div>
+                <div>
+                    <label for="password" class="sr-only">Password</label>
+                    <input id="password" name="password" type="password" autocomplete="current-password" required class="appearance-none rounded-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-b-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 focus:z-10 sm:text-sm" placeholder="Password">
+                </div>
             </div>
 
-            <div id="message-area" class="hidden text-center p-3 mb-4 rounded-lg text-sm"></div>
-
-            <form id="login-form" class="space-y-4">
-                <div>
-                    <label for="email" class="block text-sm font-medium text-slate-600">Email Address</label>
-                    <input type="email" id="email" name="email" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500">
-                </div>
-                <div>
-                    <label for="password" class="block text-sm font-medium text-slate-600">Password</label>
-                    <input type="password" id="password" name="password" required class="mt-1 block w-full px-3 py-2 bg-white border border-slate-300 rounded-md text-sm shadow-sm placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500">
-                </div>
-                <button type="submit" class="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500">Sign In</button>
-            </form>
-
-            <div class="mt-6">
-                <div class="relative"><div class="absolute inset-0 flex items-center"><div class="w-full border-t border-slate-300"></div></div><div class="relative flex justify-center text-sm"><span class="px-2 bg-white text-slate-500">Or continue with</span></div></div>
-                <div class="mt-6 grid grid-cols-2 gap-3">
-                    <div><button id="google-signin-btn" class="w-full inline-flex justify-center py-2 px-4 border border-slate-300 rounded-md shadow-sm bg-white text-sm font-medium text-slate-500 hover:bg-slate-50"><span class="sr-only">Sign in with Google</span><i class="fab fa-google text-red-500 text-lg"></i></button></div>
-                    <div><button id="anonymous-signin-btn" class="w-full inline-flex justify-center py-2 px-4 border border-slate-300 rounded-md shadow-sm bg-white text-sm font-medium text-slate-500 hover:bg-slate-50"><span class="sr-only">Continue as Guest</span><i class="fas fa-user-secret text-slate-500 text-lg"></i></button></div>
-                </div>
-            </div>
-            
-            <div class="mt-8 text-center">
-                <p class="text-xs text-slate-400 mb-4">Your account gives you access to the full Salatiso ecosystem:</p>
-                <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-base">
-                    <a href="https://safetyfirst.help" target="_blank" class="ecosystem-link text-slate-700">Safety<span class="help-brand-accent">Help</span></a>
-                    <a href="https://salatiso.com/legalhelp/" target="_blank" class="ecosystem-link text-slate-700">Legal<span class="help-brand-accent">Help</span></a>
-                    <a href="https://finhelp.salatiso.com" target="_blank" class="ecosystem-link text-slate-700">Fin<span class="help-brand-accent">Help</span></a>
-                    <a href="https://salatiso.com/hrhelp/" target="_blank" class="ecosystem-link text-slate-700">HR<span class="help-brand-accent">Help</span></a>
-                    <a href="https://salatiso.com/docuhelp/" target="_blank" class="ecosystem-link text-slate-700">Docu<span class="help-brand-accent">Help</span></a>
-                </div>
-                 <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-base mt-3">
-                     <a href="https://sazi.life" target="_blank" class="ecosystem-link text-sky-600 flex items-center gap-2">
-                        <svg class="h-5 w-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g transform="scale(0.55) translate(0, 10)"><path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/></g></svg>
-                        sazi.life
+            <div class="flex items-center justify-between">
+                <div class="text-sm">
+                    <a href="#" class="font-medium text-blue-600 hover:text-blue-500">
+                        Forgot your password?
                     </a>
                 </div>
-                <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-base mt-3">
-                    <a href="https://salatiso.com/ekhaya/" target="_blank" class="ecosystem-link text-orange-600">eKhaya</a>
-                    <a href="https://flamea.org" target="_blank" class="ecosystem-link text-green-600">Flamea</a>
-                    <a href="https://salatiso.com/familyvalue/" target="_blank" class="ecosystem-link text-purple-600">FamilyValue</a>
-                    <a href="https://salatiso.com/lifesync/" target="_blank" class="ecosystem-link text-emerald-600">LifeSync</a>
-                </div>
+            </div>
+
+            <div>
+                <button type="submit" class="group relative w-full flex justify-center py-3 px-4 border border-transparent text-sm font-medium rounded-md text-white bg-slate-800 hover:bg-slate-900 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-slate-500">
+                    Sign in
+                </button>
+            </div>
+        </form>
+
+        <div class="relative">
+            <div class="absolute inset-0 flex items-center">
+                <div class="w-full border-t border-gray-300"></div>
+            </div>
+            <div class="relative flex justify-center text-sm">
+                <span class="px-2 bg-white text-gray-500">
+                    Or continue with
+                </span>
             </div>
         </div>
-        <p class="mt-4 text-center text-sm text-slate-500">
-            Don't have an account? <a href="#" id="signup-link" class="font-medium text-blue-600 hover:text-blue-500">Sign up</a>
-        </p>
+
+        <div>
+            <button id="google-signin-btn" class="w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <img class="w-5 h-5" src="https://www.svgrepo.com/show/475656/google-color.svg" alt="Google icon">
+                <span class="ml-2">Google</span>
+            </button>
+            <button id="anonymous-signin-btn" class="mt-2 w-full inline-flex justify-center py-2 px-4 border border-gray-300 rounded-md shadow-sm bg-white text-sm font-medium text-gray-500 hover:bg-gray-50">
+                <i class="fas fa-user-secret"></i>
+                <span class="ml-2">Continue as Guest</span>
+            </button>
+        </div>
+        
+        <!-- Updated Ecosystem Links -->
+        <div class="mt-6 pt-6 border-t text-center">
+            <p class="text-xs text-slate-400 mb-4">Your account gives you access to the full Salatiso ecosystem:</p>
+            <!-- This container class has been changed to remove wrapping -->
+            <div class="flex justify-center items-center gap-x-4 text-base">
+                <a href="https://safetyfirst.help" target="_blank" class="ecosystem-link text-slate-700">Safety<span class="help-brand-accent">Help</span></a>
+                <a href="https://salatiso.com/legalhelp/" target="_blank" class="ecosystem-link text-slate-700">Legal<span class="help-brand-accent">Help</span></a>
+                <a href="https://finhelp.salatiso.com" target="_blank" class="ecosystem-link text-slate-700">Fin<span class="help-brand-accent">Help</span></a>
+                <a href="https://salatiso.com/hrhelp/" target="_blank" class="ecosystem-link text-slate-700">HR<span class="help-brand-accent">Help</span></a>
+                <a href="https://salatiso.com/docuhelp/" target="_blank" class="ecosystem-link text-slate-700">Docu<span class="help-brand-accent">Help</span></a>
+            </div>
+            <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-base mt-3">
+                <a href="https://sazi.life" target="_blank" class="ecosystem-link text-sky-600 flex items-center gap-2">
+                    <svg class="h-5 w-5" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg"><g transform="scale(0.55) translate(0, 10)"><path d="M 85,15 C 85,45 65,45 50,50 C 35,55 15,55 15,85" stroke="#D97706" stroke-width="16" fill="none" stroke-linecap="round"/><path d="M 15,15 C 15,45 35,45 50,50 C 65,55 85,55 85,85" stroke="#0EA5E9" stroke-width="16" fill="none" stroke-linecap="round"/></g></svg>
+                    sazi.life
+                </a>
+            </div>
+            <div class="flex flex-wrap justify-center items-center gap-x-4 gap-y-2 text-base mt-3">
+                <a href="https://salatiso.com/ekhaya/" target="_blank" class="ecosystem-link text-orange-600">eKhaya</a>
+                <a href="https://flamea.org" target="_blank" class="ecosystem-link text-green-600">Flamea</a>
+                <a href="https://salatiso.com/familyvalue/" target="_blank" class="ecosystem-link text-purple-600">FamilyValue</a>
+                <a href="https://salatiso.com/lifesync/" target="_blank" class="ecosystem-link text-emerald-600">LifeSync</a>
+            </div>
+        </div>
     </div>
 
-  <script type="module" src="assets/js/auth.js"></script>
+    <!-- Firebase Auth script -->
+    <script type="module" src="assets/js/auth.js"></script>
 
 </body>
 </html>
