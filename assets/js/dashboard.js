@@ -1,8 +1,8 @@
 // File: /assets/js/dashboard.js
-// Description: Main script for The Hub dashboard with client-side routing and corrected pathing.
+// Description: Main script for The Hub dashboard with corrected pathing and routing.
 
 // --- Firebase & Module Imports ---
-import { auth, db } from './firebase-config.js';
+import { auth, db } from './firebase-config.js'; 
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 import * as financeUI from './financehelp/finance-ui.js';
@@ -10,228 +10,226 @@ import * as publicPagesUI from './public-pages/publisher.js';
 
 // --- TRANSLATION DICTIONARY ---
 const translations = {
-  en: {
-    "sidebar_overview": "Overview",
-    "sidebar_lifecv": "Life-CV",
-    "sidebar_publications": "Publications",
-    "sidebar_public_pages": "Public Pages",
-    "sidebar_activity": "Activity"
-  },
-  xh: {
-    "sidebar_overview": "Isishwankathelo",
-    "sidebar_lifecv": "i-Life-CV",
-    "sidebar_publications": "Ushicilelo",
-    "sidebar_public_pages": "Amaphepha Oluntu",
-    "sidebar_activity": "Umsebenzi"
-  },
-  zu: {
-    "sidebar_overview": "Ukubuka konke",
-    "sidebar_lifecv": "i-Life-CV",
-    "sidebar_publications": "Okushicilelwe",
-    "sidebar_public_pages": "Amakhasi Omphakathi",
-    "sidebar_activity": "Umsebenzi"
-  },
-  af: {
-    "sidebar_overview": "Oorsig",
-    "sidebar_lifecv": "Lewens-CV",
-    "sidebar_publications": "Publikasies",
-    "sidebar_public_pages": "Openbare Bladsye",
-    "sidebar_activity": "Aktiwiteit"
-  }
+    en: { "sidebar_overview": "Overview", "sidebar_lifecv": "Life-CV", "sidebar_publications": "Publications", "sidebar_public_pages": "Public Pages", "sidebar_activity": "Activity" },
+    xh: { "sidebar_overview": "Isishwankathelo", "sidebar_lifecv": "i-Life-CV", "sidebar_publications": "Ushicilelo", "sidebar_public_pages": "Amaphepha Oluntu", "sidebar_activity": "Umsebenzi" },
+    zu: { "sidebar_overview": "Ukubuka konke", "sidebar_lifecv": "i-Life-CV", "sidebar_publications": "Okushicilelwe", "sidebar_public_pages": "Amakhasi Omphakathi", "sidebar_activity": "Umsebenzi" },
+    af: { "sidebar_overview": "Oorsig", "sidebar_lifecv": "Lewens-CV", "sidebar_publications": "Publikasies", "sidebar_public_pages": "Openbare Bladsye", "sidebar_activity": "Aktiwiteit" }
 };
 
 // --- Core UI & Routing Functions ---
 
-/**
- * Determines the correct path to components based on current location
- * @returns {string} The correct path to the components directory
- */
-const getComponentsPath = () => {
-  const path = window.location.pathname;
-  if (
-    path.endsWith('/dashboard/') || 
-    path.endsWith('/dashboard/index.html') ||
-    path === '/dashboard'
-  ) {
-    return './components/';
-  }
-  if (path.includes('/dashboard/')) {
-    return '../components/';
-  }
-  return './components/';
-};
-
-/**
- * Converts absolute dashboard paths to relative paths for page content,
- * always matching the file structure.
- * @param {string} absolutePath - The absolute path (e.g., '/dashboard/overview.html')
- * @returns {string} The relative path based on current location
- */
-const getRelativePagePath = (absolutePath) => {
-  const currentPath = window.location.pathname;
-  // Normalize double slashes
-  absolutePath = absolutePath.replace(/\/{2,}/g, '/');
-  // Root SPA: /dashboard/ or /dashboard/index.html
-  if (
-    currentPath.endsWith('/dashboard/') ||
-    currentPath.endsWith('/dashboard/index.html') ||
-    currentPath === '/dashboard'
-  ) {
-    return '.' + absolutePath.replace('/dashboard', '');
-  }
-  // In a subdir: e.g. /dashboard/finhelp/index.html
-  if (currentPath.startsWith('/dashboard/') && currentPath.split('/').length > 3) {
-    return '..' + absolutePath.replace('/dashboard', '');
-  }
-  // Fallback for already relative or odd cases
-  if (!absolutePath.startsWith('/')) {
-    return absolutePath;
-  }
-  return '.' + absolutePath.replace('/dashboard', '');
-};
-
-/**
- * Corrects all dashboard internal links to point to the *real* filename/structure.
- */
-const dashboardRouteMap = {
-  // Overview and non-folder dashboard section files
-  '/dashboard/overview.html':        './overview.html',
-  '/dashboard/profile.html':         './profile.html',
-  '/dashboard/activity.html':        './activity.html',
-
-  // CommsHub (foldered)
-  '/dashboard/commshub/index.html':  './commshub/index.html',
-
-  // FamilyHub (foldered)
-  '/dashboard/familyhub/index.html': './familyhub/index.html',
-
-  // FinanceHelp (foldered)
-  '/dashboard/finhelp/index.html':   './finhelp/index.html',
-  '/dashboard/finhelp/assets.html':  './finhelp/assets.html',
-  '/dashboard/finhelp/expenses.html':'./finhelp/expenses.html',
-  '/dashboard/finhelp/tax-pack.html':'./finhelp/tax-pack.html',
-  '/dashboard/finhelp/public-share.html':'./finhelp/public-share.html',
-
-  // Life-CV: special (note subfolder for only 1 html file)
-  '/dashboard/life-cv/life-cv.html': './life-cv/life-cv.html',
-
-  // LifeSync
-  '/dashboard/lifesync/index.html':  './lifesync/index.html',
-  '/dashboard/lifesync/assessment.html': './lifesync/assessment.html',
-
-  // Publications
-  '/dashboard/publications/index.html': './publications/index.html',
-  '/dashboard/publications/editor.html': './publications/editor.html',
-
-  // Public-Pages
-  '/dashboard/public-pages/index.html': './public-pages/index.html',
-  '/dashboard/public-pages/editor.html': './public-pages/editor.html',
-
-  // Training
-  '/dashboard/training/index.html':   './training/index.html',
-  '/dashboard/training/assign.html':  './training/assign.html',
-  '/dashboard/training/host.html':    './training/host.html'
-};
-
-/**
- * Loads a partial HTML component into a placeholder.
- */
 const loadComponent = async (componentPath, placeholderId) => {
-  const placeholder = document.getElementById(placeholderId);
-  if (!placeholder) {
-    console.error(`Placeholder element with id "${placeholderId}" not found`);
-    return;
-  }
-  try {
-    const response = await fetch(componentPath);
-    if (!response.ok) {
-      throw new Error(`HTTP ${response.status}: ${response.statusText}`);
+    const placeholder = document.getElementById(placeholderId);
+    if (!placeholder) {
+        console.error(`Placeholder element with id "${placeholderId}" not found`);
+        return;
     }
-    const content = await response.text();
-    placeholder.innerHTML = content;
-  } catch (error) {
-    console.error(`Error loading component ${componentPath}:`, error);
-    placeholder.innerHTML = `<div class="load-error">Failed to load component.</div>`;
-  }
+    try {
+        const response = await fetch(componentPath);
+        if (!response.ok) throw new Error(`Component not found: ${componentPath}`);
+        placeholder.innerHTML = await response.text();
+    } catch (error) { 
+        console.error(`Error loading component ${componentPath}:`, error); 
+    }
 };
 
-// SPA Navigation & Page Content Loader
-const loadPageContent = async (absolutePath) => {
-  const mainContent = document.getElementById('main-content');
-  // Use explicit route map for dashboard pages
-  let relativePath = dashboardRouteMap[absolutePath];
-  if (!relativePath) {
-    // Attempt to fallback: calculate direct relative path
-    relativePath = getRelativePagePath(absolutePath);
-  }
-  try {
-    const response = await fetch(relativePath);
-    if (!response.ok) {
-      throw new Error('Page not found: ' + relativePath);
+const loadPageContent = async (path) => {
+    const mainContent = document.getElementById('main-content');
+    if (!mainContent) return;
+    mainContent.innerHTML = `<div class='p-8 text-center text-secondary'>Loading...</div>`;
+    try {
+        // Ensure we don't fetch the root directory, but the actual overview file
+        const pathToFetch = (path === '/dashboard/' || path === '/dashboard/index.html') ? '/dashboard/overview.html' : path;
+        const response = await fetch(pathToFetch);
+        if (!response.ok) throw new Error(`Page not found: ${pathToFetch}`);
+        mainContent.innerHTML = await response.text();
+        if(auth.currentUser) {
+            routePageLogic(path, auth.currentUser.uid);
+        }
+    } catch (error) {
+        console.error(`Error loading page content ${path}:`, error);
+        mainContent.innerHTML = `<div class='p-8 text-center text-red-500'>Error: Could not load page.</div>`;
     }
-    const html = await response.text();
-    mainContent.innerHTML = html;
-  } catch (err) {
-    mainContent.innerHTML = `<div class="error-message">Page not found: ${relativePath}</div>`;
-  }
 };
 
-/**
- * Sets up dashboard sidebar link SPA navigation.
- */
-function setupSidebarLinks() {
-  // Event delegation for all sidebar SPA links
-  const sidebar = document.getElementById('sidebar');
-  if (!sidebar) return;
-  sidebar.addEventListener('click', function (e) {
-    const target = e.target.closest('a');
-    if (target && target.classList.contains('sidebar-link')) {
-      const href = target.getAttribute('href');
-      if (href && href.startsWith('/dashboard/')) {
-        e.preventDefault();
-        history.pushState({}, '', href);
-        loadPageContent(href);
-      }
-    }
-  });
-}
-
-// Dashboard Component Loader
-const initializeDashboard = async () => {
-  // Load main layout components
-  const componentsPath = getComponentsPath();
-  await loadComponent(componentsPath + 'header.html', 'header');
-  await loadComponent(componentsPath + 'sidebar.html', 'sidebar');
-  await loadComponent(componentsPath + 'footer.html', 'footer');
-  await loadComponent(componentsPath + 'theme-switcher.html', 'themeSwitcher');
-  await loadComponent(componentsPath + 'language-switcher.html', 'langSwitcher');
-
-  // After rendering sidebar, activate SPA nav
-  setupSidebarLinks();
-
-  // Load initial page (SPA root fallback)
-  let initialPage = window.location.pathname;
-  if (
-    initialPage === '/dashboard/' ||
-    initialPage === '/dashboard' ||
-    initialPage === '/dashboard/index.html'
-  ) {
-    initialPage = '/dashboard/overview.html';
-  }
-  loadPageContent(initialPage);
-
-  // Auth logic (if needed)
-  onAuthStateChanged(auth, async (user) => {
-    if (!user) {
-      window.location.href = '/index.html';
-    }
-  });
+const setLanguage = (lang) => {
+    document.querySelectorAll('[data-translate]').forEach(el => {
+        const key = el.getAttribute('data-translate');
+        if (translations[lang] && translations[lang][key]) el.innerText = translations[lang][key];
+    });
+    localStorage.setItem('language', lang);
 };
 
-// SPA back/forward support
-window.addEventListener('popstate', () => {
-  loadPageContent(window.location.pathname);
+const applyTheme = (theme) => {
+    document.body.className = theme;
+    localStorage.setItem('theme', theme);
+};
+
+const setupThemeSwitcher = () => {
+    document.body.addEventListener('click', (e) => {
+        const themeOption = e.target.closest('.theme-option');
+        if (themeOption) {
+            applyTheme(themeOption.getAttribute('data-theme'));
+            document.getElementById('theme-menu').classList.add('hidden');
+        }
+    });
+};
+
+const setupLanguageSwitcher = () => {
+    document.body.addEventListener('click', (e) => {
+        const langOption = e.target.closest('.language-option');
+        if (langOption) {
+            setLanguage(langOption.getAttribute('data-lang'));
+            document.getElementById('language-menu').classList.add('hidden');
+        }
+    });
+};
+
+const setActiveSidebarLink = (path) => {
+    document.querySelectorAll('.sidebar-link').forEach(link => {
+        const linkPath = link.getAttribute('href');
+        if (linkPath && path.startsWith(linkPath)) {
+            link.classList.add('active');
+        } else {
+            link.classList.remove('active');
+        }
+    });
+};
+
+const setupDropdown = (buttonId, menuId) => {
+    const button = document.getElementById(buttonId);
+    const menu = document.getElementById(menuId);
+    if (button && menu) {
+        button.addEventListener('click', (e) => {
+            e.stopPropagation();
+            document.querySelectorAll('.user-menu-dropdown').forEach(m => {
+                if (m.id !== menuId) m.classList.add('hidden');
+            });
+            menu.classList.toggle('hidden');
+        });
+    }
+};
+
+const displayWelcomeMessage = () => {
+    const message = sessionStorage.getItem('welcomeMessage');
+    if (message) {
+        const messageContainer = document.getElementById('dashboard-welcome-message');
+        if (messageContainer) {
+            messageContainer.innerHTML = message;
+            messageContainer.classList.remove('hidden');
+            sessionStorage.removeItem('welcomeMessage');
+        }
+    }
+};
+
+const updateHeaderUserInfo = async (user) => {
+    const userNameEl = document.getElementById('user-name');
+    const userAvatarEl = document.getElementById('user-avatar');
+    if (!userNameEl || !userAvatarEl) return;
+    try {
+        const userDocRef = doc(db, "users", user.uid);
+        const userDocSnap = await getDoc(userDocRef);
+        if (userDocSnap.exists()) {
+            const userData = userDocSnap.data();
+            const nameToDisplay = user.displayName || userData.name || user.email;
+            userNameEl.textContent = nameToDisplay;
+        } else {
+            userNameEl.textContent = user.email;
+        }
+        if (user.photoURL) {
+            userAvatarEl.src = user.photoURL;
+        }
+    } catch (error) {
+        console.error("Error fetching user data:", error);
+        userNameEl.textContent = user.email;
+    }
+};
+
+const routePageLogic = (path, userId) => {
+    if (!userId) return;
+    if (path.includes('/finhelp/assets.html')) financeUI.initAssetPage(userId);
+    else if (path.includes('/finhelp/expenses.html')) financeUI.initExpensePage(userId);
+    else if (path.includes('/finhelp/tax-pack.html')) financeUI.initTaxPackPage(userId);
+    else if (path.includes('/public-pages/editor.html')) publicPagesUI.initPublisherPage(userId);
+};
+
+// --- Main Initialization Controller ---
+document.addEventListener('DOMContentLoaded', async () => {
+    applyTheme(localStorage.getItem('theme') || 'theme-default');
+
+    // CORRECTED: Use a static, reliable path relative to the dashboard/index.html shell.
+    const componentPathPrefix = 'components/';
+
+    await Promise.all([
+        loadComponent(`${componentPathPrefix}header.html`, 'header-placeholder'),
+        loadComponent(`${componentPathPrefix}sidebar.html`, 'sidebar-placeholder'),
+        loadComponent(`${componentPathPrefix}footer.html`, 'footer-placeholder'),
+    ]);
+    
+    await Promise.all([
+        loadComponent(`${componentPathPrefix}theme-switcher.html`, 'theme-switcher-placeholder'),
+        loadComponent(`${componentPathPrefix}language-switcher.html`, 'language-switcher-placeholder')
+    ]);
+
+    const handleNavigation = (path) => {
+        // Don't push the same state twice
+        if (window.location.pathname !== path) {
+            history.pushState({path: path}, '', path);
+        }
+        loadPageContent(path);
+        setActiveSidebarLink(path);
+    };
+
+    document.body.addEventListener('click', (e) => {
+        const link = e.target.closest('.sidebar-link, .sidebar-nav-link');
+        if (link) {
+            e.preventDefault();
+            const path = link.getAttribute('href');
+            handleNavigation(path);
+        }
+    });
+
+    window.addEventListener('popstate', (e) => {
+        const path = e.state ? e.state.path : '/dashboard/overview.html';
+        loadPageContent(path);
+        setActiveSidebarLink(path);
+    });
+
+    onAuthStateChanged(auth, (user) => {
+        if (user) {
+            setTimeout(async () => {
+                await updateHeaderUserInfo(user);
+
+                setupDropdown('user-btn', 'user-menu');
+                setupDropdown('theme-btn', 'theme-menu');
+                setupDropdown('language-btn', 'language-menu');
+                setupDropdown('ecosystem-btn', 'ecosystem-menu');
+                setupThemeSwitcher();
+                setupLanguageSwitcher();
+                setLanguage(localStorage.getItem('language') || 'en');
+                displayWelcomeMessage();
+
+                const initialPath = window.location.pathname;
+                handleNavigation(initialPath === '/' || initialPath === '/dashboard/' ? '/dashboard/overview.html' : initialPath);
+                
+                const logoutButton = document.getElementById('logout-btn');
+                if (logoutButton) {
+                    logoutButton.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        signOut(auth).catch(error => console.error('Logout Error:', error));
+                    });
+                }
+            }, 200);
+        } else {
+            if (!window.location.pathname.includes('index.html')) {
+                 window.location.href = '/index.html';
+            }
+        }
+    });
+
+    document.addEventListener('click', (e) => {
+        if (!e.target.closest('#user-dropdown-container, #theme-dropdown-container, #language-dropdown-container, #ecosystem-dropdown-container')) {
+            document.querySelectorAll('.user-menu-dropdown').forEach(menu => menu.classList.add('hidden'));
+        }
+    });
 });
-
-window.addEventListener('DOMContentLoaded', initializeDashboard);
-
