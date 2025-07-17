@@ -1,5 +1,5 @@
 // File: /assets/js/dashboard.js
-// Description: Main script for The Hub dashboard with client-side routing and all features integrated.
+// Description: Main script for The Hub dashboard with client-side routing and corrected pathing.
 
 // --- Firebase & Module Imports ---
 import { auth, db } from './firebase-config.js';
@@ -62,33 +62,79 @@ const getComponentsPath = () => {
 };
 
 /**
- * Route mapping for dashboard pages
+ * Converts absolute dashboard paths to relative paths for page content,
+ * always matching the file structure.
+ * @param {string} absolutePath - The absolute path (e.g., '/dashboard/overview.html')
+ * @returns {string} The relative path based on current location
  */
-const dashboardRouteMap = {
-  '/dashboard/overview.html': './overview.html',
-  '/dashboard/profile.html': './profile.html',
-  '/dashboard/activity.html': './activity.html',
-  '/dashboard/commshub/index.html': './commshub/index.html',
-  '/dashboard/familyhub/index.html': './familyhub/index.html',
-  '/dashboard/finhelp/index.html': './finhelp/index.html',
-  '/dashboard/finhelp/assets.html': './finhelp/assets.html',
-  '/dashboard/finhelp/expenses.html': './finhelp/expenses.html',
-  '/dashboard/finhelp/tax-pack.html': './finhelp/tax-pack.html',
-  '/dashboard/finhelp/public-share.html': './finhelp/public-share.html',
-  '/dashboard/life-cv/life-cv.html': './life-cv/life-cv.html',
-  '/dashboard/lifesync/index.html': './lifesync/index.html',
-  '/dashboard/lifesync/assessment.html': './lifesync/assessment.html',
-  '/dashboard/publications/index.html': './publications/index.html',
-  '/dashboard/publications/editor.html': './publications/editor.html',
-  '/dashboard/public-pages/index.html': './public-pages/index.html',
-  '/dashboard/public-pages/editor.html': './public-pages/editor.html',
-  '/dashboard/training/index.html': './training/index.html',
-  '/dashboard/training/assign.html': './training/assign.html',
-  '/dashboard/training/host.html': './training/host.html'
+const getRelativePagePath = (absolutePath) => {
+  const currentPath = window.location.pathname;
+  // Normalize double slashes
+  absolutePath = absolutePath.replace(/\/{2,}/g, '/');
+  // Root SPA: /dashboard/ or /dashboard/index.html
+  if (
+    currentPath.endsWith('/dashboard/') ||
+    currentPath.endsWith('/dashboard/index.html') ||
+    currentPath === '/dashboard'
+  ) {
+    return '.' + absolutePath.replace('/dashboard', '');
+  }
+  // In a subdir: e.g. /dashboard/finhelp/index.html
+  if (currentPath.startsWith('/dashboard/') && currentPath.split('/').length > 3) {
+    return '..' + absolutePath.replace('/dashboard', '');
+  }
+  // Fallback for already relative or odd cases
+  if (!absolutePath.startsWith('/')) {
+    return absolutePath;
+  }
+  return '.' + absolutePath.replace('/dashboard', '');
 };
 
 /**
- * Loads a partial HTML component into a placeholder
+ * Corrects all dashboard internal links to point to the *real* filename/structure.
+ */
+const dashboardRouteMap = {
+  // Overview and non-folder dashboard section files
+  '/dashboard/overview.html':        './overview.html',
+  '/dashboard/profile.html':         './profile.html',
+  '/dashboard/activity.html':        './activity.html',
+
+  // CommsHub (foldered)
+  '/dashboard/commshub/index.html':  './commshub/index.html',
+
+  // FamilyHub (foldered)
+  '/dashboard/familyhub/index.html': './familyhub/index.html',
+
+  // FinanceHelp (foldered)
+  '/dashboard/finhelp/index.html':   './finhelp/index.html',
+  '/dashboard/finhelp/assets.html':  './finhelp/assets.html',
+  '/dashboard/finhelp/expenses.html':'./finhelp/expenses.html',
+  '/dashboard/finhelp/tax-pack.html':'./finhelp/tax-pack.html',
+  '/dashboard/finhelp/public-share.html':'./finhelp/public-share.html',
+
+  // Life-CV: special (note subfolder for only 1 html file)
+  '/dashboard/life-cv/life-cv.html': './life-cv/life-cv.html',
+
+  // LifeSync
+  '/dashboard/lifesync/index.html':  './lifesync/index.html',
+  '/dashboard/lifesync/assessment.html': './lifesync/assessment.html',
+
+  // Publications
+  '/dashboard/publications/index.html': './publications/index.html',
+  '/dashboard/publications/editor.html': './publications/editor.html',
+
+  // Public-Pages
+  '/dashboard/public-pages/index.html': './public-pages/index.html',
+  '/dashboard/public-pages/editor.html': './public-pages/editor.html',
+
+  // Training
+  '/dashboard/training/index.html':   './training/index.html',
+  '/dashboard/training/assign.html':  './training/assign.html',
+  '/dashboard/training/host.html':    './training/host.html'
+};
+
+/**
+ * Loads a partial HTML component into a placeholder.
  */
 const loadComponent = async (componentPath, placeholderId) => {
   const placeholder = document.getElementById(placeholderId);
@@ -109,14 +155,14 @@ const loadComponent = async (componentPath, placeholderId) => {
   }
 };
 
-/**
- * Loads page content based on the absolute path and initializes page-specific logic
- */
+// SPA Navigation & Page Content Loader
 const loadPageContent = async (absolutePath) => {
   const mainContent = document.getElementById('main-content');
+  // Use explicit route map for dashboard pages
   let relativePath = dashboardRouteMap[absolutePath];
   if (!relativePath) {
-    relativePath = '.' + absolutePath.replace('/dashboard', '');
+    // Attempt to fallback: calculate direct relative path
+    relativePath = getRelativePagePath(absolutePath);
   }
   try {
     const response = await fetch(relativePath);
@@ -125,20 +171,19 @@ const loadPageContent = async (absolutePath) => {
     }
     const html = await response.text();
     mainContent.innerHTML = html;
-    routePageLogic(absolutePath, auth.currentUser?.uid);
-    setActiveSidebarLink(absolutePath);
   } catch (err) {
     mainContent.innerHTML = `<div class="error-message">Page not found: ${relativePath}</div>`;
   }
 };
 
 /**
- * Sets up sidebar links for SPA navigation
+ * Sets up dashboard sidebar link SPA navigation.
  */
-const setupSidebarLinks = () => {
+function setupSidebarLinks() {
+  // Event delegation for all sidebar SPA links
   const sidebar = document.getElementById('sidebar');
   if (!sidebar) return;
-  sidebar.addEventListener('click', (e) => {
+  sidebar.addEventListener('click', function (e) {
     const target = e.target.closest('a');
     if (target && target.classList.contains('sidebar-link')) {
       const href = target.getAttribute('href');
@@ -149,190 +194,44 @@ const setupSidebarLinks = () => {
       }
     }
   });
-};
+}
 
-/**
- * Applies the selected theme to the document
- */
-const applyTheme = (theme) => {
-  document.body.className = theme;
-  localStorage.setItem('theme', theme);
-};
+// Dashboard Component Loader
+const initializeDashboard = async () => {
+  // Load main layout components
+  const componentsPath = getComponentsPath();
+  await loadComponent(componentsPath + 'header.html', 'header');
+  await loadComponent(componentsPath + 'sidebar.html', 'sidebar');
+  await loadComponent(componentsPath + 'footer.html', 'footer');
+  await loadComponent(componentsPath + 'theme-switcher.html', 'themeSwitcher');
+  await loadComponent(componentsPath + 'language-switcher.html', 'langSwitcher');
 
-/**
- * Sets the language and applies translations
- */
-const setLanguage = (lang) => {
-  document.querySelectorAll('[data-translate]').forEach(el => {
-    const key = el.getAttribute('data-translate');
-    if (translations[lang] && translations[lang][key]) el.innerText = translations[lang][key];
-  });
-  localStorage.setItem('language', lang);
-};
+  // After rendering sidebar, activate SPA nav
+  setupSidebarLinks();
 
-/**
- * Sets up the theme switcher dropdown
- */
-const setupThemeSwitcher = () => {
-  document.body.addEventListener('click', (e) => {
-    const themeOption = e.target.closest('.theme-option');
-    if (themeOption) {
-      applyTheme(themeOption.getAttribute('data-theme'));
-      document.getElementById('theme-menu')?.classList.add('hidden');
-    }
-  });
-};
-
-/**
- * Sets up the language switcher dropdown
- */
-const setupLanguageSwitcher = () => {
-  document.body.addEventListener('click', (e) => {
-    const langOption = e.target.closest('.language-option');
-    if (langOption) {
-      setLanguage(langOption.getAttribute('data-lang'));
-      document.getElementById('language-menu')?.classList.add('hidden');
-    }
-  });
-};
-
-/**
- * Updates the header with user information from Firebase
- */
-const updateHeaderUserInfo = async (user) => {
-  const userNameEl = document.getElementById('user-name');
-  const userAvatarEl = document.getElementById('user-avatar');
-  if (!userNameEl || !userAvatarEl) return;
-  try {
-    const userDocRef = doc(db, "users", user.uid);
-    const userDocSnap = await getDoc(userDocRef);
-    if (userDocSnap.exists()) {
-      const userData = userDocSnap.data();
-      userNameEl.textContent = user.displayName || userData.name || user.email;
-    } else {
-      userNameEl.textContent = user.email;
-    }
-    if (user.photoURL) userAvatarEl.src = user.photoURL;
-  } catch (error) {
-    console.error("Error fetching user data:", error);
-    userNameEl.textContent = user.email;
+  // Load initial page (SPA root fallback)
+  let initialPage = window.location.pathname;
+  if (
+    initialPage === '/dashboard/' ||
+    initialPage === '/dashboard' ||
+    initialPage === '/dashboard/index.html'
+  ) {
+    initialPage = '/dashboard/overview.html';
   }
-};
+  loadPageContent(initialPage);
 
-/**
- * Sets up dropdown menu functionality
- */
-const setupDropdown = (buttonId, menuId) => {
-  const button = document.getElementById(buttonId);
-  const menu = document.getElementById(menuId);
-  if (button && menu) {
-    button.addEventListener('click', (e) => {
-      e.stopPropagation();
-      document.querySelectorAll('.user-menu-dropdown').forEach(m => {
-        if (m.id !== menuId) m.classList.add('hidden');
-      });
-      menu.classList.toggle('hidden');
-    });
-  }
-};
-
-/**
- * Displays a welcome message from session storage
- */
-const displayWelcomeMessage = () => {
-  const message = sessionStorage.getItem('welcomeMessage');
-  if (message) {
-    const messageContainer = document.getElementById('dashboard-welcome-message');
-    if (messageContainer) {
-      messageContainer.innerHTML = message;
-      messageContainer.classList.remove('hidden');
-      sessionStorage.removeItem('welcomeMessage');
-    }
-  }
-};
-
-/**
- * Sets the active sidebar link based on the current path
- */
-const setActiveSidebarLink = (path) => {
-  document.querySelectorAll('.sidebar-link').forEach(link => {
-    const linkPath = link.getAttribute('href');
-    if (linkPath && path.startsWith(linkPath)) {
-      link.classList.add('active');
-    } else {
-      link.classList.remove('active');
+  // Auth logic (if needed)
+  onAuthStateChanged(auth, async (user) => {
+    if (!user) {
+      window.location.href = '/index.html';
     }
   });
 };
 
-/**
- * Initializes specific page logic based on the loaded page
- */
-const routePageLogic = (path, userId) => {
-  if (!userId) return;
-  if (path.includes('/finhelp/assets.html')) financeUI.initAssetPage(userId);
-  else if (path.includes('/finhelp/expenses.html')) financeUI.initExpensePage(userId);
-  else if (path.includes('/finhelp/tax-pack.html')) financeUI.initTaxPackPage(userId);
-  else if (path.includes('/public-pages/editor.html')) publicPagesUI.initPublisherPage(userId);
-};
-
-// --- Main Initialization ---
-document.addEventListener('DOMContentLoaded', () => {
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      // User is authenticated, load dashboard
-      const componentsPath = getComponentsPath();
-      Promise.all([
-        loadComponent(componentsPath + 'header.html', 'header'),
-        loadComponent(componentsPath + 'sidebar.html', 'sidebar'),
-        loadComponent(componentsPath + 'footer.html', 'footer'),
-        loadComponent(componentsPath + 'theme-switcher.html', 'themeSwitcher'),
-        loadComponent(componentsPath + 'language-switcher.html', 'langSwitcher')
-      ]).then(() => {
-        updateHeaderUserInfo(user);
-        setupDropdown('user-btn', 'user-menu');
-        setupDropdown('theme-btn', 'theme-menu');
-        setupDropdown('language-btn', 'language-menu');
-        setupDropdown('ecosystem-btn', 'ecosystem-menu');
-        setupThemeSwitcher();
-        setupLanguageSwitcher();
-        setLanguage(localStorage.getItem('language') || 'en');
-        applyTheme(localStorage.getItem('theme') || 'theme-default');
-        displayWelcomeMessage();
-        setupSidebarLinks();
-
-        const currentPath = window.location.pathname;
-        const initialPath = currentPath === '/dashboard/' || currentPath === '/dashboard' || currentPath === '/dashboard/index.html'
-          ? '/dashboard/overview.html'
-          : currentPath;
-        loadPageContent(initialPath);
-
-        const logoutButton = document.getElementById('logout-btn');
-        if (logoutButton) {
-          logoutButton.addEventListener('click', (e) => {
-            e.preventDefault();
-            signOut(auth).catch(error => console.error('Logout Error:', error));
-          });
-        }
-      }).catch(error => console.error('Error loading components:', error));
-    } else {
-      // User not authenticated, redirect to login
-      if (!window.location.pathname.includes('index.html')) {
-        window.location.href = '/index.html';
-      }
-    }
-  });
-
-  // Handle back/forward navigation
-  window.addEventListener('popstate', () => {
-    const currentPath = window.location.pathname;
-    loadPageContent(currentPath);
-  });
-
-  // Close dropdowns when clicking outside
-  document.addEventListener('click', (e) => {
-    if (!e.target.closest('#user-dropdown-container, #theme-dropdown-container, #language-dropdown-container, #ecosystem-dropdown-container')) {
-      document.querySelectorAll('.user-menu-dropdown').forEach(menu => menu.classList.add('hidden'));
-    }
-  });
+// SPA back/forward support
+window.addEventListener('popstate', () => {
+  loadPageContent(window.location.pathname);
 });
+
+window.addEventListener('DOMContentLoaded', initializeDashboard);
+
