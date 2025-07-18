@@ -1,8 +1,6 @@
-// File: /assets/js/auth.js
-// Handles Firebase Auth for The Hub, including Sign In and Sign Up.
+// /assets/js/auth.js
 
-// --- Firebase & Module Imports ---
-import { auth, db } from './firebase-config.js'; 
+import { auth, db } from './firebase-config.js';
 import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
@@ -31,8 +29,10 @@ let isSignUp = false;
 // --- Functions ---
 
 const showMessage = (message, isError = false) => {
+  if (!messageArea) return;
   messageArea.innerHTML = message;
   messageArea.className = `text-center p-3 mb-4 rounded-lg text-sm ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
+  messageArea.classList.remove('hidden');
 };
 
 const handleAuthSuccess = async (userCredential, isNewUser = false) => {
@@ -46,19 +46,22 @@ const handleAuthSuccess = async (userCredential, isNewUser = false) => {
       uid: user.uid
     });
   }
-  // Redirect to the dashboard using a reliable, absolute path
-  window.location.href = '/dashboard/index.html'; // Updated from '/hub.sazi.life-main/dashboard/index.html'
+  // Redirect to the dashboard
+  window.location.href = "/dashboard/index.html";
 };
 
 const toggleFormMode = () => {
-    isSignUp = !isSignUp;
-    formTitle.textContent = isSignUp ? 'Create Your Account' : 'Sign In to The Hub';
-    submitButton.textContent = isSignUp ? 'Sign Up' : 'Sign In';
+  isSignUp = !isSignUp;
+  if (formTitle) formTitle.textContent = isSignUp ? 'Create Your Account' : 'Sign In to The Hub';
+  if (submitButton) submitButton.textContent = isSignUp ? 'Sign Up' : 'Sign In';
+  if (confirmPasswordContainer)
     confirmPasswordContainer.classList.toggle('hidden', !isSignUp);
-    formToggleLink.innerHTML = isSignUp 
-        ? 'Already have an account? <span class="font-semibold text-accent-color hover:underline">Sign In</span>' 
-        : 'Don\'t have an account? <span class="font-semibold text-accent-color hover:underline">Sign Up</span>';
-    messageArea.innerHTML = '';
+  if (formToggleLink)
+    formToggleLink.innerHTML = isSignUp
+      ? 'Already have an account? <span class="font-semibold text-accent-color hover:underline">Sign In</span>'
+      : 'Don\'t have an account? <span class="font-semibold text-accent-color hover:underline">Sign Up</span>';
+  if (messageArea) messageArea.innerHTML = '';
+  if (messageArea) messageArea.classList.add('hidden');
 };
 
 // --- Event Listeners ---
@@ -73,8 +76,8 @@ if (authForm) {
       if (isSignUp) {
         const confirmPassword = authForm['confirm-password'].value;
         if (password !== confirmPassword) {
-            showMessage("Passwords do not match.", true);
-            return;
+          showMessage("Passwords do not match.", true);
+          return;
         }
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await handleAuthSuccess(userCredential, true);
@@ -88,6 +91,10 @@ if (authForm) {
         friendlyMessage = "Invalid credentials. Please check your email and password and try again.";
       } else if (error.code === 'auth/email-already-in-use') {
         friendlyMessage = "An account with this email address already exists. Please sign in instead.";
+      } else if (error.code === 'auth/invalid-email') {
+        friendlyMessage = "Please enter a valid email address.";
+      } else if (error.code === 'auth/weak-password') {
+        friendlyMessage = "Password should be at least 6 characters.";
       }
       showMessage(friendlyMessage, true);
     }
@@ -95,10 +102,10 @@ if (authForm) {
 }
 
 if (formToggleLink) {
-    formToggleLink.addEventListener('click', (e) => {
-        e.preventDefault();
-        toggleFormMode();
-    });
+  formToggleLink.addEventListener('click', e => {
+    e.preventDefault();
+    toggleFormMode();
+  });
 }
 
 if (googleBtn) {
@@ -106,7 +113,7 @@ if (googleBtn) {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
-      // You might need more logic here to check if the user is new
+      // Optionally check if new user by checking result.user.metadata.creationTime === result.user.metadata.lastSignInTime
       await handleAuthSuccess(result);
     } catch (error) {
       showMessage(error.message, true);
@@ -124,3 +131,8 @@ if (anonBtn) {
     }
   });
 }
+
+// Optional: Enter key toggles between sign in/up fields
+document.addEventListener('DOMContentLoaded', () => {
+  if (messageArea) messageArea.classList.add('hidden');
+});

@@ -238,3 +238,32 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 });
+// assets/js/dashboard.js
+
+document.addEventListener("DOMContentLoaded", function () {
+  function loadFragment(page) {
+    fetch(`${page}.html`)
+      .then(resp => {
+        if (!resp.ok) throw new Error("404 Not Found");
+        return resp.text();
+      })
+      .then(html => {
+        document.getElementById('dashboard-content').innerHTML = html;
+      })
+      .catch(err => {
+        document.getElementById('dashboard-content').innerHTML = "<p>Page not found.</p>";
+      });
+  }
+
+  // Initial load
+  loadFragment('overview');
+
+  // Handle nav click
+  document.querySelectorAll('nav a[data-page]').forEach(link => {
+    link.addEventListener('click', e => {
+      e.preventDefault();
+      const page = link.getAttribute('data-page');
+      loadFragment(page);
+    });
+  });
+});
