@@ -192,8 +192,7 @@ document.addEventListener('DOMContentLoaded', () => {
             await initTranslations(savedLang);
 
             // Load the dashboard shell
-            // Change from absolute to relative path for GitHub Pages compatibility
-            const componentPathPrefix = 'dashboard/components/';
+            const componentPathPrefix = 'components/';
             await Promise.all([
                 loadComponent(`${componentPathPrefix}header.html`, 'header'),
                 loadComponent(`${componentPathPrefix}sidebar.html`, 'sidebar'),
@@ -202,20 +201,16 @@ document.addEventListener('DOMContentLoaded', () => {
 
             setTimeout(async () => {
                 await updateHeaderUserInfo(user);
-                
                 setupDropdown('user-btn', 'user-menu');
                 setupDropdown('theme-btn', 'theme-menu');
                 setupDropdown('language-btn', 'language-menu');
                 setupDropdown('ecosystem-btn', 'ecosystem-menu');
-                
                 displayWelcomeMessage();
-
                 const pathName = window.location.pathname.replace(basePath, '');
                 const initialPath = (pathName === '/' || pathName === '/dashboard/' || pathName === '/dashboard/index.html') 
                     ? '/dashboard/overview.html' 
                     : pathName;
                 handleNavigation(initialPath);
-
                 const logoutButton = document.getElementById('logout-btn');
                 if (logoutButton) {
                     logoutButton.addEventListener('click', (e) => {
@@ -226,7 +221,6 @@ document.addEventListener('DOMContentLoaded', () => {
                     });
                 }
             }, 100);
-
         } else {
             const loginPath = `${basePath}/index.html`;
             if (window.location.pathname !== loginPath && window.location.pathname !== `${basePath}/`) {
@@ -236,7 +230,6 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // --- GLOBAL EVENT LISTENERS ---
-
     document.body.addEventListener('click', (e) => {
         const link = e.target.closest('.sidebar-link, .sidebar-nav-link');
         if (link) {
@@ -244,7 +237,6 @@ document.addEventListener('DOMContentLoaded', () => {
             const path = new URL(link.href).pathname.replace(basePath, '');
             handleNavigation(path);
         }
-
         // Handle language switching
         const langOption = e.target.closest('.language-option');
         if (langOption) {
@@ -253,44 +245,13 @@ document.addEventListener('DOMContentLoaded', () => {
             initTranslations(lang); // Re-initialize with the new language
         }
     });
-    
     window.addEventListener('popstate', (e) => {
         const path = e.state ? e.state.path : '/dashboard/overview.html';
         handleNavigation(path);
     });
-
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.dropdown-container')) {
             document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
         }
     });
-});
-// assets/js/dashboard.js
-
-document.addEventListener("DOMContentLoaded", function () {
-  function loadFragment(page) {
-    fetch(`${page}.html`)
-      .then(resp => {
-        if (!resp.ok) throw new Error("404 Not Found");
-        return resp.text();
-      })
-      .then(html => {
-        document.getElementById('dashboard-content').innerHTML = html;
-      })
-      .catch(err => {
-        document.getElementById('dashboard-content').innerHTML = "<p>Page not found.</p>";
-      });
-  }
-
-  // Initial load
-  loadFragment('overview');
-
-  // Handle nav click
-  document.querySelectorAll('nav a[data-page]').forEach(link => {
-    link.addEventListener('click', e => {
-      e.preventDefault();
-      const page = link.getAttribute('data-page');
-      loadFragment(page);
-    });
-  });
 });
