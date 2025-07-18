@@ -1,16 +1,16 @@
 // File: /assets/js/dashboard.js
-// Description: Main script for The Hub dashboard with corrected paths and loading logic.
+// Description: Corrected main script for The Hub dashboard.
 
 // --- Firebase & Module Imports ---
 import { auth, db } from './firebase-config.js'; 
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { translations } from './translations.js'; // Import from the new translations file
 import { initLifeCvPage } from './life-cv/life-cv-ui.js'; 
+import { translations } from './translations.js'; // Importing from the dedicated file
 
 // --- CONFIGURATION ---
-// Corrected base path. This is the key to fixing the 404 errors.
-const basePath = '/hub.sazi.life'; 
+// Corrected base path to fix all 404 (Not Found) errors.
+const basePath = '/hub.sazi.life-main'; 
 let currentUser = null;
 
 // --- DOM ELEMENT REFERENCES ---
@@ -32,17 +32,15 @@ async function loadComponent(componentPath, placeholder) {
         placeholder.innerHTML = await response.text();
     } catch (error) {
         console.error(error);
-        placeholder.innerHTML = `<p class="text-red-500">Error: ${componentPath} failed to load.</p>`;
     }
 }
 
 /**
- * Fetches and displays the content for a given page (e.g., overview.html).
+ * Fetches and displays the content for a given page.
  */
 async function handleNavigation(path) {
     if (!mainContent) return;
     
-    // Default to the overview page if the root dashboard is requested.
     if (path.endsWith('/dashboard/') || path.endsWith('/dashboard/index.html') || path === '/dashboard' || path === '/') {
         path = '/dashboard/overview.html';
     }
@@ -62,7 +60,7 @@ async function handleNavigation(path) {
         updateActiveSidebarLink(path);
     } catch (error) {
         console.error('Navigation Error:', error);
-        mainContent.innerHTML = `<div class='p-8 text-center text-red-500'>Error: Could not load page content.</div>`;
+        mainContent.innerHTML = `<div class='p-8 text-center text-red-500'>Error: Could not load page.</div>`;
     }
 }
 
@@ -74,7 +72,6 @@ function initializePageScript(path) {
     if (path.includes('/life-cv/life-cv.html')) {
         initLifeCvPage(currentUser.uid);
     }
-    // Add other page initializers here as needed.
 }
 
 /**
@@ -97,7 +94,7 @@ async function updateUserUI(user) {
 }
 
 /**
- * Displays the welcome message, using the selected language.
+ * Displays the welcome message.
  */
 function displayWelcomeMessage(name) {
     if (welcomeMessageContainer) {
@@ -115,7 +112,7 @@ function updateActiveSidebarLink(path) {
     const fullPath = `${basePath}${path}`;
     document.querySelectorAll('.sidebar-nav-link').forEach(link => {
         if (link.href.endsWith(fullPath)) {
-            link.classList.add('active');
+            link.classList.add('active'); // You may need to define this class in your CSS
         } else {
             link.classList.remove('active');
         }
@@ -160,7 +157,6 @@ function initializeEventListeners() {
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            // This robust loading logic replaces the original setTimeout.
             await Promise.all([
                 loadComponent('header.html', headerPlaceholder),
                 loadComponent('sidebar.html', sidebarPlaceholder),
@@ -170,7 +166,7 @@ document.addEventListener('DOMContentLoaded', () => {
             await updateUserUI(user);
             initializeEventListeners();
 
-            const currentPath = window.location.pathname.replace(/\/$/, ""); // Remove trailing slash
+            const currentPath = window.location.pathname.replace(/\/$/, "");
             const initialPath = (currentPath === basePath || currentPath.endsWith('index.html')) 
                 ? '/dashboard/overview.html' 
                 : currentPath.replace(basePath, '');
