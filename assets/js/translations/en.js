@@ -371,6 +371,7 @@ export default {
         "ecosystem_ekhaya": "eKhaya",
         "ecosystem_flamea": "Flamea",
         "ecosystem_familyvalue": "FamilyValue",
-        "ecosystem_lifesync": "LifeSync",
-    },
+        "ecosystem_lifesync": "LifeSync"
+    }
+};
  
