@@ -1,10 +1,11 @@
-<!-- File: /dashboard/components/sidebar.html -->
-<!-- Description: Sidebar component with corrected navigation links for SPA behavior. -->
+<!-- dashboard/components/sidebar.html -->
+<!-- This version contains corrected links for SPA navigation on GitHub Pages. -->
+<!-- The visual structure is identical to your original file. -->
 <aside class="sidebar w-64 bg-sidebar flex-shrink-0 flex-col hidden md:flex">
     <!-- Logo/Brand -->
     <div class="h-16 flex items-center justify-center px-4">
-        <!-- This link now correctly points to the root of the dashboard -->
-        <a href="/hub.sazi.life/dashboard/index.html" class="sidebar-nav-link flex items-center space-x-2">
+        <!-- The href is corrected and the 'sidebar-nav-link' class is added for SPA functionality -->
+        <a href="/hub.sazi.life/dashboard/overview.html" class="sidebar-nav-link flex items-center space-x-2">
             <i class="fas fa-cubes-stacked text-2xl text-accent-color"></i>
             <span class="font-bold text-xl">The Hub</span>
         </a>
@@ -12,6 +13,7 @@
 
     <!-- Navigation -->
     <nav class="flex-1 px-4 py-4 space-y-2">
+        <!-- Each href is prefixed with the repository name for correct routing -->
         <a href="/hub.sazi.life/dashboard/overview.html" class="sidebar-nav-link">
             <i class="fas fa-home w-6"></i>
             <span data-translate-key="sidebar_overview">Overview</span>
@@ -32,7 +34,6 @@
             <i class="fas fa-chart-line w-6"></i>
             <span data-translate-key="sidebar_activity">Activity</span>
         </a>
-        <!-- Add other links following the same pattern -->
     </nav>
 
     <!-- Footer/User Area -->
