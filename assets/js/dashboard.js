@@ -1,21 +1,17 @@
 // File: /assets/js/dashboard.js
-// Description: Corrected main script for The Hub dashboard.
-// This version fixes loading and navigation issues without changing original functionality.
+// Description: Main script for The Hub dashboard with corrected paths and loading logic.
 
 // --- Firebase & Module Imports ---
 import { auth, db } from './firebase-config.js'; 
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-// Import page-specific UI initializers.
-// We will create this new file to handle Life-CV content.
+import { translations } from './translations.js'; // Import from the new translations file
 import { initLifeCvPage } from './life-cv/life-cv-ui.js'; 
-import * as financeUI from './financehelp/finance-ui.js';
-import * as publicPagesUI from './public-pages/publisher.js';
 
 // --- CONFIGURATION ---
-// This base path is crucial for GitHub Pages to find your files correctly.
-const basePath = '/hub.sazi.life-main'; 
-let currentUser = null; // To store the logged-in user's data.
+// Corrected base path. This is the key to fixing the 404 errors.
+const basePath = '/hub.sazi.life'; 
+let currentUser = null;
 
 // --- DOM ELEMENT REFERENCES ---
 const mainContent = document.getElementById('main-content');
@@ -24,153 +20,34 @@ const headerPlaceholder = document.getElementById('header-placeholder');
 const footerPlaceholder = document.getElementById('footer-placeholder');
 const welcomeMessageContainer = document.getElementById('dashboard-welcome-message');
 
-// --- TRANSLATION DICTIONARY ---
-const translations = {
-    en: {
-        "sidebar_overview": "Overview",
-        "sidebar_lifecv": "Life-CV",
-        "sidebar_publications": "Publications",
-        "sidebar_public_pages": "Public Pages",
-        "sidebar_activity": "Activity",
-        "welcome_back": "Welcome back"
-    },
-    xh: {
-        "sidebar_overview": "Isishwankathelo",
-        "sidebar_lifecv": "i-Life-CV",
-        "sidebar_publications": "Ushicilelo",
-        "sidebar_public_pages": "Amaphepha Oluntu",
-        "sidebar_activity": "Umsebenzi",
-        "welcome_back": "Wamkelekile kwakhona"
-    },
-    zu: {
-        "sidebar_overview": "Ukubuka konke",
-        "sidebar_lifecv": "i-Life-CV",
-        "sidebar_publications": "Okushicilelwe",
-        "sidebar_public_pages": "Amakhasi Omphakathi",
-        "sidebar_activity": "Umsebenzi",
-        "welcome_back": "Siyakwamukela futhi"
-    },
-    af: {
-        "sidebar_overview": "Oorsig",
-        "sidebar_lifecv": "Lewens-CV",
-        "sidebar_publications": "Publikasies",
-        "sidebar_public_pages": "Openbare Bladsye",
-        "sidebar_activity": "Aktiwiteit",
-        "welcome_back": "Welkom terug"
-    },
-    st: {
-        "sidebar_overview": "Kakaretso",
-        "sidebar_lifecv": "CV ea Bophelo",
-        "sidebar_publications": "Lingoliloeng",
-        "sidebar_public_pages": "Maqephe a Sechaba",
-        "sidebar_activity": "Ketso",
-        "welcome_back": "Rea u amohela hape"
-    },
-    nso: {
-        "sidebar_overview": "Kakaretšo",
-        "sidebar_lifecv": "Bophelo-CV",
-        "sidebar_publications": "Dingwalwa",
-        "sidebar_public_pages": "Maqephe a Setšhaba",
-        "sidebar_activity": "Mosebetsi",
-        "welcome_back": "Rea go amogela gape"
-    },
-    ts: {
-        "sidebar_overview": "Vutsongo bya mhaka hinkwayo",
-        "sidebar_lifecv": "CV ya vutomi",
-        "sidebar_publications": "Swatisayense",
-        "sidebar_public_pages": "Mapheji ya Vaaki",
-        "sidebar_activity": "Mintirho",
-        "welcome_back": "U amukeriwile nakambe"
-    },
-    ve: {
-        "sidebar_overview": "Maṅwalo aṱoṱhe",
-        "sidebar_lifecv": "CV ya vhutshilo",
-        "sidebar_publications": "Zwithumiswa",
-        "sidebar_public_pages": "Maṱerere a vhathu",
-        "sidebar_activity": "Mishumo",
-        "welcome_back": "Ni amukedzwa hafhu"
-    },
-    tn: {
-        "sidebar_overview": "Kakaretso",
-        "sidebar_lifecv": "Bophelo-CV",
-        "sidebar_publications": "Dikgatiso",
-        "sidebar_public_pages": "Mafelo a Setšhaba",
-        "sidebar_activity": "Ditiro",
-        "welcome_back": "Re go amogela gape"
-    },
-    ss: {
-        "sidebar_overview": "Sifinyezo",
-        "sidebar_lifecv": "Life-CV",
-        "sidebar_publications": "Kushicilelwe",
-        "sidebar_public_pages": "Emaphepha Elubandlululo",
-        "sidebar_activity": "Umsebenti",
-        "welcome_back": "Wemukelekile futsi"
-    },
-    nr: {
-        "sidebar_overview": "Uhlolisiso",
-        "sidebar_lifecv": "Life-CV",
-        "sidebar_publications": "Okupapashiweyo",
-        "sidebar_public_pages": "Amakhasi Oluntu",
-        "sidebar_activity": "Umsebenzi",
-        "welcome_back": "Wamukelekile futhi"
-    },
-    sw: {
-        "sidebar_overview": "Muhtasari",
-        "sidebar_lifecv": "CV ya Maisha",
-        "sidebar_publications": "Machapisho",
-        "sidebar_public_pages": "Kurasa za Umma",
-        "sidebar_activity": "Shughuli",
-        "welcome_back": "Karibu tena"
-    },
-    pt: {
-        "sidebar_overview": "Visão geral",
-        "sidebar_lifecv": "CV de Vida",
-        "sidebar_publications": "Publicações",
-        "sidebar_public_pages": "Páginas Públicas",
-        "sidebar_activity": "Atividade",
-        "welcome_back": "Bem-vindo de volta"
-    },
-    fr: {
-        "sidebar_overview": "Aperçu",
-        "sidebar_lifecv": "CV de Vie",
-        "sidebar_publications": "Publications",
-        "sidebar_public_pages": "Pages Publiques",
-        "sidebar_activity": "Activité",
-        "welcome_back": "Bon retour"
-    }
-};
-
-
 /**
- * Loads an HTML component (like the header or sidebar) into a placeholder element.
- * This function is an improved version from your original logic.
+ * Loads an HTML component (header, sidebar, etc.) into a placeholder element.
  */
 async function loadComponent(componentPath, placeholder) {
     if (!placeholder) return;
     const fullComponentPath = `${basePath}/dashboard/components/${componentPath}`;
     try {
         const response = await fetch(fullComponentPath);
-        if (!response.ok) throw new Error(`Failed to load component: ${fullComponentPath}`);
+        if (!response.ok) throw new Error(`Component not found: ${fullComponentPath}`);
         placeholder.innerHTML = await response.text();
     } catch (error) {
         console.error(error);
-        placeholder.innerHTML = `<p class="text-red-500">Error: ${componentPath} could not be loaded.</p>`;
+        placeholder.innerHTML = `<p class="text-red-500">Error: ${componentPath} failed to load.</p>`;
     }
 }
 
 /**
  * Fetches and displays the content for a given page (e.g., overview.html).
- * This is the core of the single-page application navigation.
  */
 async function handleNavigation(path) {
     if (!mainContent) return;
     
     // Default to the overview page if the root dashboard is requested.
-    if (path.endsWith('/dashboard/') || path.endsWith('/dashboard/index.html')) {
+    if (path.endsWith('/dashboard/') || path.endsWith('/dashboard/index.html') || path === '/dashboard' || path === '/') {
         path = '/dashboard/overview.html';
     }
     
-    mainContent.innerHTML = `<div class='p-8 text-center text-secondary'>Loading Content...</div>`;
+    mainContent.innerHTML = `<div class='p-8 text-center text-secondary'>Loading...</div>`;
     const fullUrl = `${basePath}${path}`;
 
     try {
@@ -181,29 +58,23 @@ async function handleNavigation(path) {
         mainContent.innerHTML = content;
         window.history.pushState({}, '', fullUrl);
         
-        // After loading content, run scripts specific to that page.
         initializePageScript(path);
         updateActiveSidebarLink(path);
     } catch (error) {
         console.error('Navigation Error:', error);
-        mainContent.innerHTML = `<div class='p-8 text-center text-red-500'>Error loading page.</div>`;
+        mainContent.innerHTML = `<div class='p-8 text-center text-red-500'>Error: Could not load page content.</div>`;
     }
 }
 
 /**
- * After a page is loaded, this function calls the necessary JavaScript for that specific page.
- * This is how the "Loading Life-CV..." message gets replaced with actual content.
+ * Calls the necessary JavaScript for a specific page after it has been loaded.
  */
 function initializePageScript(path) {
     if (!currentUser) return;
-
     if (path.includes('/life-cv/life-cv.html')) {
-        initLifeCvPage(currentUser.uid); // This function will come from our new file.
+        initLifeCvPage(currentUser.uid);
     }
-    // Add other initializers here as needed, e.g.:
-    // if (path.includes('/finhelp/index.html')) {
-    //     financeUI.initFinanceDashboard(currentUser.uid);
-    // }
+    // Add other page initializers here as needed.
 }
 
 /**
@@ -226,12 +97,12 @@ async function updateUserUI(user) {
 }
 
 /**
- * Displays the welcome message.
+ * Displays the welcome message, using the selected language.
  */
 function displayWelcomeMessage(name) {
     if (welcomeMessageContainer) {
         const lang = localStorage.getItem('language') || 'en';
-        const welcomeText = translations[lang]?.welcome_back || "Welcome back";
+        const welcomeText = (translations[lang] && translations[lang].welcome_back) ? translations[lang].welcome_back : "Welcome back";
         welcomeMessageContainer.innerHTML = `<h2 class="text-2xl font-bold">${welcomeText}, ${name}!</h2>`;
         welcomeMessageContainer.classList.remove('hidden');
     }
@@ -243,7 +114,6 @@ function displayWelcomeMessage(name) {
 function updateActiveSidebarLink(path) {
     const fullPath = `${basePath}${path}`;
     document.querySelectorAll('.sidebar-nav-link').forEach(link => {
-        // Use endsWith to avoid issues with domain names
         if (link.href.endsWith(fullPath)) {
             link.classList.add('active');
         } else {
@@ -253,12 +123,10 @@ function updateActiveSidebarLink(path) {
 }
 
 /**
- * Sets up all the necessary event listeners for the dashboard.
- * This preserves your original event handling structure.
+ * Sets up all event listeners for the dashboard.
  */
 function initializeEventListeners() {
     document.body.addEventListener('click', e => {
-        // Navigation link clicks
         const navLink = e.target.closest('.sidebar-nav-link');
         if (navLink) {
             e.preventDefault();
@@ -267,17 +135,12 @@ function initializeEventListeners() {
             return;
         }
 
-        // Dropdown toggles (from your original header)
         const dropdownToggle = e.target.closest('.dropdown-toggle');
         if (dropdownToggle) {
-            const dropdownMenu = dropdownToggle.nextElementSibling;
-            if (dropdownMenu) {
-                dropdownMenu.classList.toggle('hidden');
-            }
+            dropdownToggle.nextElementSibling?.classList.toggle('hidden');
             return;
         }
         
-        // Logout button
         if (e.target.id === 'logout-btn') {
             e.preventDefault();
             signOut(auth).then(() => {
@@ -286,7 +149,6 @@ function initializeEventListeners() {
         }
     });
 
-    // Global click to hide dropdowns
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.dropdown-container')) {
             document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
@@ -294,33 +156,27 @@ function initializeEventListeners() {
     });
 }
 
-
 // --- APPLICATION INITIALIZATION ---
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            // User is signed in.
-            // This replaces the unreliable setTimeout. We now wait for all components to load.
+            // This robust loading logic replaces the original setTimeout.
             await Promise.all([
                 loadComponent('header.html', headerPlaceholder),
                 loadComponent('sidebar.html', sidebarPlaceholder),
                 loadComponent('footer.html', footerPlaceholder)
             ]);
 
-            // Now that components are loaded, we can safely interact with them.
             await updateUserUI(user);
             initializeEventListeners();
 
-            // Determine the initial page to load based on the URL.
-            const currentPath = window.location.pathname;
-            const initialPath = (currentPath === `${basePath}/` || currentPath.endsWith('index.html')) 
+            const currentPath = window.location.pathname.replace(/\/$/, ""); // Remove trailing slash
+            const initialPath = (currentPath === basePath || currentPath.endsWith('index.html')) 
                 ? '/dashboard/overview.html' 
                 : currentPath.replace(basePath, '');
             
             handleNavigation(initialPath);
-
         } else {
-            // User is signed out, redirect to login page.
             const loginPath = `${basePath}/index.html`;
             if (window.location.pathname !== loginPath && window.location.pathname !== `${basePath}/`) {
                  window.location.href = loginPath;
