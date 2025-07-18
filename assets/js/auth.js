@@ -2,7 +2,6 @@
 // Handles Firebase Auth for The Hub, including Sign In and Sign Up.
 
 // --- Firebase & Module Imports ---
-// Import the initialized auth and db instances from the central config file
 import { auth, db } from './firebase-config.js'; 
 import {
   createUserWithEmailAndPassword,
@@ -30,51 +29,41 @@ const confirmPasswordContainer = document.getElementById('confirm-password-conta
 
 let isSignUp = false;
 
-// --- Functions (showMessage, handleAuthSuccess, toggleFormMode) remain the same ---
+// --- Functions ---
 
 const showMessage = (message, isError = false) => {
   messageArea.innerHTML = message;
   messageArea.className = `text-center p-3 mb-4 rounded-lg text-sm ${isError ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'}`;
-  messageArea.classList.remove('hidden');
 };
 
 const handleAuthSuccess = async (userCredential, isNewUser = false) => {
   const user = userCredential.user;
-  const userRef = doc(db, "users", user.uid);
-
   if (isNewUser) {
-    await setDoc(userRef, {
-      uid: user.uid,
-      name: user.displayName || 'New User',
+    // If it's a new user, create a document in Firestore
+    await setDoc(doc(db, "users", user.uid), {
       email: user.email,
+      name: user.displayName || 'New User',
       createdAt: serverTimestamp(),
-      lastLogin: serverTimestamp()
-    }, { merge: true });
-  } else {
-    await setDoc(userRef, { lastLogin: serverTimestamp() }, { merge: true });
+      uid: user.uid
+    });
   }
-
-  sessionStorage.setItem('welcomeMessage', `
-    <div class="bg-blue-100 border-l-4 border-blue-500 text-blue-700 p-4" role="alert">
-      <p class="font-bold">Welcome to The Hub!</p>
-      <p>You have successfully logged in. Please note that the site is currently in a testing phase. We value your input—please share any feedback via the contact form.</p>
-    </div>
-  `);
-
-  window.location.href = 'dashboard/index.html';
+  // Redirect to the dashboard using a reliable, absolute path
+  window.location.href = '/hub.sazi.life-main/dashboard/index.html';
 };
 
 const toggleFormMode = () => {
     isSignUp = !isSignUp;
-    formTitle.textContent = isSignUp ? 'Create Account' : 'Sign In';
+    formTitle.textContent = isSignUp ? 'Create Your Account' : 'Sign In to The Hub';
     submitButton.textContent = isSignUp ? 'Sign Up' : 'Sign In';
-    formToggleLink.innerHTML = isSignUp ? 'Already have an account? <span class="font-medium text-blue-600 hover:text-blue-500">Sign In</span>' : 'Don\'t have an account? <span class="font-medium text-blue-600 hover:text-blue-500">Sign Up</span>';
     confirmPasswordContainer.classList.toggle('hidden', !isSignUp);
-    messageArea.classList.add('hidden');
+    formToggleLink.innerHTML = isSignUp 
+        ? 'Already have an account? <span class="font-semibold text-accent-color hover:underline">Sign In</span>' 
+        : 'Don\'t have an account? <span class="font-semibold text-accent-color hover:underline">Sign Up</span>';
+    messageArea.innerHTML = '';
 };
 
+// --- Event Listeners ---
 
-// --- Form Event Bindings ---
 if (authForm) {
   authForm.addEventListener('submit', async (e) => {
     e.preventDefault();
@@ -85,8 +74,8 @@ if (authForm) {
       if (isSignUp) {
         const confirmPassword = authForm['confirm-password'].value;
         if (password !== confirmPassword) {
-          showMessage("Passwords do not match.", true);
-          return;
+            showMessage("Passwords do not match.", true);
+            return;
         }
         const userCredential = await createUserWithEmailAndPassword(auth, email, password);
         await handleAuthSuccess(userCredential, true);
@@ -118,6 +107,7 @@ if (googleBtn) {
     try {
       const provider = new GoogleAuthProvider();
       const result = await signInWithPopup(auth, provider);
+      // You might need more logic here to check if the user is new
       await handleAuthSuccess(result);
     } catch (error) {
       showMessage(error.message, true);
