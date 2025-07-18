@@ -1,45 +1,43 @@
 <!-- File: /dashboard/overview.html -->
-<!-- This is the main content that gets loaded into the dashboard index page. -->
-<div class="p-4 sm:p-6 lg:p-8">
-    <header class="mb-8">
-        <h1 class="text-3xl font-bold font-poppins text-primary">Dashboard Overview</h1>
-        <p class="text-secondary">Welcome back! Here's a summary of your ecosystem.</p>
-    </header>
+<!-- This is an HTML fragment. It only contains the content for the main area. -->
+<!-- It will be loaded dynamically by dashboard.js -->
 
-    <!-- Grid for summary cards/widgets -->
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+<header class="mb-8">
+    <h1 class="text-3xl font-bold font-poppins text-primary">Dashboard Overview</h1>
+    <p class="text-secondary">Welcome back, mhlekazi! Here's a summary of your ecosystem.</p>
+</header>
 
-        <!-- Life-CV Card -->
-        <div class="card p-6 rounded-xl flex flex-col">
-            <div class="flex items-center mb-4">
-                <i class="fas fa-id-card text-2xl text-accent-color mr-4"></i>
-                <h3 class="font-bold text-xl text-primary">Life-CV</h3>
-            </div>
-            <p class="text-secondary text-sm flex-grow">Your dynamic, living portfolio. It grows as you engage with the ecosystem, capturing your skills and experiences automatically.</p>
-            <a href="/dashboard/life-cv/life-cv.html" class="sidebar-nav-link btn-primary text-center mt-4 inline-block">View My Life-CV</a>
+<!-- Grid for summary cards/widgets -->
+<div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+    <!-- Life-CV Card -->
+    <div class="card p-6 rounded-xl flex flex-col">
+        <div class="flex items-center mb-4">
+            <i class="fas fa-id-card text-2xl text-accent-color mr-4"></i>
+            <h3 class="font-bold text-xl text-primary">Life-CV</h3>
         </div>
+        <p class="text-secondary text-sm flex-grow">Your dynamic, living portfolio. It grows as you engage with the ecosystem, capturing your skills and experiences automatically.</p>
+        <!-- This link will be handled by the main dashboard.js event listener -->
+        <a href="/dashboard/life-cv/life-cv.html" class="sidebar-nav-link btn-primary text-center mt-4 inline-block">View My Life-CV</a>
+    </div>
 
-        <!-- FinHelp Card -->
-        <div class="card p-6 rounded-xl flex flex-col">
-            <div class="flex items-center mb-4">
-                <i class="fas fa-wallet text-2xl text-accent-color mr-4"></i>
-                <h3 class="font-bold text-xl text-primary">FinHelp</h3>
-            </div>
-            <p class="text-secondary text-sm flex-grow">Take control of your financial world. Manage assets, track expenses, and prepare for your financial future with confidence.</p>
-            <a href="/dashboard/finhelp/index.html" class="sidebar-nav-link btn-primary text-center mt-4 inline-block">Go to FinHelp</a>
+    <!-- FinHelp Card -->
+    <div class="card p-6 rounded-xl flex flex-col">
+        <div class="flex items-center mb-4">
+            <i class="fas fa-wallet text-2xl text-accent-color mr-4"></i>
+            <h3 class="font-bold text-xl text-primary">FinHelp</h3>
         </div>
+        <p class="text-secondary text-sm flex-grow">Take control of your financial world. Manage assets, track expenses, and prepare for your financial future with confidence.</p>
+        <a href="/dashboard/finhelp/index.html" class="sidebar-nav-link btn-primary text-center mt-4 inline-block">Go to FinHelp</a>
+    </div>
 
-        <!-- FamilyHub Card -->
-        <div class="card p-6 rounded-xl flex flex-col">
-            <div class="flex items-center mb-4">
-                <i class="fas fa-users text-2xl text-accent-color mr-4"></i>
-                <h3 class="font-bold text-xl text-primary">FamilyHub</h3>
-            </div>
-            <p class="text-secondary text-sm flex-grow">The central point for your family's shared values, goals, and important information. Strengthen your family bond and build a legacy.</p>
-            <a href="/dashboard/familyhub/index.html" class="sidebar-nav-link btn-primary text-center mt-4 inline-block">Open FamilyHub</a>
+    <!-- FamilyHub Card -->
+    <div class="card p-6 rounded-xl flex flex-col">
+        <div class="flex items-center mb-4">
+            <i class="fas fa-users text-2xl text-accent-color mr-4"></i>
+            <h3 class="font-bold text-xl text-primary">FamilyHub</h3>
         </div>
-
-        <!-- Add more cards for other key areas like Publications, CommsHub etc. -->
-
+        <p class="text-secondary text-sm flex-grow">The central point for your family's shared values, goals, and important information. Strengthen your family bond and build a legacy.</p>
+        <a href="/dashboard/familyhub/index.html" class="sidebar-nav-link btn-primary text-center mt-4 inline-block">Open FamilyHub</a>
     </div>
 </div>
