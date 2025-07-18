@@ -1,31 +1,21 @@
 // File: /assets/js/dashboard.js
-// Description: Main script for The Hub dashboard, consolidated and corrected for pathing and functionality.
+// Description: Main script for The Hub, now integrated with the advanced translation engine.
 
 // --- Firebase & Module Imports ---
 import { auth, db } from './firebase-config.js';
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-// Specific UI modules will be imported dynamically based on the page loaded.
+import { initTranslations, applyTranslations } from './translations-engine.js'; // <-- IMPORT the new engine
 import * as financeUI from './financehelp/finance-ui.js';
 import * as publicPagesUI from './public-pages/publisher.js';
 
-// --- TRANSLATION DICTIONARY ---
-const translations = {
-    en: { "sidebar_overview": "Overview", "sidebar_lifecv": "Life-CV", "sidebar_publications": "Publications", "sidebar_public_pages": "Public Pages", "sidebar_activity": "Activity" },
-    xh: { "sidebar_overview": "Isishwankathelo", "sidebar_lifecv": "i-Life-CV", "sidebar_publications": "Ushicilelo", "sidebar_public_pages": "Amaphepha Oluntu", "sidebar_activity": "Umsebenzi" },
-    zu: { "sidebar_overview": "Ukubuka konke", "sidebar_lifecv": "i-Life-CV", "sidebar_publications": "Okushicilelwe", "sidebar_public_pages": "Amakhasi Omphakathi", "sidebar_activity": "Umsebenzi" },
-    af: { "sidebar_overview": "Oorsig", "sidebar_lifecv": "Lewens-CV", "sidebar_publications": "Publikasies", "sidebar_public_pages": "Openbare Bladsye", "sidebar_activity": "Aktiwiteit" }
-};
-
 // --- Core UI & Routing Functions ---
 
-// FIX: Define the base path for GitHub Pages. Assumes repo name is 'hub.sazi.life'.
-// Change 'hub.sazi.life' to your actual repository name if it's different.
 const repoName = 'hub.sazi.life'; 
 const basePath = `/${repoName}`;
 
 /**
- * Loads an HTML component (header, sidebar) into a placeholder.
+ * Loads an HTML component (header, sidebar) into a placeholder and then translates it.
  * @param {string} componentPath - The path to the component relative to the project root.
  * @param {string} placeholderId - The ID of the element to load the component into.
  */
@@ -40,6 +30,7 @@ const loadComponent = async (componentPath, placeholderId) => {
         const response = await fetch(fullPath);
         if (!response.ok) throw new Error(`Component not found: ${fullPath}`);
         placeholder.innerHTML = await response.text();
+        applyTranslations(); // <-- CRITICAL: Translate the new content
     } catch (error) {
         console.error(`Error loading component ${componentPath}:`, error);
         placeholder.innerHTML = `<div class='p-2 text-red-500'>Failed to load component.</div>`;
@@ -47,26 +38,29 @@ const loadComponent = async (componentPath, placeholderId) => {
 };
 
 /**
- * Loads the main content for a specific page into the #main-content area.
+ * Loads the main content for a specific page, translates it, and runs its specific logic.
  * @param {string} pagePath - The path to the page content fragment relative to the project root.
  */
 const loadPageContent = async (pagePath) => {
     const mainContent = document.getElementById('main-content');
     if (!mainContent) return;
-    mainContent.innerHTML = `<div class='p-8 text-center text-secondary'>Loading...</div>`;
+    mainContent.innerHTML = `<div class='p-8 text-center text-secondary' data-translate-key="common_loading">Loading...</div>`;
+    applyTranslations(); // Translate the "Loading..." message
+
     try {
         const fullPath = `${basePath}${pagePath}`;
         const response = await fetch(fullPath);
         if (!response.ok) throw new Error(`Page not found: ${fullPath}`);
         mainContent.innerHTML = await response.text();
+        applyTranslations(); // <-- CRITICAL: Translate the new content
         
-        // After loading content, initialize any page-specific logic
         if (auth.currentUser) {
             routePageLogic(pagePath, auth.currentUser.uid);
         }
     } catch (error) {
         console.error(`Error loading page content ${pagePath}:`, error);
-        mainContent.innerHTML = `<div class='p-8 text-center text-red-500'>Error: Could not load page.</div>`;
+        mainContent.innerHTML = `<div class='p-8 text-center text-red-500' data-translate-key="common_error">Error: Could not load page.</div>`;
+        applyTranslations();
     }
 };
 
@@ -77,14 +71,11 @@ const loadPageContent = async (pagePath) => {
  */
 const routePageLogic = (path, userId) => {
     if (!userId) return;
-    // Note: Use endsWith to make matching more robust
     if (path.endsWith('/finhelp/assets.html')) financeUI.initAssetPage(userId);
     else if (path.endsWith('/finhelp/expenses.html')) financeUI.initExpensePage(userId);
     else if (path.endsWith('/finhelp/tax-pack.html')) financeUI.initTaxPackPage(userId);
     else if (path.endsWith('/public-pages/editor.html')) publicPagesUI.initPublisherPage(userId);
-    // Add other page logic routes here
 };
-
 
 /**
  * Handles all navigation, updating the URL and loading the new page content.
@@ -92,7 +83,6 @@ const routePageLogic = (path, userId) => {
  */
 const handleNavigation = (path) => {
     const fullUrlPath = `${basePath}${path}`;
-    // Prevents pushing the same state twice
     if (window.location.pathname !== fullUrlPath) {
         history.pushState({ path: path }, '', fullUrlPath);
     }
@@ -103,24 +93,13 @@ const handleNavigation = (path) => {
 
 // --- UI Helper Functions ---
 
-const setLanguage = (lang) => {
-    document.querySelectorAll('[data-translate]').forEach(el => {
-        const key = el.getAttribute('data-translate');
-        if (translations[lang] && translations[lang][key]) {
-            el.innerText = translations[lang][key];
-        }
-    });
-    localStorage.setItem('language', lang);
-};
-
 const applyTheme = (theme) => {
-    document.documentElement.className = theme; // Apply theme to <html> for better CSS control
+    document.documentElement.className = theme;
     localStorage.setItem('theme', theme);
 };
 
 const setActiveSidebarLink = (path) => {
     document.querySelectorAll('.sidebar-link').forEach(link => {
-        // Normalize paths for comparison
         const linkPath = new URL(link.href).pathname.replace(basePath, '');
         if (linkPath === path) {
             link.classList.add('active');
@@ -168,7 +147,6 @@ const updateHeaderUserInfo = async (user) => {
         if (user.photoURL) {
             userAvatarEl.src = user.photoURL;
         } else {
-            // A simple fallback avatar
             userAvatarEl.src = `https://ui-avatars.com/api/?name=${encodeURIComponent(userNameEl.textContent)}&background=random`;
         }
     } catch (error) {
@@ -185,7 +163,11 @@ document.addEventListener('DOMContentLoaded', () => {
 
     onAuthStateChanged(auth, async (user) => {
         if (user) {
-            // User is signed in, load the dashboard shell
+            // Initialize translations first
+            const savedLang = localStorage.getItem('language') || 'en';
+            await initTranslations(savedLang);
+
+            // Load the dashboard shell
             const componentPathPrefix = '/dashboard/components/';
             await Promise.all([
                 loadComponent(`${componentPathPrefix}header.html`, 'header-placeholder'),
@@ -193,28 +175,22 @@ document.addEventListener('DOMContentLoaded', () => {
                 loadComponent(`${componentPathPrefix}footer.html`, 'footer-placeholder'),
             ]);
 
-            // Wait for components to be in the DOM, then populate and set up listeners
-            // A small timeout ensures all elements are rendered before we try to access them.
             setTimeout(async () => {
                 await updateHeaderUserInfo(user);
                 
-                // Setup interactive elements
                 setupDropdown('user-btn', 'user-menu');
                 setupDropdown('theme-btn', 'theme-menu');
                 setupDropdown('language-btn', 'language-menu');
                 setupDropdown('ecosystem-btn', 'ecosystem-menu');
                 
-                setLanguage(localStorage.getItem('language') || 'en');
                 displayWelcomeMessage();
 
-                // Handle initial page load and navigation
                 const pathName = window.location.pathname.replace(basePath, '');
                 const initialPath = (pathName === '/' || pathName === '/dashboard/' || pathName === '/dashboard/index.html') 
                     ? '/dashboard/overview.html' 
                     : pathName;
                 handleNavigation(initialPath);
 
-                // Setup logout
                 const logoutButton = document.getElementById('logout-btn');
                 if (logoutButton) {
                     logoutButton.addEventListener('click', (e) => {
@@ -227,7 +203,6 @@ document.addEventListener('DOMContentLoaded', () => {
             }, 100);
 
         } else {
-            // User is not signed in, redirect to login page.
             const loginPath = `${basePath}/index.html`;
             if (window.location.pathname !== loginPath && window.location.pathname !== `${basePath}/`) {
                  window.location.href = loginPath;
@@ -237,7 +212,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // --- GLOBAL EVENT LISTENERS ---
 
-    // Handles clicks on sidebar links for SPA-style navigation
     document.body.addEventListener('click', (e) => {
         const link = e.target.closest('.sidebar-link, .sidebar-nav-link');
         if (link) {
@@ -245,15 +219,21 @@ document.addEventListener('DOMContentLoaded', () => {
             const path = new URL(link.href).pathname.replace(basePath, '');
             handleNavigation(path);
         }
+
+        // Handle language switching
+        const langOption = e.target.closest('.language-option');
+        if (langOption) {
+            const lang = langOption.getAttribute('data-lang');
+            localStorage.setItem('language', lang);
+            initTranslations(lang); // Re-initialize with the new language
+        }
     });
     
-    // Handles browser back/forward buttons
     window.addEventListener('popstate', (e) => {
         const path = e.state ? e.state.path : '/dashboard/overview.html';
         handleNavigation(path);
     });
 
-    // Closes dropdowns if clicking outside
     document.addEventListener('click', (e) => {
         if (!e.target.closest('.dropdown-container')) {
             document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
