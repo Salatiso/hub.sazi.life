@@ -68,8 +68,7 @@ export default {
         "card_lifecv_desc": "Your dynamic, living portfolio. It grows as you engage with the ecosystem, capturing your skills and experiences automatically.",
         "card_lifecv_button": "View My Life-CV",
         "card_finhelp_title": "FinHelp",
-        "card_finh
-        elp_desc": "Take control of your financial world. Manage assets, track expenses, and prepare for your financial future with confidence.",
+        "card_finhelp_desc": "Take control of your financial world. Manage assets, track expenses, and prepare for your financial future with confidence.",
         "card_finhelp_button": "Go to FinHelp",
         "card_familyhub_title": "FamilyHub",
         "card_familyhub_desc": "The central point for your family's shared values, goals, and important information. Strengthen your family bond and build a legacy.",
