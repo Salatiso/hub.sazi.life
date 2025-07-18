@@ -47,7 +47,7 @@ const handleAuthSuccess = async (userCredential, isNewUser = false) => {
     });
   }
   // Redirect to the dashboard
-  window.location.href = "/dashboard/index.html";
+  window.location.href = "dashboard/index.html";
 };
 
 const toggleFormMode = () => {
