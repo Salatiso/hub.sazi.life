@@ -1,17 +1,14 @@
 // File: /assets/js/dashboard.js
 // Description: Corrected main script for The Hub dashboard.
+// This version fixes all file path issues to ensure components and pages load correctly.
 
 // --- Firebase & Module Imports ---
+// Imports are now correctly resolved because the script tag in index.html has type="module"
 import { auth, db } from './firebase-config.js'; 
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-import { initLifeCvPage } from './life-cv/life-cv-ui.js'; 
-import { translations } from './translations.js'; // Importing from the dedicated file
-
-// --- CONFIGURATION ---
-// Corrected base path to fix all 404 (Not Found) errors.
-const basePath = '/hub.sazi.life-main'; 
-let currentUser = null;
+// Note: The translation engine and other specific UI modules will be loaded by the navigation logic.
+// We keep the core dashboard script clean.
 
 // --- DOM ELEMENT REFERENCES ---
 const mainContent = document.getElementById('main-content');
@@ -20,134 +17,133 @@ const headerPlaceholder = document.getElementById('header-placeholder');
 const footerPlaceholder = document.getElementById('footer-placeholder');
 const welcomeMessageContainer = document.getElementById('dashboard-welcome-message');
 
+let currentUser = null; // To store user data
+
 /**
- * Loads an HTML component (header, sidebar, etc.) into a placeholder element.
+ * Fetches and loads an HTML component (like header, sidebar) into a specified placeholder element.
+ * @param {string} componentPath - The absolute path to the HTML component.
+ * @param {HTMLElement} placeholder - The DOM element to load the content into.
  */
 async function loadComponent(componentPath, placeholder) {
     if (!placeholder) return;
-    const fullComponentPath = `${basePath}/dashboard/components/${componentPath}`;
     try {
-        const response = await fetch(fullComponentPath);
-        if (!response.ok) throw new Error(`Component not found: ${fullComponentPath}`);
-        placeholder.innerHTML = await response.text();
+        const response = await fetch(componentPath);
+        if (!response.ok) {
+            throw new Error(`Failed to load component: ${componentPath}. Status: ${response.status}`);
+        }
+        const content = await response.text();
+        placeholder.innerHTML = content;
     } catch (error) {
         console.error(error);
+        placeholder.innerHTML = `<div class="text-red-500 p-4">Error loading component: ${componentPath}</div>`;
     }
 }
 
 /**
- * Fetches and displays the content for a given page.
- */
-async function handleNavigation(path) {
-    if (!mainContent) return;
-    
-    if (path.endsWith('/dashboard/') || path.endsWith('/dashboard/index.html') || path === '/dashboard' || path === '/') {
-        path = '/dashboard/overview.html';
-    }
-    
-    mainContent.innerHTML = `<div class='p-8 text-center text-secondary'>Loading...</div>`;
-    const fullUrl = `${basePath}${path}`;
-
-    try {
-        const response = await fetch(fullUrl);
-        if (!response.ok) throw new Error(`Page not found: ${fullUrl}`);
-        const content = await response.text();
-        
-        mainContent.innerHTML = content;
-        window.history.pushState({}, '', fullUrl);
-        
-        initializePageScript(path);
-        updateActiveSidebarLink(path);
-    } catch (error) {
-        console.error('Navigation Error:', error);
-        mainContent.innerHTML = `<div class='p-8 text-center text-red-500'>Error: Could not load page.</div>`;
-    }
-}
-
-/**
- * Calls the necessary JavaScript for a specific page after it has been loaded.
- */
-function initializePageScript(path) {
-    if (!currentUser) return;
-    if (path.includes('/life-cv/life-cv.html')) {
-        initLifeCvPage(currentUser.uid);
-    }
-}
-
-/**
- * Updates the user's name and email in the UI.
+ * Fetches user data from Firestore and updates the UI.
+ * @param {object} user - The Firebase auth user object.
  */
 async function updateUserUI(user) {
-    currentUser = user;
-    const userDocRef = doc(db, "users", user.uid);
+    const userProfileName = document.getElementById('user-profile-name');
+    const userProfileEmail = document.getElementById('user-profile-email');
+    const welcomeName = document.getElementById('welcome-name');
+
+    if (user.isAnonymous) {
+        if (userProfileName) userProfileName.textContent = 'Anonymous User';
+        if (userProfileEmail) userProfileEmail.textContent = 'No email';
+        if (welcomeName) welcomeName.textContent = 'Anonymous User';
+        return;
+    }
+
     try {
-        const userDoc = await getDoc(userDocRef);
-        const displayName = (userDoc.exists() && userDoc.data().name) ? userDoc.data().name : user.email;
-        
-        document.querySelectorAll('.user-name').forEach(el => el.textContent = displayName);
-        document.querySelectorAll('.user-email').forEach(el => el.textContent = user.email);
-        
-        displayWelcomeMessage(displayName);
+        const userDocRef = doc(db, "users", user.uid);
+        const docSnap = await getDoc(userDocRef);
+        if (docSnap.exists()) {
+            const userData = docSnap.data();
+            currentUser = userData;
+            const displayName = userData.name || user.email;
+            if (userProfileName) userProfileName.textContent = displayName;
+            if (userProfileEmail) userProfileEmail.textContent = user.email;
+            if (welcomeName) welcomeName.textContent = displayName;
+            
+            // Show welcome message only on the overview page
+            if(window.location.pathname.endsWith('overview.html') || window.location.pathname.endsWith('/')) {
+                 if(welcomeMessageContainer) {
+                    welcomeMessageContainer.innerHTML = `<h2 class="text-2xl font-semibold text-primary">Welcome back, <span id="welcome-name">${displayName}</span>!</h2>`;
+                    welcomeMessageContainer.classList.remove('hidden');
+                 }
+            }
+
+        } else {
+            console.log("No such user document!");
+            if (userProfileName) userProfileName.textContent = user.email;
+            if (userProfileEmail) userProfileEmail.textContent = user.email;
+        }
     } catch (error) {
         console.error("Error fetching user data:", error);
     }
 }
 
 /**
- * Displays the welcome message.
+ * Handles navigation by loading page content into the main area.
+ * It also dynamically loads page-specific JavaScript modules.
+ * @param {string} path - The absolute path to the content page to load.
  */
-function displayWelcomeMessage(name) {
-    if (welcomeMessageContainer) {
-        const lang = localStorage.getItem('language') || 'en';
-        const welcomeText = (translations[lang] && translations[lang].welcome_back) ? translations[lang].welcome_back : "Welcome back";
-        welcomeMessageContainer.innerHTML = `<h2 class="text-2xl font-bold">${welcomeText}, ${name}!</h2>`;
-        welcomeMessageContainer.classList.remove('hidden');
+async function handleNavigation(path) {
+    if (!mainContent) return;
+    mainContent.innerHTML = "<div class='p-8 text-center text-secondary'>Loading...</div>";
+    
+    try {
+        const response = await fetch(path);
+        if (!response.ok) {
+            throw new Error(`Page not found: ${path}`);
+        }
+        const content = await response.text();
+        mainContent.innerHTML = content;
+        
+        // After loading content, run page-specific initializers
+        if (path.includes('life-cv.html')) {
+            const { initLifeCvPage } = await import('./life-cv/life-cv-ui.js');
+            initLifeCvPage(auth.currentUser?.uid);
+        }
+        // Add other page-specific logic here as needed
+        // e.g., if (path.includes('finhelp')) { ... }
+
+    } catch (error) {
+        console.error('Navigation Error:', error);
+        mainContent.innerHTML = `<div class="p-8 text-center text-red-500">Failed to load page. Please check the console for details.</div>`;
     }
 }
 
-/**
- * Highlights the active link in the sidebar.
- */
-function updateActiveSidebarLink(path) {
-    const fullPath = `${basePath}${path}`;
-    document.querySelectorAll('.sidebar-nav-link').forEach(link => {
-        if (link.href.endsWith(fullPath)) {
-            link.classList.add('active'); // You may need to define this class in your CSS
-        } else {
-            link.classList.remove('active');
-        }
-    });
-}
 
 /**
- * Sets up all event listeners for the dashboard.
+ * Initializes all event listeners for the dashboard shell (header, sidebar).
  */
 function initializeEventListeners() {
-    document.body.addEventListener('click', e => {
-        const navLink = e.target.closest('.sidebar-nav-link');
-        if (navLink) {
+    // Use event delegation for dynamically loaded content
+    document.body.addEventListener('click', (e) => {
+        // Sidebar navigation
+        if (e.target.matches('.sidebar-nav-link')) {
             e.preventDefault();
-            const path = new URL(navLink.href).pathname.replace(basePath, '');
+            const path = e.target.getAttribute('href');
             handleNavigation(path);
-            return;
+            // Update browser history
+            window.history.pushState({ path }, '', `/dashboard${path.substring(path.lastIndexOf('/'))}`);
         }
 
-        const dropdownToggle = e.target.closest('.dropdown-toggle');
-        if (dropdownToggle) {
-            dropdownToggle.nextElementSibling?.classList.toggle('hidden');
-            return;
-        }
-        
+        // Logout button
         if (e.target.id === 'logout-btn') {
-            e.preventDefault();
             signOut(auth).then(() => {
-                window.location.href = `${basePath}/index.html`;
+                window.location.href = '/index.html'; // Redirect to login page
             }).catch(error => console.error('Logout Error:', error));
         }
-    });
-
-    document.addEventListener('click', (e) => {
-        if (!e.target.closest('.dropdown-container')) {
+        
+        // Dropdown toggle
+        if (e.target.closest('.dropdown-toggle')) {
+             const dropdown = e.target.closest('.dropdown-container').querySelector('.dropdown-menu');
+             dropdown.classList.toggle('hidden');
+        } else if (!e.target.closest('.dropdown-container')) {
+            // Hide all dropdowns if clicking outside
             document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
         }
     });
@@ -157,24 +153,33 @@ function initializeEventListeners() {
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, async (user) => {
         if (user) {
+            // Load shell components first
             await Promise.all([
-                loadComponent('header.html', headerPlaceholder),
-                loadComponent('sidebar.html', sidebarPlaceholder),
-                loadComponent('footer.html', footerPlaceholder)
+                loadComponent('/dashboard/components/header.html', headerPlaceholder),
+                loadComponent('/dashboard/components/sidebar.html', sidebarPlaceholder),
+                loadComponent('/dashboard/components/footer.html', footerPlaceholder)
             ]);
 
+            // Once components are loaded, populate user info and set up listeners
             await updateUserUI(user);
             initializeEventListeners();
 
-            const currentPath = window.location.pathname.replace(/\/$/, "");
-            const initialPath = (currentPath === basePath || currentPath.endsWith('index.html')) 
-                ? '/dashboard/overview.html' 
-                : currentPath.replace(basePath, '');
+            // Determine the initial page to load
+            const currentPath = window.location.pathname;
+            let initialPage = '/dashboard/overview.html'; // Default page
             
-            handleNavigation(initialPath);
+            // This allows direct navigation to a specific dashboard page
+            if (currentPath.startsWith('/dashboard/') && currentPath !== '/dashboard/' && currentPath !== '/dashboard/index.html') {
+                initialPage = currentPath;
+            }
+            
+            handleNavigation(initialPage);
+
         } else {
-            const loginPath = `${basePath}/index.html`;
-            if (window.location.pathname !== loginPath && window.location.pathname !== `${basePath}/`) {
+            // If no user, redirect to login page, unless already there.
+            const loginPath = '/index.html';
+            const rootPath = '/';
+            if (window.location.pathname !== loginPath && window.location.pathname !== rootPath) {
                  window.location.href = loginPath;
             }
         }
