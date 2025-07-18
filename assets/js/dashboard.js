@@ -1,96 +1,41 @@
 // File: /assets/js/dashboard.js
-// Description: Corrected main script for The Hub dashboard.
+// Description: Corrected and simplified script to load shared components on every dashboard page.
 
-// --- Firebase & Module Imports ---
 import { auth, db } from './firebase-config.js'; 
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
-// Note: The translation engine is not used by this file directly, but by components it loads.
 
 // --- CONFIGURATION ---
-// This base path is the single source of truth for all file paths.
-// It fixes all 404 (Not Found) errors.
+// This is the single source of truth for all file paths. It fixes all 404 errors.
 const basePath = '/hub.sazi.life-main'; 
-let currentUser = null;
-
-// --- DOM ELEMENT REFERENCES ---
-const mainContentEl = document.getElementById('main-content');
-const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
-const headerPlaceholder = document.getElementById('header-placeholder');
-const footerPlaceholder = document.getElementById('footer-placeholder');
-const welcomeMessageContainer = document.getElementById('dashboard-welcome-message');
 
 /**
- * Loads an HTML component (header, sidebar, etc.) into a placeholder element.
- * This function is now robust and provides clear error messages in the console.
+ * Fetches an HTML file and injects it into a placeholder element.
+ * @param {string} componentPath - The root-relative path to the HTML component (e.g., '/dashboard/components/header.html').
+ * @param {string} placeholderId - The ID of the element to inject the content into.
  */
-async function loadComponent(componentPath, placeholder) {
+async function loadComponent(componentPath, placeholderId) {
+    const placeholder = document.getElementById(placeholderId);
     if (!placeholder) {
-        console.error(`Placeholder for ${componentPath} not found.`);
+        console.error(`Error: Placeholder element with ID '${placeholderId}' not found.`);
         return;
     }
-    const fullComponentPath = `${basePath}${componentPath}`;
     try {
-        const response = await fetch(fullComponentPath);
-        if (!response.ok) throw new Error(`Component not found at ${fullComponentPath}`);
+        const response = await fetch(`${basePath}${componentPath}`);
+        if (!response.ok) throw new Error(`Failed to fetch ${componentPath}: ${response.statusText}`);
         placeholder.innerHTML = await response.text();
     } catch (error) {
-        console.error(`Failed to load component: ${componentPath}`, error);
-        placeholder.innerHTML = `<div class="text-red-500 p-4">Error loading component.</div>`;
+        console.error(`Error loading component into '${placeholderId}':`, error);
+        placeholder.innerHTML = `<p class="text-red-500 p-4">Error: Could not load component.</p>`;
     }
 }
 
 /**
- * This is the main function that builds the dashboard page.
- * It replaces the old, unreliable setTimeout logic.
+ * Sets up event listeners for elements inside the dynamically loaded components.
+ * This function must be called AFTER the components have been loaded.
  */
-async function initializeDashboard(user) {
-    currentUser = user;
-
-    // 1. Load all essential shell components at the same time.
-    await Promise.all([
-        loadComponent('/dashboard/components/header.html', headerPlaceholder),
-        loadComponent('/dashboard/components/sidebar.html', sidebarPlaceholder),
-        loadComponent('/dashboard/components/footer.html', footerPlaceholder)
-    ]);
-
-    // 2. Once the shell is loaded, populate user-specific details.
-    await updateUserUI(user);
-    
-    // 3. Load the main content for the index page.
-    if (window.location.pathname.endsWith('/') || window.location.pathname.endsWith('index.html')) {
-        await loadComponent('/dashboard/overview.html', mainContentEl);
-    }
-
-    // 4. Set up event listeners for the newly loaded components (like the logout button).
-    initializeEventListeners();
-}
-
-/**
- * Updates the user's name and email in the UI.
- */
-async function updateUserUI(user) {
-    const userDocRef = doc(db, "users", user.uid);
-    try {
-        const userDoc = await getDoc(userDocRef);
-        const displayName = (userDoc.exists() && userDoc.data().name) ? userDoc.data().name : user.email;
-        
-        document.querySelectorAll('.user-name').forEach(el => el.textContent = displayName);
-        document.querySelectorAll('.user-email').forEach(el => el.textContent = user.email);
-        
-        if (welcomeMessageContainer) {
-            welcomeMessageContainer.innerHTML = `<h2 class="text-2xl font-bold">Welcome back, ${displayName}!</h2>`;
-            welcomeMessageContainer.classList.remove('hidden');
-        }
-    } catch (error) {
-        console.error("Error fetching user data:", error);
-    }
-}
-
-/**
- * Sets up all event listeners after components are loaded.
- */
-function initializeEventListeners() {
+function initializeEventListeners(user) {
+    // Logout Button in Header
     const logoutBtn = document.getElementById('logout-btn');
     if (logoutBtn) {
         logoutBtn.addEventListener('click', (e) => {
@@ -100,19 +45,48 @@ function initializeEventListeners() {
             }).catch(error => console.error('Logout Error:', error));
         });
     }
-    // Add other listeners for dropdowns, etc. here if they are in loaded components
+
+    // Update User Name/Email in Header
+    const userDocRef = doc(db, "users", user.uid);
+    getDoc(userDocRef).then(userDoc => {
+        const displayName = (userDoc.exists() && userDoc.data().name) ? userDoc.data().name : user.email;
+        document.querySelectorAll('.user-name').forEach(el => el.textContent = displayName);
+        document.querySelectorAll('.user-email').forEach(el => el.textContent = user.email);
+    }).catch(error => console.error("Error fetching user data:", error));
 }
 
-// --- APPLICATION INITIALIZATION ---
+/**
+ * The main function that runs on every dashboard page load.
+ */
+async function initializePage(user) {
+    // 1. Load the essential shared components into their placeholders.
+    await Promise.all([
+        loadComponent('/dashboard/components/header.html', 'header-placeholder'),
+        loadComponent('/dashboard/components/sidebar.html', 'sidebar-placeholder'),
+        loadComponent('/dashboard/components/footer.html', 'footer-placeholder')
+    ]);
+
+    // 2. Special case: If we are on the main dashboard index page, load the overview content.
+    const path = window.location.pathname;
+    if (path === `${basePath}/dashboard/` || path === `${basePath}/dashboard/index.html`) {
+        await loadComponent('/dashboard/overview.html', 'main-content');
+    }
+
+    // 3. Now that all components are loaded, set up their event listeners.
+    initializeEventListeners(user);
+}
+
+// --- MAIN EXECUTION ---
 document.addEventListener('DOMContentLoaded', () => {
     onAuthStateChanged(auth, (user) => {
         if (user) {
-            // User is signed in, build the page.
-            initializeDashboard(user);
+            // If the user is authenticated, initialize the current page.
+            initializePage(user);
         } else {
-            // User is not signed in, redirect to the main landing/login page.
+            // If not authenticated, redirect to the main landing/login page.
             const loginPath = `${basePath}/index.html`;
-            if (window.location.pathname !== loginPath && !window.location.pathname.endsWith('/')) {
+            // Prevents a redirect loop if already on the login page.
+            if (window.location.pathname !== loginPath && !window.location.pathname.startsWith(`${basePath}/dashboard`)) {
                  window.location.href = loginPath;
             }
         }
