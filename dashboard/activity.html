@@ -4,29 +4,20 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Activity - The Hub</title>
-    <!-- Corrected relative path -->
-    <link rel="stylesheet" href="../assets/css/dashboard-styles.css">
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/hub.sazi.life-main/assets/css/dashboard-styles.css">
 </head>
 <body class="theme-default">
-    <!-- Standard App Container -->
     <div id="app-container" class="flex h-screen bg-main text-primary">
-
-        <!-- Sidebar Placeholder -->
         <div id="sidebar-placeholder"></div>
-
         <div class="flex-1 flex flex-col">
-            <!-- Header Placeholder -->
             <div id="header-placeholder"></div>
-
-            <!-- Main Content Area -->
             <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
                 <!-- Original page content starts here -->
                 <div class="card p-6 rounded-xl shadow-lg">
                     <h2 class="text-xl font-bold mb-4">Ecosystem Activity Log</h2>
                     <ul id="activity-feed" class="space-y-4">
-                        <!-- JS will populate this with a more extensive list -->
                         <li class="flex items-center space-x-3">
                             <div class="w-10 h-10 rounded-full bg-green-500/20 flex items-center justify-center"><i class="fas fa-check text-green-400"></i></div>
                             <div>
@@ -45,12 +36,9 @@
                 </div>
                 <!-- Original page content ends here -->
             </main>
-
-            <!-- Footer Placeholder -->
             <div id="footer-placeholder"></div>
         </div>
     </div>
-    <!-- Corrected relative path -->
-    <script type="module" src="../assets/js/dashboard.js"></script>
+    <script type="module" src="/hub.sazi.life-main/assets/js/dashboard.js"></script>
 </body>
 </html>
