@@ -15,7 +15,7 @@ const loadComponent = async (componentName, placeholderId) => {
     const placeholder = document.getElementById(placeholderId);
     if (!placeholder) return;
     try {
-        // Uses a relative path that works from any page depth.
+        // Uses a root-relative path that works from any page depth.
         const response = await fetch(`/hub.sazi.life/components/${componentName}.html`);
         if (!response.ok) throw new Error(`Failed to load ${componentName}.`);
         placeholder.innerHTML = await response.text();
@@ -60,7 +60,7 @@ document.addEventListener('DOMContentLoaded', () => {
             setTimeout(() => {
                 populateUserData(user, userData);
 
-                // Highlight the active link in the sidebar
+                // Highlight the active link in the sidebar based on the current page URL.
                 const currentPath = window.location.pathname;
                 document.querySelectorAll('.sidebar-nav-link').forEach(link => {
                     if (link.getAttribute('href') === currentPath) {
