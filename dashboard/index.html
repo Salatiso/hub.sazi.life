@@ -7,21 +7,20 @@
   <link rel="stylesheet" href="../assets/css/dashboard-styles.css" />
 </head>
 <body>
-  <header>
-    <h2>Dashboard</h2>
-    <!-- Navigation here, e.g.: -->
-    <nav>
-      <a href="#" data-page="overview">Overview</a>
-      <a href="#" data-page="activity">Activity</a>
-      <a href="#" data-page="profile">Profile</a>
-    </nav>
-  </header>
-  <main id="dashboard-content"></main>
+  <div id="header"></div>
+  <div style="display: flex; min-height: 80vh;">
+    <aside id="sidebar" style="min-width: 220px;"></aside>
+    <main id="dashboard-content" style="flex: 1; padding: 1rem;">
+      <!-- Main dashboard content here -->
+      <div id="theme-switcher"></div>
+      <div id="language-switcher"></div>
+      <div id="languages"></div>
+    </main>
+  </div>
+  <div id="footer"></div>
 
   <!-- JS Dependencies -->
-  <script type="module" src="assets/js/auth.js"></script>
-  <script type="module" src="assets/js/firebase-config.js"></script>
-  <script src="../assets/js/dashboard.js"></script>
+  <script type="module" src="../assets/js/dashboard.js"></script>
   <script src="../assets/js/translations-engine.js"></script>
   <!-- Add more as needed -->
 </body>

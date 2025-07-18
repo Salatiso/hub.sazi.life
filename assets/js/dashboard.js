@@ -154,6 +154,32 @@ const updateHeaderUserInfo = async (user) => {
     }
 };
 
+// Dynamically load dashboard components into their containers
+const components = [
+  { id: 'header', path: 'dashboard/components/header.html' },
+  { id: 'footer', path: 'dashboard/components/footer.html' },
+  { id: 'sidebar', path: 'dashboard/components/sidebar.html' },
+  { id: 'theme-switcher', path: 'dashboard/components/theme-switcher.html' },
+  { id: 'language-switcher', path: 'dashboard/components/language-switcher.html' },
+  { id: 'languages', path: 'dashboard/components/languages.html' }
+];
+
+components.forEach(async ({ id, path }) => {
+  const el = document.getElementById(id);
+  if (el) {
+    try {
+      const res = await fetch(`../${path}`);
+      if (res.ok) {
+        el.innerHTML = await res.text();
+      } else {
+        el.innerHTML = `<div style="color:red;">Failed to load ${id}</div>`;
+      }
+    } catch (e) {
+      el.innerHTML = `<div style="color:red;">Error loading ${id}</div>`;
+    }
+  }
+});
+
 // --- Main Initialization Controller ---
 
 document.addEventListener('DOMContentLoaded', () => {
