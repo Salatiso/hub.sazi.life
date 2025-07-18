@@ -4,12 +4,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>The Hub Dashboard</title>
-    
-    <!-- External Libraries -->
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    
-    <!-- Corrected, root-relative path to your stylesheet -->
+    <!-- Corrected root-relative path to the stylesheet -->
     <link rel="stylesheet" href="/hub.sazi.life-main/assets/css/dashboard-styles.css">
 </head>
 <body class="theme-default">
@@ -18,15 +15,19 @@
         <!-- Sidebar will be loaded here by JavaScript -->
         <div id="sidebar-placeholder"></div>
 
+        <!-- Main content area -->
         <div class="flex-1 flex flex-col">
             <!-- Header will be loaded here by JavaScript -->
             <div id="header-placeholder"></div>
 
-            <!-- Main content area for the dashboard -->
-            <main class="flex-1 overflow-y-auto">
-                <!-- The content from overview.html will be loaded here -->
+            <!-- Scrollable main content area -->
+            <main class="flex-1 overflow-y-auto p-4 sm:p-6 lg:p-8">
+                <!-- Welcome Message will be shown here if applicable -->
+                <div id="dashboard-welcome-message" class="hidden mb-6"></div>
+                
+                <!-- Main Content will be loaded here by JavaScript -->
                 <div id="main-content">
-                    <div class='p-8 text-center text-secondary'>Loading Overview...</div>
+                    <div class='p-8 text-center text-secondary'>Loading Dashboard...</div>
                 </div>
             </main>
 
@@ -35,7 +36,7 @@
         </div>
     </div>
 
-    <!-- Corrected, root-relative path to the main dashboard script -->
+    <!-- Corrected root-relative path to the main dashboard script -->
     <script type="module" src="/hub.sazi.life-main/assets/js/dashboard.js"></script>
 </body>
 </html>
