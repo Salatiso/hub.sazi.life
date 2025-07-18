@@ -192,7 +192,8 @@ document.addEventListener('DOMContentLoaded', () => {
             await initTranslations(savedLang);
 
             // Load the dashboard shell
-            const componentPathPrefix = '/dashboard/components/';
+            // Change from absolute to relative path for GitHub Pages compatibility
+            const componentPathPrefix = 'dashboard/components/';
             await Promise.all([
                 loadComponent(`${componentPathPrefix}header.html`, 'header'),
                 loadComponent(`${componentPathPrefix}sidebar.html`, 'sidebar'),
