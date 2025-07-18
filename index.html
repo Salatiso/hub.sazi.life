@@ -3,21 +3,6 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- 
-      FIX 1: Added a Content Security Policy (CSP) meta tag.
-      This tells the browser that it's safe to load fonts, scripts, and styles 
-      from these specific, trusted locations. This directly fixes the font loading errors
-      without changing any of your site's appearance.
-    -->
-    <meta http-equiv="Content-Security-Policy" content="
-        default-src 'self';
-        script-src 'self' https://www.gstatic.com;
-        style-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://cdnjs.cloudflare.com https://fonts.googleapis.com;
-        font-src 'self' https://fonts.gstatic.com;
-        connect-src 'self' https://*.firebaseio.com wss://*.firebaseio.com https://www.googleapis.com https://securetoken.googleapis.com;
-        img-src 'self' https: data:;
-        frame-src 'self' https://*.firebaseapp.com;
-    ">
     <title>The Hub by Salatiso</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
@@ -128,12 +113,7 @@
         </div>
     </div>
 
-    <!-- 
-      FIX 2: Added firebase-config.js and ensured it loads before auth.js.
-      Your auth.js script needs the variables from firebase-config.js to connect to the database.
-      This fixes the functional error without changing any visuals.
-    -->
-    <script type="module" src="assets/js/firebase-config.js"></script>
+    <!-- Firebase Auth script -->
     <script type="module" src="assets/js/auth.js"></script>
 
 </body>
