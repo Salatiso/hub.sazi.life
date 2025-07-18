@@ -3,11 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- FIX: Added a Content Security Policy (CSP) to allow required resources to load. -->
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self'; 
+                   script-src 'self' https://cdn.tailwindcss.com https://www.gstatic.com; 
+                   style-src 'self' https://cdnjs.cloudflare.com https://fonts.googleapis.com 'unsafe-inline'; 
+                   font-src 'self' https://fonts.gstatic.com; 
+                   img-src 'self' data: https://www.svgrepo.com; 
+                   connect-src 'self' https://*.googleapis.com wss://*.firebaseio.com;">
+
     <title>The Hub by Salatiso</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link rel="stylesheet" href="assets/css/dashboard-styles.css" />
+    
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <link rel="stylesheet" href="./assets/css/dashboard-styles.css" />
+    
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preload" href="assets/fonts/Lato-Regular.ttf" as="font" type="font/ttf" crossorigin>
+    <link rel="preload" href="./assets/fonts/Lato-Regular.ttf" as="font" type="font/ttf" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@700;900&family=Manrope:wght@400;700;800&family=Poppins:wght@600;700&display=swap" rel="stylesheet">
     <style>
         body { font-family: 'Manrope', sans-serif; background-color: #f8fafc; }
@@ -35,6 +48,11 @@
         <div id="message-area" class="hidden"></div>
 
         <form id="auth-form" class="space-y-4">
+             <!-- Name field for Sign Up, hidden by default -->
+            <div id="name-container" class="hidden">
+                <label for="name" class="sr-only">Name</label>
+                <input id="name" name="name" type="text" class="appearance-none relative block w-full px-3 py-3 border border-gray-300 placeholder-gray-500 text-gray-900 rounded-md focus:outline-none focus:ring-blue-500 focus:border-blue-500 sm:text-sm" placeholder="Your Name">
+            </div>
             <div class="rounded-md shadow-sm space-y-3">
                 <div>
                     <label for="email" class="sr-only">Email address</label>
@@ -113,8 +131,8 @@
         </div>
     </div>
 
-    <!-- Firebase Auth script -->
-    <script type="module" src="assets/js/auth.js"></script>
+    <!-- Correct relative path to your auth script -->
+    <script type="module" src="./assets/js/auth.js"></script>
 
 </body>
 </html>

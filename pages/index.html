@@ -1,27 +1,75 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" class="theme-default">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width,initial-scale=1.0" />
-  <title>Dashboard - Sazi Hub</title>
-  <link rel="stylesheet" href="../assets/css/dashboard-styles.css" />
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>The Hub - Login</title>
+    <!-- Correct relative path to stylesheet -->
+    <link rel="stylesheet" href="./assets/css/dashboard-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
 </head>
-<body>
-  <div id="header"></div>
-  <div style="display: flex; min-height: 80vh;">
-    <aside id="sidebar" style="min-width: 220px;"></aside>
-    <main id="dashboard-content" style="flex: 1; padding: 1rem;">
-      <!-- Main dashboard content here -->
-      <div id="theme-switcher"></div>
-      <div id="language-switcher"></div>
-      <div id="languages"></div>
-    </main>
-  </div>
-  <div id="footer"></div>
+<body class="bg-main-bg text-text-color flex items-center justify-center min-h-screen p-4">
 
-  <!-- JS Dependencies -->
-  <script type="module" src="../assets/js/dashboard.js"></script>
-  <script type="module" src="../assets/js/translations-engine.js"></script>
-  <!-- Add more as needed -->
+    <div class="w-full max-w-md p-8 space-y-6 bg-sidebar-bg rounded-2xl shadow-lg">
+        <!-- Logo and Title (Your existing UI) -->
+        <div class="text-center">
+            <svg viewBox="0 0 100 100" class="h-16 w-16 mx-auto text-accent-color">
+                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/>
+                <path d="M50 10 L 50 90 M10 50 L 90 50" stroke="currentColor" stroke-width="2"/>
+                <path d="M50 10 L 40 25 L 60 25 Z" fill="currentColor"/>
+            </svg>
+            <h1 id="form-title" class="text-2xl font-bold text-primary mt-4">Sign In to The Hub</h1>
+            <p class="text-sm text-secondary">by Salatiso</p>
+        </div>
+
+        <!-- Message Area -->
+        <div id="message-area" style="display: none;" class="p-3 rounded-lg"></div>
+
+        <!-- Auth Form (Your existing UI) -->
+        <form id="auth-form" class="space-y-4">
+            <div id="name-container" style="display: none;">
+                <label for="name" class="text-sm font-medium text-secondary">Name</label>
+                <input type="text" id="name" name="name" class="form-input w-full mt-1" placeholder="Your Name">
+            </div>
+            <div>
+                <label for="email" class="text-sm font-medium text-secondary">Email Address</label>
+                <input type="email" id="email" name="email" required class="form-input w-full mt-1" placeholder="you@example.com">
+            </div>
+            <div>
+                <label for="password" class="text-sm font-medium text-secondary">Password</label>
+                <input type="password" id="password" name="password" required class="form-input w-full mt-1" placeholder="••••••••">
+            </div>
+            <div id="confirm-password-container" style="display: none;">
+                <label for="confirm-password" class="text-sm font-medium text-secondary">Confirm Password</label>
+                <input type="password" id="confirm-password" name="confirm-password" class="form-input w-full mt-1" placeholder="••••••••">
+            </div>
+            <button id="submit-button" type="submit" class="btn-primary w-full">Sign In</button>
+        </form>
+
+        <!-- Social & Anonymous Sign In (Your existing UI) -->
+        <div class="space-y-4">
+            <div class="relative flex items-center">
+                <div class="flex-grow border-t border-border-color"></div>
+                <span class="flex-shrink mx-4 text-secondary text-sm">Or continue with</span>
+                <div class="flex-grow border-t border-border-color"></div>
+            </div>
+            <div class="grid grid-cols-2 gap-4">
+                 <button id="google-signin-btn" class="btn-secondary flex items-center justify-center">
+                    <i class="fab fa-google mr-2"></i> Google
+                </button>
+                <button id="anonymous-signin-btn" class="btn-secondary flex items-center justify-center">
+                    <i class="fas fa-user-secret mr-2"></i> Anonymous
+                </button>
+            </div>
+        </div>
+
+        <!-- Toggle Link -->
+        <p class="text-center text-sm text-secondary">
+            <a href="#" id="form-toggle-link" class="hover:underline">Don’t have an account? <span class="text-accent-color font-semibold">Sign Up</span></a>
+        </p>
+    </div>
+
+    <!-- Correct relative path to auth script -->
+    <script type="module" src="./assets/js/auth.js"></script>
 </body>
 </html>

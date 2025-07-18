@@ -1,9 +1,9 @@
-<!-- File: /dashboard/components/sidebar.html -->
-<!-- This is your original sidebar file with corrected links and the new footer. -->
+<!-- File: /components/sidebar.html -->
 <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4 transition-colors duration-300">
-    <!-- Logo and Brand - Unchanged from your original file -->
+    <!-- Logo and Brand (Your existing UI) -->
     <div class="text-center mb-8">
-        <a href="/hub.sazi.life-main/dashboard/overview.html" class="sidebar-nav-link inline-block">
+        <!-- This link now navigates to the overview page via JavaScript -->
+        <a href="#" data-page="overview" class="sidebar-nav-link inline-block">
              <svg viewBox="0 0 100 100" class="h-12 w-12 mx-auto text-accent-color">
                 <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/>
                 <path d="M50 10 L 50 90 M10 50 L 90 50" stroke="currentColor" stroke-width="2"/>
@@ -14,36 +14,39 @@
         </a>
     </div>
 
-    <!-- Navigation Links - href paths are now corrected for GitHub Pages -->
+    <!-- *** FIX: Navigation links now use data-page attributes for JS-based routing *** -->
     <nav class="flex-grow space-y-2">
-        <a href="/hub.sazi.life-main/dashboard/overview.html" data-link="overview.html" class="sidebar-link sidebar-nav-link">
+        <a href="#" data-page="overview" class="sidebar-link sidebar-nav-link active-link">
             <i class="fas fa-home w-6 text-center"></i><span data-translate-key="sidebar_overview">Overview</span>
         </a>
-        <a href="/hub.sazi.life-main/dashboard/life-cv/life-cv.html" data-link="life-cv" class="sidebar-link sidebar-nav-link">
-            <i class="fas fa-id-card w-6 text-center"></i><span data-translate-key="sidebar_lifecv">Life-CV</span>
+        <a href="#" data-page="life-cv/life-cv" class="sidebar-link sidebar-nav-link">
+            <i class="fas fa-id-card w-6 text-center"></i><span>LifeCV</span>
         </a>
-        <a href="/hub.sazi.life-main/dashboard/publications/index.html" data-link="publications" class="sidebar-link sidebar-nav-link">
-            <i class="fas fa-book-open w-6 text-center"></i><span data-translate-key="sidebar_publications">Publications</span>
+        <a href="#" data-page="lifesync/index" class="sidebar-link sidebar-nav-link">
+            <i class="fas fa-sync-alt w-6 text-center"></i><span>LifeSync</span>
         </a>
-        <a href="/hub.sazi.life-main/dashboard/finhelp/index.html" data-link="finhelp" class="sidebar-link sidebar-nav-link">
+        <a href="#" data-page="finhelp/index" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-wallet w-6 text-center"></i><span>FinHelp</span>
         </a>
-         <a href="/hub.sazi.life-main/dashboard/familyhub/index.html" data-link="familyhub" class="sidebar-link sidebar-nav-link">
+         <a href="#" data-page="familyhub/index" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-users w-6 text-center"></i><span>FamilyHub</span>
         </a>
-        <a href="/hub.sazi.life-main/dashboard/commshub/index.html" data-link="commshub" class="sidebar-link sidebar-nav-link">
+        <a href="#" data-page="commshub/index" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-comments w-6 text-center"></i><span>CommsHub</span>
         </a>
-        <a href="/hub.sazi.life-main/dashboard/public-pages/index.html" data-link="public-pages" class="sidebar-link sidebar-nav-link">
+        <a href="#" data-page="public-pages/index" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-globe w-6 text-center"></i><span data-translate-key="sidebar_public_pages">Public Pages</span>
         </a>
-        <a href="/hub.sazi.life-main/dashboard/activity.html" data-link="activity.html" class="sidebar-link sidebar-nav-link">
+        <a href="#" data-page="activity" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-chart-line w-6 text-center"></i><span data-translate-key="sidebar_activity">Activity</span>
         </a>
     </nav>
 
-    <!-- Footer section of sidebar - Updated as per your request -->
-    <div class="mt-auto text-center text-xs text-secondary">
-        <p>&copy; 2025 <a href="https://salatiso.com/" target="_blank" rel="noopener noreferrer" class="hover:text-primary">Salatiso</a>. All rights reserved.</p>
+    <!-- Footer section of sidebar -->
+    <div class="mt-auto">
+        <div class="text-center text-xs text-secondary">
+            <p>&copy; 2025 The Hub</p>
+            <p>Status: <span class="text-green-400">Beta</span></p>
+        </div>
     </div>
 </aside>

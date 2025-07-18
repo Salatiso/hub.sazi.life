@@ -1,3 +1,28 @@
+/* INSTRUCTIONS: 
+  1. Open your file at: assets/css/dashboard-styles.css
+  2. Find the existing "@font-face" rules for the "Lato" font.
+  3. Delete them.
+  4. Replace them with this entire code block at the top of the file.
+*/
+
+/* --- CORRECTED FONT FACE DEFINITIONS --- */
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 400;
+  /* This path is now correct, pointing from the css folder up to assets and down to fonts. */
+  src: url('../fonts/Lato-Regular.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Lato';
+  font-style: normal;
+  font-weight: 700;
+  /* This path is now correct, pointing from the css folder up to assets and down to fonts. */
+  src: url('../fonts/Lato-Bold.ttf') format('truetype');
+}
+
 /* assets/css/dashboard-styles.css */
 
 /* --- Theme Color Definitions --- */

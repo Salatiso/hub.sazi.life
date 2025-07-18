@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="en" class="theme-default">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    
+    <!-- *** FIX: Functional Content Security Policy that allows necessary resources *** -->
+    <meta http-equiv="Content-Security-Policy" 
+          content="default-src 'self'; 
+                   script-src 'self' https://www.gstatic.com; 
+                   style-src 'self' 'unsafe-inline' https://cdnjs.cloudflare.com; 
+                   font-src 'self' https://cdnjs.cloudflare.com; 
+                   img-src 'self' data: https://placehold.co https://lh3.googleusercontent.com; 
+                   connect-src 'self' wss://*.firebaseio.com https://*.googleapis.com; 
+                   frame-src 'self' https://*.firebaseapp.com;">
+
+    <title>Dashboard - The Hub</title>
+    
+    <!-- Correct relative paths to stylesheets -->
+    <link rel="stylesheet" href="./assets/css/dashboard-styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    
+    <!-- Correct relative path to main dashboard script -->
+    <script type="module" src="./assets/js/dashboard.js"></script>
+</head>
+<body class="bg-main-bg text-text-color">
+
+    <div class="flex h-screen">
+        <!-- Sidebar will be loaded here -->
+        <div id="sidebar-placeholder">
+            <div class="w-64 bg-sidebar-bg p-4 h-full flex items-center justify-center"><div class="loader"></div></div>
+        </div>
+
+        <div class="flex-1 flex flex-col overflow-hidden">
+            <!-- Header will be loaded here -->
+            <div id="header-placeholder">
+                 <header class="p-4 border-b border-border-color"><p>Loading Header...</p></header>
+            </div>
+
+            <!-- Main page content will be loaded here -->
+            <main id="main-content" class="flex-1 overflow-x-hidden overflow-y-auto p-6">
+                <div class="flex justify-center items-center h-full"><div class="loader"></div></div>
+            </main>
+
+            <!-- Footer will be loaded here -->
+            <div id="footer-placeholder">
+                 <footer class="p-4 border-t border-border-color"><p>Loading Footer...</p></footer>
+            </div>
+        </div>
+    </div>
+
+</body>
+</html>
