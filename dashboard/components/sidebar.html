@@ -1,48 +1,42 @@
 <!-- File: /dashboard/components/sidebar.html -->
-<aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4 transition-colors duration-300">
-    <!-- Logo and Brand -->
-    <div class="text-center mb-8">
-        <a href="/dashboard/index.html" class="inline-block">
-             <svg viewBox="0 0 100 100" class="h-12 w-12 mx-auto text-accent-color">
-                <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/>
-                <path d="M50 10 L 50 90 M10 50 L 90 50" stroke="currentColor" stroke-width="2"/>
-                <path d="M50 10 L 40 25 L 60 25 Z" fill="currentColor"/>
-            </svg>
-            <h2 class="text-lg font-bold mt-2 text-primary">The Hub</h2>
-            <p class="text-xs text-secondary">by Salatiso</p>
+<!-- Description: Sidebar component with corrected navigation links for SPA behavior. -->
+<aside class="sidebar w-64 bg-sidebar flex-shrink-0 flex-col hidden md:flex">
+    <!-- Logo/Brand -->
+    <div class="h-16 flex items-center justify-center px-4">
+        <!-- This link now correctly points to the root of the dashboard -->
+        <a href="/hub.sazi.life/dashboard/index.html" class="sidebar-nav-link flex items-center space-x-2">
+            <i class="fas fa-cubes-stacked text-2xl text-accent-color"></i>
+            <span class="font-bold text-xl">The Hub</span>
         </a>
     </div>
 
-    <!-- Navigation Links (href paths are now absolute from the root) -->
-    <nav class="flex-grow space-y-2">
-        <a href="/dashboard/overview.html" data-link="overview.html" class="sidebar-link">
-            <i class="fas fa-home w-6 text-center"></i><span data-translate="sidebar_overview">Overview</span>
+    <!-- Navigation -->
+    <nav class="flex-1 px-4 py-4 space-y-2">
+        <a href="/hub.sazi.life/dashboard/overview.html" class="sidebar-nav-link">
+            <i class="fas fa-home w-6"></i>
+            <span data-translate-key="sidebar_overview">Overview</span>
         </a>
-        <a href="/dashboard/life-cv/life-cv.html" data-link="life-cv.html" class="sidebar-link">
-            <i class="fas fa-id-card w-6 text-center"></i><span data-translate="sidebar_lifecv">Life-CV</span>
+        <a href="/hub.sazi.life/dashboard/life-cv/life-cv.html" class="sidebar-nav-link">
+            <i class="fas fa-id-card w-6"></i>
+            <span data-translate-key="sidebar_lifecv">Life-CV</span>
         </a>
-        <a href="/dashboard/publications/index.html" data-link="publications" class="sidebar-link">
-            <i class="fas fa-book-open w-6 text-center"></i><span data-translate="sidebar_publications">Publications</span>
+        <a href="/hub.sazi.life/dashboard/publications/index.html" class="sidebar-nav-link">
+            <i class="fas fa-book-open w-6"></i>
+            <span data-translate-key="sidebar_publications">Publications</span>
         </a>
-        <a href="/dashboard/finhelp/index.html" data-link="finhelp" class="sidebar-link">
-            <i class="fas fa-wallet w-6 text-center"></i><span>FinHelp</span>
+        <a href="/hub.sazi.life/dashboard/public-pages/index.html" class="sidebar-nav-link">
+            <i class="fas fa-globe w-6"></i>
+            <span data-translate-key="sidebar_public_pages">Public Pages</span>
         </a>
-         <a href="/dashboard/familyhub/index.html" data-link="familyhub" class="sidebar-link">
-            <i class="fas fa-users w-6 text-center"></i><span>FamilyHub</span>
+        <a href="/hub.sazi.life/dashboard/activity.html" class="sidebar-nav-link">
+            <i class="fas fa-chart-line w-6"></i>
+            <span data-translate-key="sidebar_activity">Activity</span>
         </a>
-        <a href="/dashboard/commshub/index.html" data-link="commshub" class="sidebar-link">
-            <i class="fas fa-comments w-6 text-center"></i><span>CommsHub</span>
-        </a>
-        <a href="/dashboard/public-pages/index.html" data-link="public-pages" class="sidebar-link">
-            <i class="fas fa-globe w-6 text-center"></i><span data-translate="sidebar_public_pages">Public Pages</span>
-        </a>
-        <a href="/dashboard/activity.html" data-link="activity.html" class="sidebar-link">
-            <i class="fas fa-chart-line w-6 text-center"></i><span data-translate="sidebar_activity">Activity</span>
-        </a>
+        <!-- Add other links following the same pattern -->
     </nav>
 
-    <!-- Footer section of sidebar -->
-    <div class="mt-auto text-center text-xs text-secondary">
-        <p>&copy; 2025 Salatiso. All rights reserved.</p>
+    <!-- Footer/User Area -->
+    <div class="p-4 border-t border-border-color">
+        <p class="text-xs text-secondary">&copy; 2025 Sazi.life Ecosystem</p>
     </div>
 </aside>

@@ -1,245 +1,233 @@
 // File: /assets/js/dashboard.js
-// Description: Main script for The Hub dashboard with definitive pathing for GitHub Pages.
+// Description: Main script for The Hub dashboard with definitive pathing and corrected logic.
 
 // --- Firebase & Module Imports ---
 import { auth, db } from './firebase-config.js'; 
 import { onAuthStateChanged, signOut } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-auth.js";
 import { doc, getDoc } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
+// Import page-specific UI initializers
 import * as financeUI from './financehelp/finance-ui.js';
-import * as publicPagesUI from './public-pages/publisher.js';
+import * as publicPages from './public-pages/publisher.js';
+import * as lifeCvUI from './life-cv/life-cv-ui.js'; // Added for Life-CV
 
 // --- TRANSLATION DICTIONARY ---
 const translations = {
-    en: { "sidebar_overview": "Overview", "sidebar_lifecv": "Life-CV", "sidebar_publications": "Publications", "sidebar_public_pages": "Public Pages", "sidebar_activity": "Activity" },
-    xh: { "sidebar_overview": "Isishwankathelo", "sidebar_lifecv": "i-Life-CV", "sidebar_publications": "Ushicilelo", "sidebar_public_pages": "Amaphepha Oluntu", "sidebar_activity": "Umsebenzi" },
-    zu: { "sidebar_overview": "Ukubuka konke", "sidebar_lifecv": "i-Life-CV", "sidebar_publications": "Okushicilelwe", "sidebar_public_pages": "Amakhasi Omphakathi", "sidebar_activity": "Umsebenzi" },
-    af: { "sidebar_overview": "Oorsig", "sidebar_lifecv": "Lewens-CV", "sidebar_publications": "Publikasies", "sidebar_public_pages": "Openbare Bladsye", "sidebar_activity": "Aktiwiteit" }
+    en: { "sidebar_overview": "Overview", "sidebar_lifecv": "Life-CV", "sidebar_publications": "Publications", "sidebar_public_pages": "Public Pages", "sidebar_activity": "Activity", "welcome_back": "Welcome back" },
+    xh: { "sidebar_overview": "Isishwankathelo", "sidebar_lifecv": "i-Life-CV", "sidebar_publications": "Ushicilelo", "sidebar_public_pages": "Amaphepha Oluntu", "sidebar_activity": "Umsebenzi", "welcome_back": "Wamkelekile kwakhona" },
+    zu: { "sidebar_overview": "Ukubuka konke", "sidebar_lifecv": "i-Life-CV", "sidebar_publications": "Okushicilelwe", "sidebar_public_pages": "Amakhasi Omphakathi", "sidebar_activity": "Umsebenzi", "welcome_back": "Siyakwamukela futhi" },
+    // Add other languages as needed
 };
 
-// --- Core UI & Routing Functions ---
+// --- CONFIGURATION & STATE ---
+const basePath = '/hub.sazi.life'; // Base path for GitHub Pages
+let currentLanguage = 'en';
+let currentUser = null;
 
-// CRITICAL FIX: Define the absolute base path for the GitHub Pages repository.
-// This tells the script exactly where the project's "home" folder is on the server.
-const basePath = '/hub.sazi.life';
+// --- DOM ELEMENTS ---
+const mainContent = document.getElementById('main-content');
+const sidebarPlaceholder = document.getElementById('sidebar-placeholder');
+const headerPlaceholder = document.getElementById('header-placeholder');
+const footerPlaceholder = document.getElementById('footer-placeholder');
+const welcomeMessageContainer = document.getElementById('dashboard-welcome-message');
 
-const loadComponent = async (componentPath, placeholderId) => {
-    const placeholder = document.getElementById(placeholderId);
-    if (!placeholder) {
-        console.error(`Placeholder element with id "${placeholderId}" not found`);
-        return;
-    }
+// --- CORE FUNCTIONS ---
+
+/**
+ * Fetches and injects an HTML component into a specified element.
+ * @param {string} componentPath - The path to the HTML component file.
+ * @param {HTMLElement} placeholder - The element to inject the HTML into.
+ * @returns {Promise<void>}
+ */
+async function loadComponent(componentPath, placeholder) {
+    if (!placeholder) return;
     try {
-        // Always construct the full, absolute path from the defined base path.
-        const fullPath = `${basePath}${componentPath}`;
-        const response = await fetch(fullPath);
-        if (!response.ok) throw new Error(`Component not found: ${fullPath}`);
+        const response = await fetch(`${basePath}/dashboard/components/${componentPath}`);
+        if (!response.ok) throw new Error(`Failed to load component: ${componentPath}`);
         placeholder.innerHTML = await response.text();
-    } catch (error) { 
-        console.error(`Error loading component ${componentPath}:`, error); 
+    } catch (error) {
+        console.error(error);
+        placeholder.innerHTML = `<p class="text-red-500">Error loading ${componentPath}.</p>`;
     }
-};
+}
 
-const loadPageContent = async (path) => {
-    const mainContent = document.getElementById('main-content');
+/**
+ * Handles page navigation within the SPA. Fetches page content and initializes it.
+ * @param {string} path - The path of the page to load (e.g., '/dashboard/overview.html').
+ */
+async function handleNavigation(path) {
     if (!mainContent) return;
     mainContent.innerHTML = `<div class='p-8 text-center text-secondary'>Loading...</div>`;
-    try {
-        // Always construct the full, absolute path from the defined base path.
-        const fullPath = `${basePath}${path}`;
-        const response = await fetch(fullPath);
-        if (!response.ok) throw new Error(`Page not found: ${fullPath}`);
-        mainContent.innerHTML = await response.text();
-        if(auth.currentUser) {
-            routePageLogic(path, auth.currentUser.uid);
-        }
-    } catch (error) {
-        console.error(`Error loading page content ${path}:`, error);
-        mainContent.innerHTML = `<div class='p-8 text-center text-red-500'>Error: Could not load page.</div>`;
+
+    // Prevent fetching the container page itself
+    if (path.endsWith('index.html')) {
+        path = '/dashboard/overview.html';
     }
-};
+    
+    const fullUrl = path.startsWith(basePath) ? path : basePath + path;
 
-const setLanguage = (lang) => {
-    document.querySelectorAll('[data-translate]').forEach(el => {
-        const key = el.getAttribute('data-translate');
-        if (translations[lang] && translations[lang][key]) el.innerText = translations[lang][key];
-    });
-    localStorage.setItem('language', lang);
-};
+    try {
+        const response = await fetch(fullUrl);
+        if (!response.ok) throw new Error(`Page not found: ${path}`);
+        const content = await response.text();
+        mainContent.innerHTML = content;
+        window.history.pushState({}, '', `${basePath}${path}`);
+        
+        // After loading content, initialize page-specific scripts
+        initializePageScript(path);
+        updateActiveSidebarLink(path);
 
-const applyTheme = (theme) => {
-    document.body.className = theme;
-    localStorage.setItem('theme', theme);
-};
+    } catch (error) {
+        console.error('Navigation Error:', error);
+        mainContent.innerHTML = `<div class='p-8 text-center text-red-500'>Failed to load page. Please try again.</div>`;
+    }
+}
 
-const setupThemeSwitcher = () => {
-    document.body.addEventListener('click', (e) => {
-        const themeOption = e.target.closest('.theme-option');
-        if (themeOption) {
-            applyTheme(themeOption.getAttribute('data-theme'));
-            document.getElementById('theme-menu').classList.add('hidden');
-        }
-    });
-};
+/**
+ * Calls the correct initialization function based on the loaded page path.
+ * @param {string} path - The path of the loaded page.
+ */
+function initializePageScript(path) {
+    if (!currentUser) return;
 
-const setupLanguageSwitcher = () => {
-    document.body.addEventListener('click', (e) => {
-        const langOption = e.target.closest('.language-option');
-        if (langOption) {
-            setLanguage(langOption.getAttribute('data-lang'));
-            document.getElementById('language-menu').classList.add('hidden');
-        }
-    });
-};
+    if (path.includes('/life-cv/life-cv.html')) {
+        lifeCvUI.initLifeCvPage(currentUser.uid);
+    } else if (path.includes('/publications/index.html')) {
+        // Placeholder for publications logic
+        const pubList = document.getElementById('publications-list');
+        if(pubList) pubList.innerHTML = '<p>Your publications would be listed here.</p>';
+    } else if (path.includes('/public-pages/index.html')) {
+         const pageList = document.getElementById('public-pages-list');
+        if(pageList) pageList.innerHTML = '<p>Your public pages would be listed here.</p>';
+    }
+    // Add other pages here, e.g.:
+    // else if (path.includes('/finhelp/index.html')) {
+    //     financeUI.initFinanceDashboard(currentUser.uid);
+    // }
+}
 
-const setActiveSidebarLink = (path) => {
-    document.querySelectorAll('.sidebar-link').forEach(link => {
+/**
+ * Updates the UI with the user's information.
+ * @param {object} user - The Firebase user object.
+ */
+async function updateUserUI(user) {
+    currentUser = user;
+    const userDocRef = doc(db, "users", user.uid);
+    const userDoc = await getDoc(userDocRef);
+    const displayName = userDoc.exists() ? userDoc.data().name : user.email;
+
+    const userNameElements = document.querySelectorAll('.user-name');
+    userNameElements.forEach(el => el.textContent = displayName);
+
+    const userEmailElements = document.querySelectorAll('.user-email');
+    userEmailElements.forEach(el => el.textContent = user.email);
+    
+    displayWelcomeMessage(displayName);
+}
+
+/**
+ * Displays a welcome message on the dashboard.
+ * @param {string} name - The user's display name.
+ */
+function displayWelcomeMessage(name) {
+    if (welcomeMessageContainer) {
+        const welcomeText = translations[currentLanguage]?.welcome_back || "Welcome back";
+        welcomeMessageContainer.innerHTML = `<h2 class="text-2xl font-bold">${welcomeText}, ${name}!</h2>`;
+        welcomeMessageContainer.classList.remove('hidden');
+    }
+}
+
+/**
+ * Sets the active state for the current page in the sidebar.
+ * @param {string} path - The current page path.
+ */
+function updateActiveSidebarLink(path) {
+    document.querySelectorAll('.sidebar-nav-link').forEach(link => {
         const linkPath = link.getAttribute('href');
-        if (linkPath && path.endsWith(linkPath)) {
+        if (`${basePath}${path}` === linkPath) {
             link.classList.add('active');
         } else {
             link.classList.remove('active');
         }
     });
-};
+}
 
-const setupDropdown = (buttonId, menuId) => {
-    const button = document.getElementById(buttonId);
-    const menu = document.getElementById(menuId);
-    if (button && menu) {
-        button.addEventListener('click', (e) => {
-            e.stopPropagation();
-            document.querySelectorAll('.user-menu-dropdown').forEach(m => {
-                if (m.id !== menuId) m.classList.add('hidden');
-            });
-            menu.classList.toggle('hidden');
-        });
-    }
-};
-
-const displayWelcomeMessage = () => {
-    const message = sessionStorage.getItem('welcomeMessage');
-    if (message) {
-        const messageContainer = document.getElementById('dashboard-welcome-message');
-        if (messageContainer) {
-            messageContainer.innerHTML = message;
-            messageContainer.classList.remove('hidden');
-            sessionStorage.removeItem('welcomeMessage');
-        }
-    }
-};
-
-const updateHeaderUserInfo = async (user) => {
-    const userNameEl = document.getElementById('user-name');
-    const userAvatarEl = document.getElementById('user-avatar');
-    if (!userNameEl || !userAvatarEl) return;
-    try {
-        const userDocRef = doc(db, "users", user.uid);
-        const userDocSnap = await getDoc(userDocRef);
-        if (userDocSnap.exists()) {
-            const userData = userDocSnap.data();
-            const nameToDisplay = user.displayName || userData.name || user.email;
-            userNameEl.textContent = nameToDisplay;
-        } else {
-            userNameEl.textContent = user.email;
-        }
-        if (user.photoURL) {
-            userAvatarEl.src = user.photoURL;
-        }
-    } catch (error) {
-        console.error("Error fetching user data:", error);
-        userNameEl.textContent = user.email;
-    }
-};
-
-const routePageLogic = (path, userId) => {
-    if (!userId) return;
-    if (path.endsWith('/finhelp/assets.html')) financeUI.initAssetPage(userId);
-    else if (path.endsWith('/finhelp/expenses.html')) financeUI.initExpensePage(userId);
-    else if (path.endsWith('/finhelp/tax-pack.html')) financeUI.initTaxPackPage(userId);
-    else if (path.endsWith('/public-pages/editor.html')) publicPagesUI.initPublisherPage(userId);
-};
-
-// --- Main Initialization Controller ---
-document.addEventListener('DOMContentLoaded', async () => {
-    applyTheme(localStorage.getItem('theme') || 'theme-default');
-
-    const componentPathPrefix = '/dashboard/components/';
-
-    await Promise.all([
-        loadComponent(`${componentPathPrefix}header.html`, 'header-placeholder'),
-        loadComponent(`${componentPathPrefix}sidebar.html`, 'sidebar-placeholder'),
-        loadComponent(`${componentPathPrefix}footer.html`, 'footer-placeholder'),
-    ]);
-    
-    await Promise.all([
-        loadComponent(`${componentPathPrefix}theme-switcher.html`, 'theme-switcher-placeholder'),
-        loadComponent(`${componentPathPrefix}language-switcher.html`, 'language-switcher-placeholder')
-    ]);
-
-    const handleNavigation = (path) => {
-        const fullPath = `${basePath}${path}`;
-        if (window.location.pathname !== fullPath) {
-            history.pushState({path: path}, '', fullPath);
-        }
-        loadPageContent(path);
-        setActiveSidebarLink(fullPath);
-    };
-
-    document.body.addEventListener('click', (e) => {
-        const link = e.target.closest('.sidebar-link, .sidebar-nav-link');
+/**
+ * Initializes all event listeners for the dashboard.
+ */
+function initializeEventListeners() {
+    // SPA Navigation for sidebar links
+    document.body.addEventListener('click', e => {
+        const link = e.target.closest('.sidebar-nav-link');
         if (link) {
             e.preventDefault();
             const path = new URL(link.href).pathname.replace(basePath, '');
             handleNavigation(path);
         }
-    });
 
-    window.addEventListener('popstate', (e) => {
-        const path = e.state ? e.state.path : '/dashboard/overview.html';
-        handleNavigation(path);
-    });
-
-    onAuthStateChanged(auth, (user) => {
-        if (user) {
-            setTimeout(async () => {
-                await updateHeaderUserInfo(user);
-
-                setupDropdown('user-btn', 'user-menu');
-                setupDropdown('theme-btn', 'theme-menu');
-                setupDropdown('language-btn', 'language-menu');
-                setupDropdown('ecosystem-btn', 'ecosystem-menu');
-                setupThemeSwitcher();
-                setupLanguageSwitcher();
-                setLanguage(localStorage.getItem('language') || 'en');
-                displayWelcomeMessage();
-
-                const pathName = window.location.pathname.replace(basePath, '');
-                const initialPath = (pathName === '/' || pathName === '/dashboard/') 
-                    ? '/dashboard/overview.html' 
-                    : pathName;
-                handleNavigation(initialPath);
-                
-                const logoutButton = document.getElementById('logout-btn');
-                if (logoutButton) {
-                    logoutButton.addEventListener('click', (e) => {
-                        e.preventDefault();
-                        signOut(auth).then(() => {
-                            window.location.href = `${basePath}/index.html`;
-                        }).catch(error => console.error('Logout Error:', error));
-                    });
-                }
-            }, 200);
-        } else {
-            const loginPath = `${basePath}/index.html`;
-            if (!window.location.pathname.endsWith('index.html') && window.location.pathname !== `${basePath}/`) {
-                 window.location.href = loginPath;
+        // Dropdown toggles
+        const dropdownToggle = e.target.closest('.dropdown-toggle');
+        if (dropdownToggle) {
+            const dropdownMenu = dropdownToggle.nextElementSibling;
+            if (dropdownMenu) {
+                dropdownMenu.classList.toggle('hidden');
             }
         }
     });
 
+    // Logout button
+    document.body.addEventListener('click', e => {
+        if (e.target.id === 'logout-btn') {
+            e.preventDefault();
+            signOut(auth).then(() => {
+                window.location.href = `${basePath}/index.html`;
+            }).catch(error => console.error('Logout Error:', error));
+        }
+    });
+
+    // Hide dropdowns when clicking outside
     document.addEventListener('click', (e) => {
-        if (!e.target.closest('#user-dropdown-container, #theme-dropdown-container, #language-dropdown-container, #ecosystem-dropdown-container')) {
-            document.querySelectorAll('.user-menu-dropdown').forEach(menu => menu.classList.add('hidden'));
+        if (!e.target.closest('.dropdown-container')) {
+            document.querySelectorAll('.dropdown-menu').forEach(menu => menu.classList.add('hidden'));
+        }
+    });
+}
+
+
+// --- INITIALIZATION ---
+
+document.addEventListener('DOMContentLoaded', () => {
+    onAuthStateChanged(auth, async (user) => {
+        if (user) {
+            // User is signed in.
+            // Load components in parallel for speed.
+            await Promise.all([
+                loadComponent('header.html', headerPlaceholder),
+                loadComponent('sidebar.html', sidebarPlaceholder),
+                loadComponent('footer.html', footerPlaceholder)
+            ]);
+
+            // Once components are loaded, update UI and set up listeners.
+            await updateUserUI(user);
+            initializeEventListeners();
+
+            // Determine the initial page to load.
+            const currentPath = window.location.pathname;
+            let initialPath;
+            if (currentPath === `${basePath}/` || currentPath === `${basePath}/dashboard/` || currentPath.endsWith('index.html')) {
+                initialPath = '/dashboard/overview.html';
+            } else {
+                initialPath = currentPath.replace(basePath, '');
+            }
+            
+            handleNavigation(initialPath);
+
+        } else {
+            // User is signed out. Redirect to login page.
+            const loginPath = `${basePath}/index.html`;
+            // Avoid redirect loop if already on the login page
+            if (!window.location.pathname.endsWith('index.html') && window.location.pathname !== `${basePath}/`) {
+                 window.location.href = loginPath;
+            }
         }
     });
 });
