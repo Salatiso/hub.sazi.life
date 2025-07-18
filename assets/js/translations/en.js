@@ -3345,3 +3345,95 @@ export default {
     "ecosystem_lifesync": "LifeSync"
 };
 
+// File: /assets/js/translations/ve.js
+// Description: Venda translation strings for The Hub.
+
+export default {
+    "common_loading": "Zwi khou lāitsha...",
+    "common_error": "Hu vhonala phanda. Ri humbela uri ni lingedze hafhu.",
+    "common_save": "Chengetedza",
+    "common_cancel": "Khandzela",
+    "common_delete": "Bvisa",
+    "common_confirm": "Khwaṱhisedza",
+    "common_download_pdf": "Dawuniloda PDF",
+    "common_new": "Tshasha",
+    "common_edit": "Luga",
+    "common_success": "Mushumo wa fhela nga ndila",
+    "common_error_required_field": "Vhukati honoyu vhu a todea",
+    "common_error_invalid_format": "Fomete i songo teaho",
+    
+    "auth_sign_in_title": "Dzhenani kha Hub",
+    "auth_sign_up_title": "Vhumbani Akhawunti yanu",
+    "auth_email_label": "Adirese ya Imeyili",
+    "auth_password_label": "Phasiwedi",
+    "auth_confirm_password_label": "Khwaṱhisedzani Phasiwedi",
+    "auth_sign_in_button": "Dzhenani",
+    "auth_sign_up_button": "Ṅwalisani",
+    "auth_toggle_to_signup": "A ni na akhawunti? Ṅwalisani",
+    "auth_toggle_to_signin": "Ni na akhawunti? Dzhenani",
+    "auth_google_signin": "Dzhenani nga Google",
+    "auth_anonymous_signin": "Bvelelelani sa muenzi",
+    "auth_error_invalid_credentials": "Zwidodombedzwa zwi songo teaho zwa u dzhena. Ri humbela uri ni sedzuluse imeyili na phasiwedi yanu.",
+    "auth_error_email_in_use": "Akhawunti ya imeyili iyi i hone.",
+    "auth_error_password_mismatch": "Maphasiwedi a si fane",
+    
+    "header_ecosystem_menu": "Ecosystem",
+    "header_theme_switcher": "Shandukisa Maitele",
+    "header_language_switcher": "Luambo",
+    "header_user_menu_profile": "Phurofayili yanga",
+    "header_user_menu_activity": "Mushumo wanga",
+    "header_user_menu_settings": "Maitele",
+    "header_user_menu_logout": "Bvani",
+    
+    "sidebar_overview": "Vhubvumedzi",
+    "sidebar_lifecv": "Life-CV",
+    "sidebar_finhelp": "FinHelp",
+    "sidebar_familyhub": "FamilyHub",
+    "sidebar_commshub": "CommsHub",
+    "sidebar_training": "Gudiso",
+    "sidebar_publications": "Zwo andadzeaho",
+    "sidebar_public_pages": "Makhasi a Tshitshavha",
+    "sidebar_lifesync": "LifeSync",
+    "sidebar_activity": "Mushumo",
+    
+    "footer_copyright": "© 2025 Ecosystem ya Salatiso",
+    
+    "welcome_back": "Ni a tanganiswaho hafhu",
+    "welcome_message": "Sedzulusa zwiṱiriswa zwa ecosystem yanu nahone ni kone mushumo wanu.",
+    
+    "page_overview_title": "Vhubvumedzi ha Dashboard",
+    "page_overview_subtitle": "Honoyu ndi muhumbulelo wa ecosystem yanu.",
+    
+    "card_lifecv_title": "Life-CV",
+    "card_lifecv_desc": "Pothifolio yanu ya vhutshilo, i shandukaho i khulaho nani nahone i khou tora zwikoni zwanu na tshenzhelo nga u itela.",
+    "card_lifecv_button": "Vhonani Life-CV yanga",
+    
+    "card_finhelp_title": "FinHelp",
+    "card_finhelp_desc": "Tangani ndaulo ya shango lanu la tshelede. Kondani zwikola, tevhedzani tshenzhelo, nahone ni dzudzanelele tsumbo yanu ya tshelede nga u fulufhela.",
+    "card_finhelp_button": "Yani kha FinHelp",
+    
+    "card_familyhub_title": "FamilyHub",
+    "card_familyhub_desc": "Vhukati vhune vhunetsho ya muṱa wanu, zwipikwa na lufhuno lwa ndeme. Khwinisa vhudifhindani ha muṱa nahone ni age tshiko.",
+    "card_familyhub_button": "Vulani FamilyHub",
+    
+    "card_commshub_title": "CommsHub",
+    "card_commshub_desc": "Dzulani ni tshi khou bvelana na tshitshavha tshanu nga zwiṱiriswa zwa vhudifhindani zwi sa vhongodziaho.",
+    "card_commshub_button": "Yani kha CommsHub",
+    
+    "card_lifesync_title": "LifeSync",
+    "card_lifesync_desc": "Ḓisendekanyani zwipikwa zwanu zwa vhutshilo na mishumo nṱha ha ecosystem yoṱhe.",
+    "card_lifesync_button": "Yani kha LifeSync",
+    
+    // Continue with remaining translations...
+    
+    "ecosystem_safetyhelp": "SafetyHelp",
+    "ecosystem_legalhelp": "LegalHelp",
+    "ecosystem_finhelp": "FinHelp",
+    "ecosystem_hrhelp": "HRHelp",
+    "ecosystem_docuhelp": "DocuHelp",
+    "ecosystem_sazilife": "sazi.life",
+    "ecosystem_ekhaya": "eKhaya",
+    "ecosystem_flamea": "Flamea",
+    "ecosystem_familyvalue": "FamilyValue",
+    "ecosystem_lifesync": "LifeSync"
+};
