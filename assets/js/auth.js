@@ -16,7 +16,6 @@ import {
   serverTimestamp
 } from "https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore.js";
 
-
 // --- UI Elements ---
 const authForm = document.getElementById('auth-form');
 const googleBtn = document.getElementById('google-signin-btn');
@@ -48,7 +47,7 @@ const handleAuthSuccess = async (userCredential, isNewUser = false) => {
     });
   }
   // Redirect to the dashboard using a reliable, absolute path
-  window.location.href = '/hub.sazi.life-main/dashboard/index.html';
+  window.location.href = '/dashboard/index.html'; // Updated from '/hub.sazi.life-main/dashboard/index.html'
 };
 
 const toggleFormMode = () => {

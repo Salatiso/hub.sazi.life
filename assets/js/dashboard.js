@@ -12,7 +12,7 @@ import * as publicPagesUI from './public-pages/publisher.js';
 // --- Core UI & Routing Functions ---
 
 const repoName = 'hub.sazi.life'; 
-const basePath = `/${repoName}`;
+const basePath = ''; // Updated from `/${repoName}` to '' to fix path issues
 
 /**
  * Loads an HTML component (header, sidebar) into a placeholder and then translates it.
@@ -90,7 +90,6 @@ const handleNavigation = (path) => {
     setActiveSidebarLink(path);
 };
 
-
 // --- UI Helper Functions ---
 
 const applyTheme = (theme) => {
@@ -154,7 +153,6 @@ const updateHeaderUserInfo = async (user) => {
         userNameEl.textContent = user.email || 'User';
     }
 };
-
 
 // --- Main Initialization Controller ---
 
