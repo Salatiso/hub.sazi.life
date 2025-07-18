@@ -1,11 +1,10 @@
-<!-- dashboard/components/sidebar.html -->
-<!-- This version contains corrected links for SPA navigation on GitHub Pages. -->
-<!-- The visual structure is identical to your original file. -->
-<aside class="sidebar w-64 bg-sidebar flex-shrink-0 flex-col hidden md:flex">
+<!-- File: /dashboard/components/sidebar.html -->
+<!-- This is your original sidebar. The only change is correcting the href paths for navigation. -->
+<aside class="w-64 bg-sidebar flex-shrink-0 flex-col hidden md:flex">
     <!-- Logo/Brand -->
-    <div class="h-16 flex items-center justify-center px-4">
-        <!-- The href is corrected and the 'sidebar-nav-link' class is added for SPA functionality -->
-        <a href="/hub.sazi.life/dashboard/overview.html" class="sidebar-nav-link flex items-center space-x-2">
+    <div class="h-16 flex items-center justify-center border-b border-border-color">
+        <!-- Corrected link to point to the overview page. -->
+        <a href="/hub.sazi.life-main/dashboard/overview.html" class="sidebar-nav-link flex items-center space-x-2">
             <i class="fas fa-cubes-stacked text-2xl text-accent-color"></i>
             <span class="font-bold text-xl">The Hub</span>
         </a>
@@ -13,31 +12,31 @@
 
     <!-- Navigation -->
     <nav class="flex-1 px-4 py-4 space-y-2">
-        <!-- Each href is prefixed with the repository name for correct routing -->
-        <a href="/hub.sazi.life/dashboard/overview.html" class="sidebar-nav-link">
+        <!-- Corrected paths for each navigation link. -->
+        <a href="/hub.sazi.life-main/dashboard/overview.html" class="sidebar-nav-link">
             <i class="fas fa-home w-6"></i>
             <span data-translate-key="sidebar_overview">Overview</span>
         </a>
-        <a href="/hub.sazi.life/dashboard/life-cv/life-cv.html" class="sidebar-nav-link">
+        <a href="/hub.sazi.life-main/dashboard/life-cv/life-cv.html" class="sidebar-nav-link">
             <i class="fas fa-id-card w-6"></i>
             <span data-translate-key="sidebar_lifecv">Life-CV</span>
         </a>
-        <a href="/hub.sazi.life/dashboard/publications/index.html" class="sidebar-nav-link">
+        <a href="/hub.sazi.life-main/dashboard/publications/index.html" class="sidebar-nav-link">
             <i class="fas fa-book-open w-6"></i>
             <span data-translate-key="sidebar_publications">Publications</span>
         </a>
-        <a href="/hub.sazi.life/dashboard/public-pages/index.html" class="sidebar-nav-link">
+        <a href="/hub.sazi.life-main/dashboard/public-pages/index.html" class="sidebar-nav-link">
             <i class="fas fa-globe w-6"></i>
             <span data-translate-key="sidebar_public_pages">Public Pages</span>
         </a>
-        <a href="/hub.sazi.life/dashboard/activity.html" class="sidebar-nav-link">
+        <a href="/hub.sazi.life-main/dashboard/activity.html" class="sidebar-nav-link">
             <i class="fas fa-chart-line w-6"></i>
             <span data-translate-key="sidebar_activity">Activity</span>
         </a>
     </nav>
 
-    <!-- Footer/User Area -->
-    <div class="p-4 border-t border-border-color">
-        <p class="text-xs text-secondary">&copy; 2025 Sazi.life Ecosystem</p>
+    <!-- Footer section of sidebar -->
+    <div class="mt-auto text-center text-xs text-secondary">
+        <p>&copy; 2025 Salatiso. All rights reserved.</p>
     </div>
 </aside>
