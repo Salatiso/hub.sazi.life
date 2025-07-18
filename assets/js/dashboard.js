@@ -194,9 +194,9 @@ document.addEventListener('DOMContentLoaded', () => {
             // Load the dashboard shell
             const componentPathPrefix = '/dashboard/components/';
             await Promise.all([
-                loadComponent(`${componentPathPrefix}header.html`, 'header-placeholder'),
-                loadComponent(`${componentPathPrefix}sidebar.html`, 'sidebar-placeholder'),
-                loadComponent(`${componentPathPrefix}footer.html`, 'footer-placeholder'),
+                loadComponent(`${componentPathPrefix}header.html`, 'header'),
+                loadComponent(`${componentPathPrefix}sidebar.html`, 'sidebar'),
+                loadComponent(`${componentPathPrefix}footer.html`, 'footer'),
             ]);
 
             setTimeout(async () => {
