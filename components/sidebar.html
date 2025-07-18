@@ -1,8 +1,8 @@
 <!-- File: /components/sidebar.html -->
 <aside class="sidebar w-64 flex-shrink-0 flex flex-col p-4 transition-colors duration-300">
-    <!-- Logo and Brand -->
     <div class="text-center mb-8">
-        <a href="#" data-page="overview.html" class="sidebar-nav-link inline-block">
+        <!-- FIX: This is now a simple link to the overview page. -->
+        <a href="/hub.sazi.life/overview.html" class="sidebar-nav-link inline-block">
              <svg viewBox="0 0 100 100" class="h-12 w-12 mx-auto text-accent-color">
                 <circle cx="50" cy="50" r="40" stroke="currentColor" stroke-width="8" fill="none"/>
                 <path d="M50 10 L 50 90 M10 50 L 90 50" stroke="currentColor" stroke-width="2"/>
@@ -13,35 +13,34 @@
         </a>
     </div>
 
-    <!-- FIX: All data-page attributes now have the correct and full relative paths. -->
+    <!-- FIX: All links are now direct hrefs. No more complex JavaScript navigation. -->
     <nav class="flex-grow space-y-2">
-        <a href="#" data-page="overview.html" class="sidebar-link sidebar-nav-link active-link">
+        <a href="/hub.sazi.life/overview.html" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-home w-6 text-center"></i><span data-translate-key="sidebar_overview">Overview</span>
         </a>
-        <a href="#" data-page="pages/life-cv/life-cv.html" class="sidebar-link sidebar-nav-link">
+        <a href="/hub.sazi.life/pages/life-cv/life-cv.html" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-id-card w-6 text-center"></i><span>LifeCV</span>
         </a>
-        <a href="#" data-page="pages/lifesync/index.html" class="sidebar-link sidebar-nav-link">
+        <a href="/hub.sazi.life/pages/lifesync/index.html" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-sync-alt w-6 text-center"></i><span>LifeSync</span>
         </a>
-        <a href="#" data-page="pages/finhelp/index.html" class="sidebar-link sidebar-nav-link">
+        <a href="/hub.sazi.life/pages/finhelp/index.html" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-wallet w-6 text-center"></i><span>FinHelp</span>
         </a>
-         <a href="#" data-page="pages/familyhub/index.html" class="sidebar-link sidebar-nav-link">
+         <a href="/hub.sazi.life/pages/familyhub/index.html" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-users w-6 text-center"></i><span>FamilyHub</span>
         </a>
-        <a href="#" data-page="pages/commshub/index.html" class="sidebar-link sidebar-nav-link">
+        <a href="/hub.sazi.life/pages/commshub/index.html" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-comments w-6 text-center"></i><span>CommsHub</span>
         </a>
-        <a href="#" data-page="pages/public-pages/index.html" class="sidebar-link sidebar-nav-link">
+        <a href="/hub.sazi.life/pages/public-pages/index.html" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-globe w-6 text-center"></i><span data-translate-key="sidebar_public_pages">Public Pages</span>
         </a>
-        <a href="#" data-page="activity.html" class="sidebar-link sidebar-nav-link">
+        <a href="/hub.sazi.life/activity.html" class="sidebar-link sidebar-nav-link">
             <i class="fas fa-chart-line w-6 text-center"></i><span data-translate-key="sidebar_activity">Activity</span>
         </a>
     </nav>
 
-    <!-- Footer section of sidebar -->
     <div class="mt-auto">
         <div class="text-center text-xs text-secondary">
             <p>&copy; 2025 The Hub</p>
